@@ -135,6 +135,7 @@ bool AGameBoard::AddRandomCell()
     {
         int32 Value = FMath::RandBool() ? 1 : 2; // Randomly choose 1 or 2
         Board[Position.X][Position.Y].Value = Value;
+        Board[Position.X][Position.Y].ModelID = ++nextModelID;
 
         addedSuccessfully = true;
     }
@@ -157,7 +158,9 @@ bool AGameBoard::MoveLeft()
                         if (Board[row][col].Value == Board[row][mergeCol].Value) {
                             // Merge cells
                             Board[row][col].Value += 1;
+                            Board[row][col].ModelID = Board[row][mergeCol].ModelID;
                             Board[row][mergeCol].Value = 0;
+                            Board[row][mergeCol].ModelID = 0;
                             Moved = true;
                         }
                         break;
@@ -166,7 +169,9 @@ bool AGameBoard::MoveLeft()
                 // Shift cell to the left
                 if (index != col) {
                     Board[row][index].Value = Board[row][col].Value;
+                    Board[row][index].ModelID = Board[row][col].ModelID;
                     Board[row][col].Value = 0;
+                    Board[row][col].ModelID = 0;
                     Moved = true;
                 }
                 index++;
@@ -192,7 +197,9 @@ bool AGameBoard::MoveRight()
                         if (Board[row][col].Value == Board[row][mergeCol].Value) {
                             // Merge cells
                             Board[row][col].Value += 1;
+                            Board[row][col].ModelID = Board[row][mergeCol].ModelID;
                             Board[row][mergeCol].Value = 0;
+                            Board[row][mergeCol].ModelID = 0;
                             Moved = true;
                         }
                         break;
@@ -201,7 +208,9 @@ bool AGameBoard::MoveRight()
                 // Shift cell to the right
                 if (index != col) {
                     Board[row][index].Value = Board[row][col].Value;
+                    Board[row][index].ModelID = Board[row][col].ModelID;
                     Board[row][col].Value = 0;
+                    Board[row][col].ModelID = 0;
                     Moved = true;
                 }
                 index--;
@@ -227,7 +236,9 @@ bool AGameBoard::MoveUp()
                         if (Board[row][col].Value == Board[mergeRow][col].Value) {
                             // Merge cells
                             Board[row][col].Value += 1;
+                            Board[row][col].ModelID = Board[mergeRow][col].ModelID;
                             Board[mergeRow][col].Value = 0;
+                            Board[mergeRow][col].ModelID = 0;
                             Moved = true;
                         }
                         break;
@@ -236,7 +247,9 @@ bool AGameBoard::MoveUp()
                 // Shift cell up
                 if (index != row) {
                     Board[index][col].Value = Board[row][col].Value;
+                    Board[index][col].ModelID = Board[row][col].ModelID;
                     Board[row][col].Value = 0;
+                    Board[row][col].ModelID = 0;
                     Moved = true;
                 }
                 index++;
@@ -262,7 +275,9 @@ bool AGameBoard::MoveDown()
                         if (Board[row][col].Value == Board[mergeRow][col].Value) {
                             // Merge cells
                             Board[row][col].Value += 1;
+                            Board[row][col].ModelID = Board[mergeRow][col].ModelID;
                             Board[mergeRow][col].Value = 0;
+                            Board[mergeRow][col].ModelID = 0;
                             Moved = true;
                         }
                         break;
@@ -271,7 +286,9 @@ bool AGameBoard::MoveDown()
                 // Shift cell down
                 if (index != row) {
                     Board[index][col].Value = Board[row][col].Value;
+                    Board[index][col].ModelID = Board[row][col].ModelID;
                     Board[row][col].Value = 0;
+                    Board[row][col].ModelID = 0;
                     Moved = true;
                 }
                 index--;
