@@ -39,5 +39,12 @@ public:
 		int Value; // The value of this board element
 
 private:
-	void MoveToPosition(int row, int col);
+	UPROPERTY()
+		FVector TargetPosition;
+
+	UPROPERTY()
+		FRotator TargetRotation;
+
+	UPROPERTY()
+		bool bIsMoving = false;
 };

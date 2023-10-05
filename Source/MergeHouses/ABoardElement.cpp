@@ -33,8 +33,15 @@ void AABoardElement::Tick(float DeltaTime)
             if (cell.ModelID == ID)
             {
                 found = true;
-                // Move to the new position
-                MoveToPosition(row, col);
+
+                // Update target position and rotation
+                FVector BoardLocation = GameBoard->GetActorLocation();
+                FRotator BoardRotation = GameBoard->GetActorRotation();
+                TargetPosition = BoardLocation + FVector(CellSize * col, CellSize * row, 0);
+                TargetPosition.Z = GetActorLocation().Z;
+                TargetRotation = BoardRotation;
+                bIsMoving = true;
+
                 // Set the value to the cell's value
                 Value = cell.Value;
                 break;
@@ -47,23 +54,16 @@ void AABoardElement::Tick(float DeltaTime)
         // Destroy the actor if not found on the board
         Destroy();
     }
-}
-
-void AABoardElement::MoveToPosition(int row, int col)
-{
-    if (!GameBoard)
+    else if (bIsMoving)
     {
-        UE_LOG(LogTemp, Warning, TEXT("GameBoard reference is null for BoardElement"));
-        return;
+        FVector NewPosition = FMath::VInterpTo(GetActorLocation(), TargetPosition, DeltaTime, 10.0f);
+        FRotator NewRotation = FMath::RInterpTo(GetActorRotation(), TargetRotation, DeltaTime, 10.0f);
+        SetActorLocationAndRotation(NewPosition, NewRotation);
+
+        if (GetActorLocation().Equals(TargetPosition, 1.0f) && GetActorRotation().Equals(TargetRotation, 1.0f))
+        {
+            bIsMoving = false;
+        }
     }
-
-    FVector BoardLocation = GameBoard->GetActorLocation();
-    FRotator BoardRotation = GameBoard->GetActorRotation();
-
-    FVector NewPosition = BoardLocation + FVector(CellSize * col, CellSize * row, 0);
-
-    NewPosition.Z = GetActorLocation().Z;
-
-    SetActorLocationAndRotation(NewPosition, BoardRotation);
 }
 
