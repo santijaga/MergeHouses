@@ -6,6 +6,8 @@
 #include "GameFramework/Actor.h"
 #include "GameBoard.generated.h"
 
+class AABoardElement;
+
 USTRUCT(BlueprintType)
 struct FBoardCell
 {
@@ -29,6 +31,12 @@ public:
     const int32 BOARD_SIZE = 4; // Size of the game board
 
     TArray<TArray<FBoardCell>> Board; // 2D array to represent the game board
+
+    UPROPERTY(EditDefaultsOnly, Category = "Board Elements")
+        TSubclassOf<AABoardElement> BoardElementClass; // A reference to the BoardElement class
+
+    UFUNCTION(BlueprintCallable, Category = "Board")
+        AABoardElement* SpawnBoardElement(int row, int col, int value, int ID);
 
 protected:
 	// Called when the game starts or when spawned
@@ -69,4 +77,6 @@ private:
     int32 nextElementIndex = 0; // Index of element on the board
 
     int32 nextModelID = 0; // ID to assign for newly created 3D grid element
+
+    float CellSize = 100.0f;
 };

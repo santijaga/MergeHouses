@@ -2,6 +2,7 @@
 
 
 #include "GameBoard.h"
+#include "ABoardElement.h"
 
 // Sets default values
 AGameBoard::AGameBoard()
@@ -17,6 +18,10 @@ void AGameBoard::BeginPlay()
 {
 	Super::BeginPlay();
 	
+    for (int32 times = 0; times < 2; ++times)
+    {
+        AddRandomCell();
+    }
 }
 
 // Function to print the board to the screen
@@ -94,11 +99,6 @@ void AGameBoard::InitializeBoard()
     {
         Board[Row].Init(FBoardCell(), BOARD_SIZE);  // Use FBoardCell() as the default value
     }
-
-    for (int32 times = 0; times < 2; ++times)
-    {
-        AddRandomCell();
-    }
 }
 
 // Function to generate a random position (row, col) for a new cell
@@ -136,6 +136,8 @@ bool AGameBoard::AddRandomCell()
         int32 Value = FMath::RandBool() ? 1 : 2; // Randomly choose 1 or 2
         Board[Position.X][Position.Y].Value = Value;
         Board[Position.X][Position.Y].ModelID = ++nextModelID;
+
+        SpawnBoardElement(Position.X, Position.Y, Board[Position.X][Position.Y].Value, Board[Position.X][Position.Y].ModelID);
 
         addedSuccessfully = true;
     }
@@ -297,4 +299,31 @@ bool AGameBoard::MoveDown()
     }
 
     return Moved;
+}
+
+AABoardElement* AGameBoard::SpawnBoardElement(int row, int col, int value, int ID)
+{
+    if (!BoardElementClass) // Ensure we have a reference set to the BoardElement class
+    {
+        return nullptr;
+    }
+
+    // Calculate the location based on the row, column, and CellSize
+    FVector SpawnLocation = FVector(CellSize * col, CellSize * row, 0);
+
+    // Instantiate the BoardElement
+    AABoardElement* NewBoardElement = GetWorld()->SpawnActor<AABoardElement>(BoardElementClass, SpawnLocation, FRotator::ZeroRotator);
+
+    if (NewBoardElement)
+    {
+        // Assign properties
+        NewBoardElement->GameBoard = this;
+        NewBoardElement->ID = ID;
+        NewBoardElement->Value = value;
+        NewBoardElement->CellSize = CellSize;
+
+        return NewBoardElement;
+    }
+
+    return nullptr;
 }
