@@ -6,6 +6,17 @@
 #include "GameFramework/Actor.h"
 #include "GameBoard.generated.h"
 
+USTRUCT(BlueprintType)
+struct FBoardCell
+{
+    GENERATED_BODY()
+
+    int32 Value;           // Value of the cell
+    int32 ModelID;         // ID of the 3D model for the cell
+
+    FBoardCell() : Value(0), ModelID(-1) {}  // Default Constructor
+};
+
 UCLASS()
 class MERGEHOUSES_API AGameBoard : public AActor
 {
@@ -53,7 +64,7 @@ protected:
 private:
     const int32 BOARD_SIZE = 4; // Size of the game board
 
-    TArray<TArray<int32>> Board; // 2D array to represent the game board
+    TArray<TArray<FBoardCell>> Board; // 2D array to represent the game board
 
     int32 nextElementIndex = 0; // Index of element on the board
 };
