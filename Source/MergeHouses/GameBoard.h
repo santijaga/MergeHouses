@@ -26,6 +26,10 @@ public:
 	// Sets default values for this actor's properties
 	AGameBoard();
 
+    const int32 BOARD_SIZE = 4; // Size of the game board
+
+    TArray<TArray<FBoardCell>> Board; // 2D array to represent the game board
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -62,10 +66,6 @@ protected:
         void PrintBoardToScreen();
 
 private:
-    const int32 BOARD_SIZE = 4; // Size of the game board
-
-    TArray<TArray<FBoardCell>> Board; // 2D array to represent the game board
-
     int32 nextElementIndex = 0; // Index of element on the board
 
     int32 nextModelID = 0; // ID to assign for newly created 3D grid element
