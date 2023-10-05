@@ -25,9 +25,9 @@ void AABoardElement::Tick(float DeltaTime)
     Super::Tick(DeltaTime);
 
     bool found = false;
-    for (int row = 0; row < GameBoard->BOARD_SIZE && !found; ++row)
+    for (int row = 0; row < GameBoard->BoardSize && !found; ++row)
     {
-        for (int col = 0; col < GameBoard->BOARD_SIZE; ++col)
+        for (int col = 0; col < GameBoard->BoardSize; ++col)
         {
             FBoardCell& cell = GameBoard->Board[row][col];
             if (cell.ModelID == ID)
@@ -51,7 +51,19 @@ void AABoardElement::Tick(float DeltaTime)
 
 void AABoardElement::MoveToPosition(int row, int col)
 {
-    FVector NewPosition = FVector(CellSize * col, CellSize * row, GetActorLocation().Z);
-    SetActorLocation(NewPosition);
+    if (!GameBoard)
+    {
+        UE_LOG(LogTemp, Warning, TEXT("GameBoard reference is null for BoardElement"));
+        return;
+    }
+
+    FVector BoardLocation = GameBoard->GetActorLocation();
+    FRotator BoardRotation = GameBoard->GetActorRotation();
+
+    FVector NewPosition = BoardLocation + FVector(CellSize * col, CellSize * row, 0);
+
+    NewPosition.Z = GetActorLocation().Z;
+
+    SetActorLocationAndRotation(NewPosition, BoardRotation);
 }
 

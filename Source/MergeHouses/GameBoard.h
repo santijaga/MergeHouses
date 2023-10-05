@@ -28,12 +28,16 @@ public:
 	// Sets default values for this actor's properties
 	AGameBoard();
 
-    const int32 BOARD_SIZE = 4; // Size of the game board
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Board")
+        int32 BoardSize = 4; // Size of the game board
 
     TArray<TArray<FBoardCell>> Board; // 2D array to represent the game board
 
     UPROPERTY(EditDefaultsOnly, Category = "Board Elements")
         TSubclassOf<AABoardElement> BoardElementClass; // A reference to the BoardElement class
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Board")
+        float CellSize = 100.0f;
 
     UFUNCTION(BlueprintCallable, Category = "Board")
         AABoardElement* SpawnBoardElement(int row, int col, int value, int ID);
@@ -77,6 +81,4 @@ private:
     int32 nextElementIndex = 0; // Index of element on the board
 
     int32 nextModelID = 0; // ID to assign for newly created 3D grid element
-
-    float CellSize = 100.0f;
 };

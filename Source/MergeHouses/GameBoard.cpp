@@ -30,9 +30,9 @@ void AGameBoard::PrintBoardToScreen()
     // Create a string to store the board representation
     FString BoardString = "2048 Board:\n";
 
-    for (int32 Row = 0; Row < BOARD_SIZE; ++Row)
+    for (int32 Row = 0; Row < BoardSize; ++Row)
     {
-        for (int32 Col = 0; Col < BOARD_SIZE; ++Col)
+        for (int32 Col = 0; Col < BoardSize; ++Col)
         {
             // Append each cell's value to the string
             BoardString += FString::Printf(TEXT("%d|%d "), Board[Row][Col].Value, Board[Row][Col].ModelID);
@@ -93,11 +93,11 @@ bool AGameBoard::MakeMove(float x, float y)
 void AGameBoard::InitializeBoard()
 {
     Board.Empty();
-    Board.SetNum(BOARD_SIZE);
+    Board.SetNum(BoardSize);
 
-    for (int32 Row = 0; Row < BOARD_SIZE; ++Row)
+    for (int32 Row = 0; Row < BoardSize; ++Row)
     {
-        Board[Row].Init(FBoardCell(), BOARD_SIZE);  // Use FBoardCell() as the default value
+        Board[Row].Init(FBoardCell(), BoardSize);  // Use FBoardCell() as the default value
     }
 }
 
@@ -106,9 +106,9 @@ FVector2D AGameBoard::GenerateRandomPosition()
 {
     TArray<FVector2D> EmptyCells;
 
-    for (int32 Row = 0; Row < BOARD_SIZE; ++Row)
+    for (int32 Row = 0; Row < BoardSize; ++Row)
     {
-        for (int32 Col = 0; Col < BOARD_SIZE; ++Col)
+        for (int32 Col = 0; Col < BoardSize; ++Col)
         {
             if (Board[Row][Col].Value == 0)
             {
@@ -150,12 +150,12 @@ bool AGameBoard::MoveLeft()
 {
     bool Moved = false;
 
-    for (int row = 0; row < BOARD_SIZE; ++row) {
+    for (int row = 0; row < BoardSize; ++row) {
         int index = 0;
-        for (int col = 0; col < BOARD_SIZE; ++col) {
+        for (int col = 0; col < BoardSize; ++col) {
             if (Board[row][col].Value != 0) {
                 // Find a matching cell to merge with
-                for (int mergeCol = col + 1; mergeCol < BOARD_SIZE; ++mergeCol) {
+                for (int mergeCol = col + 1; mergeCol < BoardSize; ++mergeCol) {
                     if (Board[row][mergeCol].Value != 0) {
                         if (Board[row][col].Value == Board[row][mergeCol].Value) {
                             // Merge cells
@@ -189,9 +189,9 @@ bool AGameBoard::MoveRight()
 {
     bool Moved = false;
 
-    for (int row = 0; row < BOARD_SIZE; ++row) {
-        int index = BOARD_SIZE - 1;
-        for (int col = BOARD_SIZE - 1; col >= 0; --col) {
+    for (int row = 0; row < BoardSize; ++row) {
+        int index = BoardSize - 1;
+        for (int col = BoardSize - 1; col >= 0; --col) {
             if (Board[row][col].Value != 0) {
                 // Find a matching cell to merge with
                 for (int mergeCol = col - 1; mergeCol >= 0; --mergeCol) {
@@ -228,12 +228,12 @@ bool AGameBoard::MoveUp()
 {
     bool Moved = false;
 
-    for (int col = 0; col < BOARD_SIZE; ++col) {
+    for (int col = 0; col < BoardSize; ++col) {
         int index = 0;
-        for (int row = 0; row < BOARD_SIZE; ++row) {
+        for (int row = 0; row < BoardSize; ++row) {
             if (Board[row][col].Value != 0) {
                 // Find a matching cell to merge with
-                for (int mergeRow = row + 1; mergeRow < BOARD_SIZE; ++mergeRow) {
+                for (int mergeRow = row + 1; mergeRow < BoardSize; ++mergeRow) {
                     if (Board[mergeRow][col].Value != 0) {
                         if (Board[row][col].Value == Board[mergeRow][col].Value) {
                             // Merge cells
@@ -267,9 +267,9 @@ bool AGameBoard::MoveDown()
 {
     bool Moved = false;
 
-    for (int col = 0; col < BOARD_SIZE; ++col) {
-        int index = BOARD_SIZE - 1;
-        for (int row = BOARD_SIZE - 1; row >= 0; --row) {
+    for (int col = 0; col < BoardSize; ++col) {
+        int index = BoardSize - 1;
+        for (int row = BoardSize - 1; row >= 0; --row) {
             if (Board[row][col].Value != 0) {
                 // Find a matching cell to merge with
                 for (int mergeRow = row - 1; mergeRow >= 0; --mergeRow) {
