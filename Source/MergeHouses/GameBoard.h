@@ -14,7 +14,7 @@ struct FBoardCell
     int32 Value;           // Value of the cell
     int32 ModelID;         // ID of the 3D model for the cell
 
-    FBoardCell() : Value(0), ModelID(-1) {}  // Default Constructor
+    FBoardCell() : Value(0), ModelID(0) {}  // Default Constructor
 };
 
 UCLASS()
@@ -67,4 +67,6 @@ private:
     TArray<TArray<FBoardCell>> Board; // 2D array to represent the game board
 
     int32 nextElementIndex = 0; // Index of element on the board
+
+    int32 nextModelID = 0; // ID to assign for newly created 3D grid element
 };

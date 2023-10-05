@@ -30,7 +30,7 @@ void AGameBoard::PrintBoardToScreen()
         for (int32 Col = 0; Col < BOARD_SIZE; ++Col)
         {
             // Append each cell's value to the string
-            BoardString += FString::Printf(TEXT("%d "), Board[Row][Col].Value);
+            BoardString += FString::Printf(TEXT("%d|%d "), Board[Row][Col].Value, Board[Row][Col].ModelID);
         }
         // Add a newline character for the next row
         BoardString += "\n";
