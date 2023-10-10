@@ -9,15 +9,19 @@ AGameBoard::AGameBoard()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-
-	InitializeBoard();
 }
 
 // Called when the game starts or when spawned
 void AGameBoard::BeginPlay()
 {
 	Super::BeginPlay();
-	
+}
+
+// Function to start gameplay or reset board
+void AGameBoard::ResetBoard()
+{
+    InitializeBoard();
+
     for (int32 times = 0; times < 2; ++times)
     {
         AddRandomCell();
@@ -52,9 +56,6 @@ void AGameBoard::PrintBoardToScreen()
 void AGameBoard::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
-
-    // Call the printBoardToScreen function each frame
-    PrintBoardToScreen();
 }
 
 bool AGameBoard::MakeMove(float x, float y)

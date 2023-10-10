@@ -42,6 +42,9 @@ public:
     UFUNCTION(BlueprintCallable, Category = "Board")
         AABoardElement* SpawnBoardElement(int row, int col, int value, int ID);
 
+    UFUNCTION(BlueprintCallable, Category = "Gameplay")
+        void ResetBoard();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -74,7 +77,7 @@ protected:
     // Function to move cells down
     bool MoveDown();
 
-    UFUNCTION(BlueprintCallable, Category = "2048")
+    UFUNCTION(BlueprintCallable, Category = "Debug")
         void PrintBoardToScreen();
 
 private:
