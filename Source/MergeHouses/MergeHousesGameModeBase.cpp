@@ -3,17 +3,28 @@
 
 #include "MergeHousesGameModeBase.h"
 #include "MenuSign.h"
+#include "GameBoard.h"
 
 void AMergeHousesGameModeBase::BeginPlay()
 {
 	Super::BeginPlay();
+
+    if (GameBoardBlueprint)
+    {
+        FTransform GameBoardSpawnTransform;
+        GameBoardReference = GetWorld()->SpawnActor<AGameBoard>(GameBoardBlueprint, GameBoardSpawnTransform);
+    }
+    else
+    {
+        UE_LOG(LogTemp, Warning, TEXT("GameBoardBlueprint is not set!"));
+    }
 
     if (MenuSignBlueprint) // Check if we have set a blueprint class to spawn
     {
         FTransform SpawnTransform; // Set this to your desired location and rotation
         MenuSign = GetWorld()->SpawnActor<AMenuSign>(MenuSignBlueprint, SpawnTransform);
 
-        // Optionally initialize properties of ResetButton
+        MenuSign->SetGameBoardReference(GameBoardReference);
     }
     else
     {

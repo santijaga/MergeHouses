@@ -16,9 +16,15 @@ class MERGEHOUSES_API AMergeHousesGameModeBase : public AGameModeBase
 	
 	virtual void BeginPlay() override;
 
+public:
 	// Reference to the reset button actor
 	class AMenuSign* MenuSign;
 
 	UPROPERTY(EditAnywhere, Category = "Spawning")
 		TSubclassOf<AMenuSign> MenuSignBlueprint;
+
+	class AGameBoard* GameBoardReference;
+
+	UPROPERTY(EditAnywhere, Category = "Spawning")
+		TSubclassOf<AGameBoard> GameBoardBlueprint;
 };

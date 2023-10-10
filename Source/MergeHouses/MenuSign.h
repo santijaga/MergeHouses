@@ -32,4 +32,7 @@ public:
 #if WITH_EDITOR
 	virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
 #endif
+
+	UFUNCTION(BlueprintCallable, Category = "Configuration")
+		void SetGameBoardReference(AGameBoard* BoardReference);
 };

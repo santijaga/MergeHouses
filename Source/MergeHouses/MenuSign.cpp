@@ -47,3 +47,7 @@ void AMenuSign::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEve
 }
 #endif
 
+void AMenuSign::SetGameBoardReference(AGameBoard* BoardReference)
+{
+    GameBoardReference = BoardReference;
+}
