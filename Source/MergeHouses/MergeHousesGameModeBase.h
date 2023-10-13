@@ -16,6 +16,8 @@ class MERGEHOUSES_API AMergeHousesGameModeBase : public AGameModeBase
 	
 	virtual void BeginPlay() override;
 
+	AMergeHousesGameModeBase();
+
 public:
 	// Reference to the reset button actor
 	class AMenuSign* MenuSign;

@@ -16,4 +16,6 @@ class MERGEHOUSES_API AMergeTownPlayerController : public APlayerController
 
 public:
 		AMergeTownPlayerController();
+
+		virtual void BeginPlay() override;
 };

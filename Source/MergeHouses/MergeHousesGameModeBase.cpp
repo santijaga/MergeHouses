@@ -4,6 +4,12 @@
 #include "MergeHousesGameModeBase.h"
 #include "MenuSign.h"
 #include "GameBoard.h"
+#include "MergeTownPawn.h"
+
+AMergeHousesGameModeBase::AMergeHousesGameModeBase()
+{
+    DefaultPawnClass = AMergeTownPawn::StaticClass();
+}
 
 void AMergeHousesGameModeBase::BeginPlay()
 {
