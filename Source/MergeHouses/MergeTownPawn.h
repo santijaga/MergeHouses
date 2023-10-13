@@ -28,6 +28,10 @@ protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input)
 		class UInputAction* MoveAction;
 
+	// Reference to the GameBoard
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GameBoard")
+		class AGameBoard* GameBoardReference;
+
 	void MakeMove(const FInputActionValue& Value);
 
 public:	
@@ -40,7 +44,39 @@ public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadonly, Category = Camera)
 		class UCameraComponent* Camera;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pawn Movement")
+		float PawnMovingSpeed = 2000.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pawn Movement")
+		float RotationSpeed = 50.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pawn Movement")
+		float SpringArmMovingSpeed = 500.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pawn Movement")
+		float SpringArmLengthSpeed = 5.0f;
+
+	UFUNCTION(BlueprintCallable, Category = Move)
+		void MoveToBoard(FVector NewTargetLocation);
+
+	UFUNCTION()
+		void SetGameBoardReference(AGameBoard* GameBoard);
+
 private:
 	class AMenuSign* MenuSign;
 
+	UPROPERTY()
+		FVector TargetLocation;
+
+	UPROPERTY()
+		FVector SpringArmOffset;
+
+	UPROPERTY()
+		FRotator SpringArmRotation;
+
+	UPROPERTY()
+		bool bIsMovingToTarget;
+
+	UPROPERTY()
+		float SpringArmLength = 0.f;
 };

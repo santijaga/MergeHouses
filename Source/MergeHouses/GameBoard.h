@@ -45,6 +45,10 @@ public:
     UFUNCTION(BlueprintCallable, Category = "Gameplay")
         void ResetBoard();
 
+    // Function to make game move
+    UFUNCTION(BlueprintCallable, Category = "Moving")
+        bool MakeMove(float x, float y);
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -57,10 +61,6 @@ protected:
 
     // Function to generate a random position (row, col) for a new cell
     FVector2D GenerateRandomPosition();
-
-    // Function to make game move
-    UFUNCTION(BlueprintCallable, Category = "Moving")
-        bool MakeMove(float x, float y);
 
     // Function to add a new random cell (either 2 or 4) to the board
     bool AddRandomCell();

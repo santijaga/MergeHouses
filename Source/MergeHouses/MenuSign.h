@@ -23,7 +23,10 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	  
+public:
+	UPROPERTY()
+		class AMergeTownPawn* PawnReference;
+
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 

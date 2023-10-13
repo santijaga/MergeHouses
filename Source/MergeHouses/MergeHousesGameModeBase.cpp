@@ -36,4 +36,9 @@ void AMergeHousesGameModeBase::BeginPlay()
     {
         UE_LOG(LogTemp, Warning, TEXT("MenuSignBlueprint is not set!"));
     }
+
+    if (AMergeTownPawn* PlayerPawn = Cast<AMergeTownPawn>(GetWorld()->GetFirstPlayerController()->GetPawn()))
+    {
+        PlayerPawn->SetGameBoardReference(GameBoardReference);
+    }
 }

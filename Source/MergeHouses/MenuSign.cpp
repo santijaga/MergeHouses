@@ -2,6 +2,7 @@
 
 
 #include "MenuSign.h"
+#include "MergeTownPawn.h"
 #include "GameBoard.h"
 
 // Sets default values
@@ -20,6 +21,8 @@ void AMenuSign::BeginPlay()
     FRotator startRotation = FRotator(0, 90, 0);
     FTransform startTransform(startRotation, startLocation);
     SetActorTransform(startTransform);
+
+    PawnReference = Cast<AMergeTownPawn>(GetWorld()->GetFirstPlayerController()->GetPawn());
 }
 
 // Called every frame
@@ -37,6 +40,12 @@ void AMenuSign::NotifyActorOnClicked(FKey ButtonPressed)
     if (GameBoardReference)
     {
         GameBoardReference->ResetBoard();
+    }
+
+    if (PawnReference)
+    {
+        FVector BoardLocation = GameBoardReference->GetActorLocation();
+        PawnReference->MoveToBoard(BoardLocation);
     }
 }
 
