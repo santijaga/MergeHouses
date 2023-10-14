@@ -17,11 +17,6 @@ void AMenuSign::BeginPlay()
 {
     Super::BeginPlay();
 
-    FVector startLocation = FVector(-2000.0f, 0.0f, 0.0f);
-    FRotator startRotation = FRotator(0, 90, 0);
-    FTransform startTransform(startRotation, startLocation);
-    SetActorTransform(startTransform);
-
     PawnReference = Cast<AMergeTownPawn>(GetWorld()->GetFirstPlayerController()->GetPawn());
 }
 

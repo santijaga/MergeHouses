@@ -58,16 +58,9 @@ void AMergeTownPawn::BeginPlay()
 		}
 	}
 
-	AMenuSign* FoundSign = nullptr;
-	for (TActorIterator<AMenuSign> ActorItr(GetWorld()); ActorItr; ++ActorItr)
+	if (MenuSignReference)
 	{
-		FoundSign = *ActorItr;
-		break;
-	}
-
-	if (FoundSign)
-	{
-		SetActorLocation(FoundSign->GetActorLocation());
+		SetActorLocation(MenuSignReference->GetActorLocation());
 	}
 }
 
@@ -137,4 +130,9 @@ void AMergeTownPawn::MoveToBoard(FVector NewTargetLocation)
 void AMergeTownPawn::SetGameBoardReference(AGameBoard* GameBoard)
 {
 	GameBoardReference = GameBoard;
+}
+
+void AMergeTownPawn::SetMenuSignReference(AMenuSign* MenuSign)
+{
+	MenuSignReference = MenuSign;
 }

@@ -7,6 +7,8 @@
 #include "InputActionValue.h"
 #include "MergeTownPawn.generated.h"
 
+class AMenuSign;
+
 UCLASS()
 class MERGEHOUSES_API AMergeTownPawn : public APawn
 {
@@ -62,8 +64,11 @@ public:
 	UFUNCTION()
 		void SetGameBoardReference(AGameBoard* GameBoard);
 
+	UFUNCTION()
+		void SetMenuSignReference(AMenuSign* MenuSign);
+
 private:
-	class AMenuSign* MenuSign;
+	AMenuSign* MenuSignReference;
 
 	UPROPERTY()
 		FVector TargetLocation;

@@ -20,11 +20,15 @@ class MERGEHOUSES_API AMergeHousesGameModeBase : public AGameModeBase
 
 public:
 	
-	UPROPERTY()
-		class AMenuSign* MenuSign;
-
+	class AMenuSign* MenuSignReference;
 	class AGameBoard* GameBoardReference;
 
 	UPROPERTY(EditAnywhere, Category = "Spawning")
 		TSubclassOf<AGameBoard> GameBoardBlueprint;
+
+private:
+
+	void SetMenuSign();
+
+	void SetGameBoard();
 };
