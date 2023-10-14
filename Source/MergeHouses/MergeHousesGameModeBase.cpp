@@ -5,6 +5,7 @@
 #include "MenuSign.h"
 #include "GameBoard.h"
 #include "MergeTownPawn.h"
+#include "EngineUtils.h"
 
 AMergeHousesGameModeBase::AMergeHousesGameModeBase()
 {
@@ -25,16 +26,20 @@ void AMergeHousesGameModeBase::BeginPlay()
         UE_LOG(LogTemp, Warning, TEXT("GameBoardBlueprint is not set!"));
     }
 
-    if (MenuSignBlueprint) // Check if we have set a blueprint class to spawn
+    // Find the MenuSign in the level
+    for (TActorIterator<AMenuSign> It(GetWorld()); It; ++It)
     {
-        FTransform SpawnTransform; // Set this to your desired location and rotation
-        MenuSign = GetWorld()->SpawnActor<AMenuSign>(MenuSignBlueprint, SpawnTransform);
+        MenuSign = *It;
+        break; // exit the loop once the first MenuSign is found
+    }
 
-        MenuSign->SetGameBoardReference(GameBoardReference);
+    if (!MenuSign)
+    {
+        UE_LOG(LogTemp, Warning, TEXT("MenuSign not found in the level!"));
     }
     else
     {
-        UE_LOG(LogTemp, Warning, TEXT("MenuSignBlueprint is not set!"));
+        MenuSign->SetGameBoardReference(GameBoardReference);
     }
 
     if (AMergeTownPawn* PlayerPawn = Cast<AMergeTownPawn>(GetWorld()->GetFirstPlayerController()->GetPawn()))

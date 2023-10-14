@@ -19,11 +19,9 @@ class MERGEHOUSES_API AMergeHousesGameModeBase : public AGameModeBase
 	AMergeHousesGameModeBase();
 
 public:
-	// Reference to the reset button actor
-	class AMenuSign* MenuSign;
-
-	UPROPERTY(EditAnywhere, Category = "Spawning")
-		TSubclassOf<AMenuSign> MenuSignBlueprint;
+	
+	UPROPERTY()
+		class AMenuSign* MenuSign;
 
 	class AGameBoard* GameBoardReference;
 
