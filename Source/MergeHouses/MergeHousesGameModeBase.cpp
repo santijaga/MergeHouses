@@ -28,14 +28,16 @@ void AMergeHousesGameModeBase::BeginPlay()
 
 void AMergeHousesGameModeBase::SetGameBoard()
 {
-    if (GameBoardBlueprint)
+    // Find the MenuSign in the level
+    for (TActorIterator<AGameBoard> It(GetWorld()); It; ++It)
     {
-        FTransform GameBoardSpawnTransform;
-        GameBoardReference = GetWorld()->SpawnActor<AGameBoard>(GameBoardBlueprint, GameBoardSpawnTransform);
+        GameBoardReference = *It;
+        break; // exit the loop once the first MenuSign is found
     }
-    else
+
+    if (!GameBoardReference)
     {
-        UE_LOG(LogTemp, Warning, TEXT("GameBoardBlueprint is not set!"));
+        UE_LOG(LogTemp, Warning, TEXT("GameBoard not found in the level!"));
     }
 }
 
