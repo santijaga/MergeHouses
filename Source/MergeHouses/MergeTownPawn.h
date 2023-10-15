@@ -8,6 +8,7 @@
 #include "MergeTownPawn.generated.h"
 
 class AMenuSign;
+class ACameraActor;
 
 UCLASS()
 class MERGEHOUSES_API AMergeTownPawn : public APawn

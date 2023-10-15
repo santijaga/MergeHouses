@@ -6,10 +6,21 @@
 #include "GameBoard.h"
 #include "MergeTownPawn.h"
 #include "EngineUtils.h"
+#include "Camera/CameraActor.h"
 
 AMergeHousesGameModeBase::AMergeHousesGameModeBase()
 {
     DefaultPawnClass = AMergeTownPawn::StaticClass();
+}
+
+ACameraActor* AMergeHousesGameModeBase::GetMenuCameraReference()
+{
+    return Camera_Menu;
+}
+
+ACameraActor* AMergeHousesGameModeBase::GetBoardCameraReference()
+{
+    return Camera_Board;
 }
 
 void AMergeHousesGameModeBase::BeginPlay()
@@ -19,6 +30,7 @@ void AMergeHousesGameModeBase::BeginPlay()
     SetGameBoard();
     SetMenuSign();
     SetupReferences();
+    SetCameras();
 }
 
 void AMergeHousesGameModeBase::SetGameBoard()
@@ -63,5 +75,29 @@ void AMergeHousesGameModeBase::SetupReferences()
     if (MenuSignReference)
     {
         MenuSignReference->SetGameBoardReference(GameBoardReference);
+    }
+}
+
+void AMergeHousesGameModeBase::SetCameras()
+{
+    for (TActorIterator<ACameraActor> ActorItr(GetWorld()); ActorItr; ++ActorItr)
+    {
+        ACameraActor* Camera = *ActorItr;
+
+        // Check the tags or names of the camera and assign
+        if (Camera->GetActorLabel() == "Camera_MenuCamera")
+        {
+            Camera_Menu = Camera;
+        }
+        else if (Camera->GetActorLabel() == "Camera_BoardCamera")
+        {
+            Camera_Board = Camera;
+        }
+    }
+
+    // Ensure we found our cameras
+    if (!Camera_Menu || !Camera_Board)
+    {
+        UE_LOG(LogTemp, Warning, TEXT("One or more cameras not found!"));
     }
 }

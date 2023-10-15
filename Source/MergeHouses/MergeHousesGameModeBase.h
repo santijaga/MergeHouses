@@ -6,6 +6,8 @@
 #include "GameFramework/GameModeBase.h"
 #include "MergeHousesGameModeBase.generated.h"
 
+class ACameraActor;
+
 /**
  * 
  */
@@ -23,9 +25,19 @@ public:
 	class AMenuSign* MenuSignReference;
 	class AGameBoard* GameBoardReference;
 
+	UFUNCTION()
+		ACameraActor* GetMenuCameraReference();
+
+	UFUNCTION()
+		ACameraActor* GetBoardCameraReference();
+
 private:
 
 	void SetMenuSign();
 	void SetGameBoard();
 	void SetupReferences();
+	void SetCameras();
+
+	ACameraActor* Camera_Menu;
+	ACameraActor* Camera_Board;
 };
