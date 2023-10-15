@@ -27,4 +27,5 @@ private:
 
 	void SetMenuSign();
 	void SetGameBoard();
+	void SetupReferences();
 };

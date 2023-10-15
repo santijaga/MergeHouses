@@ -18,12 +18,7 @@ void AMergeHousesGameModeBase::BeginPlay()
 
     SetGameBoard();
     SetMenuSign();
-
-    if (AMergeTownPawn* PlayerPawn = Cast<AMergeTownPawn>(GetWorld()->GetFirstPlayerController()->GetPawn()))
-    {
-        PlayerPawn->SetGameBoardReference(GameBoardReference);
-        PlayerPawn->SetMenuSignReference(MenuSignReference);
-    }
+    SetupReferences();
 }
 
 void AMergeHousesGameModeBase::SetGameBoard()
@@ -54,7 +49,18 @@ void AMergeHousesGameModeBase::SetMenuSign()
     {
         UE_LOG(LogTemp, Warning, TEXT("MenuSign not found in the level!"));
     }
-    else
+}
+
+
+void AMergeHousesGameModeBase::SetupReferences()
+{
+    if (AMergeTownPawn* PlayerPawn = Cast<AMergeTownPawn>(GetWorld()->GetFirstPlayerController()->GetPawn()))
+    {
+        PlayerPawn->SetGameBoardReference(GameBoardReference);
+        PlayerPawn->SetMenuSignReference(MenuSignReference);
+    }
+
+    if (MenuSignReference)
     {
         MenuSignReference->SetGameBoardReference(GameBoardReference);
     }
