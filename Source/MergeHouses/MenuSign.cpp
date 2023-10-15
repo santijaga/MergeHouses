@@ -39,8 +39,7 @@ void AMenuSign::NotifyActorOnClicked(FKey ButtonPressed)
 
     if (PawnReference)
     {
-        FVector BoardLocation = GameBoardReference->GetActorLocation();
-        PawnReference->MoveToBoard(BoardLocation);
+        PawnReference->MoveToBoard();
     }
 }
 

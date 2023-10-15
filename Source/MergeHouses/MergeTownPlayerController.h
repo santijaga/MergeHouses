@@ -15,7 +15,13 @@ class MERGEHOUSES_API AMergeTownPlayerController : public APlayerController
 	GENERATED_BODY()
 
 public:
-		AMergeTownPlayerController();
+	UPROPERTY(EditAnywhere, Category = Camera)
+		float CameraBlendSpeed = 1.f;
 
-		virtual void BeginPlay() override;
+	AMergeTownPlayerController();
+
+	virtual void BeginPlay() override;
+
+	void SetMenuCameraActive();
+	void SetBoardCameraActive();
 };

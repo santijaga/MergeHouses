@@ -17,3 +17,13 @@ void AMergeTownPlayerController::BeginPlay()
 	SetInputMode(FInputModeGameAndUI());
 	SetViewTarget(Cast<AMergeHousesGameModeBase>(GetWorld()->GetAuthGameMode())->GetMenuCameraReference());
 }
+
+void AMergeTownPlayerController::SetMenuCameraActive()
+{
+	SetViewTargetWithBlend(Cast<AMergeHousesGameModeBase>(GetWorld()->GetAuthGameMode())->GetMenuCameraReference(), CameraBlendSpeed);
+}
+
+void AMergeTownPlayerController::SetBoardCameraActive()
+{
+	SetViewTargetWithBlend(Cast<AMergeHousesGameModeBase>(GetWorld()->GetAuthGameMode())->GetBoardCameraReference(), CameraBlendSpeed);
+}

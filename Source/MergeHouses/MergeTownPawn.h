@@ -41,26 +41,8 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadonly, Category = Camera)
-		class USpringArmComponent* SpringArm;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadonly, Category = Camera)
-		class UCameraComponent* Camera;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pawn Movement")
-		float PawnMovingSpeed = 2000.f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pawn Movement")
-		float RotationSpeed = 50.f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pawn Movement")
-		float SpringArmMovingSpeed = 500.f;
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Pawn Movement")
-		float SpringArmLengthSpeed = 5.0f;
-
 	UFUNCTION(BlueprintCallable, Category = Move)
-		void MoveToBoard(FVector NewTargetLocation);
+		void MoveToBoard();
 
 	UFUNCTION()
 		void SetGameBoardReference(AGameBoard* GameBoard);
@@ -70,19 +52,4 @@ public:
 
 private:
 	AMenuSign* MenuSignReference;
-
-	UPROPERTY()
-		FVector TargetLocation;
-
-	UPROPERTY()
-		FVector SpringArmOffset;
-
-	UPROPERTY()
-		FRotator SpringArmRotation;
-
-	UPROPERTY()
-		bool bIsMovingToTarget;
-
-	UPROPERTY()
-		float SpringArmLength = 0.f;
 };
