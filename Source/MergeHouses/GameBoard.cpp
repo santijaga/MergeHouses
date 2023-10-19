@@ -3,6 +3,7 @@
 
 #include "GameBoard.h"
 #include "ABoardElement.h"
+#include "MergeTownPlayerController.h"
 
 // Sets default values
 AGameBoard::AGameBoard()
@@ -100,6 +101,11 @@ void AGameBoard::InitializeBoard()
     {
         Board[Row].Init(FBoardCell(), BoardSize);  // Use FBoardCell() as the default value
     }
+
+    if (AMergeTownPlayerController* PlayerController = Cast<AMergeTownPlayerController>(GetWorld()->GetFirstPlayerController()))
+    {
+        PlayerController->ResetScores();
+    }
 }
 
 // Function to generate a random position (row, col) for a new cell
@@ -164,6 +170,12 @@ bool AGameBoard::MoveLeft()
                             Board[row][col].ModelID = Board[row][mergeCol].ModelID;
                             Board[row][mergeCol].Value = 0;
                             Board[row][mergeCol].ModelID = 0;
+
+                            if (AMergeTownPlayerController* PlayerController = Cast<AMergeTownPlayerController>(GetWorld()->GetFirstPlayerController()))
+                            {
+                                PlayerController->AddScores(Board[row][col].Value);
+                            }
+
                             Moved = true;
                         }
                         break;
@@ -203,6 +215,12 @@ bool AGameBoard::MoveRight()
                             Board[row][col].ModelID = Board[row][mergeCol].ModelID;
                             Board[row][mergeCol].Value = 0;
                             Board[row][mergeCol].ModelID = 0;
+
+                            if (AMergeTownPlayerController* PlayerController = Cast<AMergeTownPlayerController>(GetWorld()->GetFirstPlayerController()))
+                            {
+                                PlayerController->AddScores(Board[row][col].Value);
+                            }
+
                             Moved = true;
                         }
                         break;
@@ -242,6 +260,12 @@ bool AGameBoard::MoveUp()
                             Board[row][col].ModelID = Board[mergeRow][col].ModelID;
                             Board[mergeRow][col].Value = 0;
                             Board[mergeRow][col].ModelID = 0;
+
+                            if (AMergeTownPlayerController* PlayerController = Cast<AMergeTownPlayerController>(GetWorld()->GetFirstPlayerController()))
+                            {
+                                PlayerController->AddScores(Board[row][col].Value);
+                            }
+
                             Moved = true;
                         }
                         break;
@@ -281,6 +305,12 @@ bool AGameBoard::MoveDown()
                             Board[row][col].ModelID = Board[mergeRow][col].ModelID;
                             Board[mergeRow][col].Value = 0;
                             Board[mergeRow][col].ModelID = 0;
+
+                            if (AMergeTownPlayerController* PlayerController = Cast<AMergeTownPlayerController>(GetWorld()->GetFirstPlayerController()))
+                            {
+                                PlayerController->AddScores(Board[row][col].Value);
+                            }
+
                             Moved = true;
                         }
                         break;
@@ -322,6 +352,11 @@ AABoardElement* AGameBoard::SpawnBoardElement(int row, int col, int value, int I
         NewBoardElement->ID = ID;
         NewBoardElement->Value = value;
         NewBoardElement->CellSize = CellSize;
+
+        if (AMergeTownPlayerController* PlayerController = Cast<AMergeTownPlayerController>(GetWorld()->GetFirstPlayerController()))
+        {
+            PlayerController->AddScores(value);
+        }
 
         return NewBoardElement;
     }
