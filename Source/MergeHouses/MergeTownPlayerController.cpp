@@ -82,10 +82,25 @@ void AMergeTownPlayerController::ShowGameplayUI()
 	}
 }
 
+void AMergeTownPlayerController::HideGameplayUI()
+{
+	if (ScoreWidget)
+	{
+		ScoreWidget->RemoveFromParent();
+	}
+}
+
 void AMergeTownPlayerController::StartGameplay()
 {
 	SetBoardCameraActive();
 	ShowGameplayUI();
+	ResetScores();
+}
+
+void AMergeTownPlayerController::EndGameplay()
+{
+	HideGameplayUI();
+	SetMenuCameraActive();
 }
 
 

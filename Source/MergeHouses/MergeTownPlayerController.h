@@ -56,6 +56,12 @@ public:
 	UFUNCTION(BlueprintCallable, Category = UI)
 		void ShowGameplayUI();
 
+	UFUNCTION(BlueprintCallable, Category = UI)
+		void HideGameplayUI();
+
 	UFUNCTION(BlueprintCallable, Category = Gameplay)
 		void StartGameplay();
+
+	UFUNCTION(BlueprintCallable, Category = Gameplay)
+		void EndGameplay();
 };
