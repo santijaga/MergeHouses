@@ -41,15 +41,6 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
-	UFUNCTION(BlueprintCallable, Category = Move)
-		void MoveToBoard();
-
 	UFUNCTION()
 		void SetGameBoardReference(AGameBoard* GameBoard);
-
-	UFUNCTION()
-		void SetMenuSignReference(AMenuSign* MenuSign);
-
-private:
-	AMenuSign* MenuSignReference;
 };

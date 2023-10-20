@@ -4,6 +4,7 @@
 #include "MenuSign.h"
 #include "MergeTownPawn.h"
 #include "GameBoard.h"
+#include "MergeHousesGameModeBase.h"
 
 // Sets default values
 AMenuSign::AMenuSign()
@@ -16,8 +17,6 @@ AMenuSign::AMenuSign()
 void AMenuSign::BeginPlay()
 {
     Super::BeginPlay();
-
-    PawnReference = Cast<AMergeTownPawn>(GetWorld()->GetFirstPlayerController()->GetPawn());
 }
 
 // Called every frame
@@ -31,15 +30,9 @@ void AMenuSign::NotifyActorOnClicked(FKey ButtonPressed)
 {
     Super::NotifyActorOnClicked(ButtonPressed);
 
-    // Call ResetBoard from the GameBoard reference
-    if (GameBoardReference)
+    if (AMergeHousesGameModeBase* GameMode = Cast<AMergeHousesGameModeBase>(GetWorld()->GetAuthGameMode()))
     {
-        GameBoardReference->ResetBoard();
-    }
-
-    if (PawnReference)
-    {
-        PawnReference->MoveToBoard();
+        GameMode->StartGameplay();
     }
 }
 
@@ -49,8 +42,3 @@ void AMenuSign::PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEve
     Super::PostEditChangeProperty(PropertyChangedEvent);
 }
 #endif
-
-void AMenuSign::SetGameBoardReference(AGameBoard* BoardReference)
-{
-    GameBoardReference = BoardReference;
-}

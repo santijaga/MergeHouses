@@ -15,18 +15,11 @@ public:
 	// Sets default values for this actor's properties
 	AMenuSign();
 
-	// Reference to the GameBoard
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "GameBoard")
-		class AGameBoard* GameBoardReference;
-
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
 public:
-	UPROPERTY()
-		class AMergeTownPawn* PawnReference;
-
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
@@ -35,7 +28,4 @@ public:
 #if WITH_EDITOR
 	virtual void PostEditChangeProperty(FPropertyChangedEvent& PropertyChangedEvent) override;
 #endif
-
-	UFUNCTION(BlueprintCallable, Category = "Configuration")
-		void SetGameBoardReference(AGameBoard* BoardReference);
 };

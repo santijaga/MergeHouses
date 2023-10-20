@@ -23,9 +23,14 @@ private:
 	UFUNCTION()
 		void PrintScoresToScreen();
 
+	class UMainWidgetBase* ScoreWidget;
+
 public:
 	UPROPERTY(EditAnywhere, Category = Camera)
 		float CameraBlendSpeed = 1.f;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = UI)
+		TSubclassOf<UUserWidget> ScoreWidgetClass;
 
 	AMergeTownPlayerController();
 
@@ -47,4 +52,10 @@ public:
 
 	// Reset player's current scores
 	void ResetScores();
+
+	UFUNCTION(BlueprintCallable, Category = UI)
+		void ShowGameplayUI();
+
+	UFUNCTION(BlueprintCallable, Category = Gameplay)
+		void StartGameplay();
 };

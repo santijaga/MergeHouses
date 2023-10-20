@@ -21,8 +21,6 @@ class MERGEHOUSES_API AMergeHousesGameModeBase : public AGameModeBase
 	AMergeHousesGameModeBase();
 
 public:
-	
-	class AMenuSign* MenuSignReference;
 	class AGameBoard* GameBoardReference;
 
 	UFUNCTION()
@@ -31,9 +29,10 @@ public:
 	UFUNCTION()
 		ACameraActor* GetBoardCameraReference();
 
-private:
+	UFUNCTION()
+		void StartGameplay();
 
-	void SetMenuSign();
+private:
 	void SetGameBoard();
 	void SetupReferences();
 	void SetCameras();

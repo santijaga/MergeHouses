@@ -3,6 +3,7 @@
 #include "MergeTownPlayerController.h"
 #include "MergeHousesGameModeBase.h"
 #include "Camera/CameraActor.h"
+#include "MainWidgetBase.h"
 
 void AMergeTownPlayerController::PrintScoresToScreen()
 {
@@ -26,13 +27,21 @@ void AMergeTownPlayerController::BeginPlay()
 
 	SetInputMode(FInputModeGameAndUI());
 	SetViewTarget(Cast<AMergeHousesGameModeBase>(GetWorld()->GetAuthGameMode())->GetMenuCameraReference());
+
+	if (ScoreWidgetClass)
+	{
+		ScoreWidget = CreateWidget<UMainWidgetBase>(this, ScoreWidgetClass);
+	}
 }
 
 void AMergeTownPlayerController::Tick(float DeltaSeconds)
 {
 	Super::Tick(DeltaSeconds);
 
-	PrintScoresToScreen();
+	if (ScoreWidget)
+	{
+		ScoreWidget->UpdateScores(PlayerScore);
+	}
 }
 
 void AMergeTownPlayerController::SetMenuCameraActive()
@@ -64,3 +73,19 @@ void AMergeTownPlayerController::ResetScores()
 {
 	PlayerScore = 0;
 }
+
+void AMergeTownPlayerController::ShowGameplayUI()
+{
+	if (ScoreWidget)
+	{
+		ScoreWidget->AddToViewport();
+	}
+}
+
+void AMergeTownPlayerController::StartGameplay()
+{
+	SetBoardCameraActive();
+	ShowGameplayUI();
+}
+
+

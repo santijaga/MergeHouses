@@ -45,11 +45,6 @@ void AMergeTownPawn::BeginPlay()
 			Subsystem->AddMappingContext(GamePlayMappingContext, 0);
 		}
 	}
-
-	if (MenuSignReference)
-	{
-		SetActorLocation(MenuSignReference->GetActorLocation());
-	}
 }
 
 // Called every frame
@@ -68,17 +63,7 @@ void AMergeTownPawn::MakeMove(const FInputActionValue& Value)
 	}
 }
 
-void AMergeTownPawn::MoveToBoard()
-{
-	Cast<AMergeTownPlayerController>(GetWorld()->GetFirstPlayerController())->SetBoardCameraActive();
-}
-
 void AMergeTownPawn::SetGameBoardReference(AGameBoard* GameBoard)
 {
 	GameBoardReference = GameBoard;
-}
-
-void AMergeTownPawn::SetMenuSignReference(AMenuSign* MenuSign)
-{
-	MenuSignReference = MenuSign;
 }

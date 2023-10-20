@@ -7,6 +7,7 @@
 #include "MergeTownPawn.h"
 #include "EngineUtils.h"
 #include "Camera/CameraActor.h"
+#include "MergeTownPlayerController.h"
 
 AMergeHousesGameModeBase::AMergeHousesGameModeBase()
 {
@@ -23,12 +24,24 @@ ACameraActor* AMergeHousesGameModeBase::GetBoardCameraReference()
     return Camera_Board;
 }
 
+void AMergeHousesGameModeBase::StartGameplay()
+{
+    if (GameBoardReference)
+    {
+        GameBoardReference->ResetBoard();
+    }
+
+    if (AMergeTownPlayerController* PlayerController = Cast<AMergeTownPlayerController>(GetWorld()->GetFirstPlayerController()))
+    {
+        PlayerController->StartGameplay();
+    }
+}
+
 void AMergeHousesGameModeBase::BeginPlay()
 {
 	Super::BeginPlay();
 
     SetGameBoard();
-    SetMenuSign();
     SetupReferences();
     SetCameras();
 }
@@ -48,33 +61,12 @@ void AMergeHousesGameModeBase::SetGameBoard()
     }
 }
 
-void AMergeHousesGameModeBase::SetMenuSign()
-{
-    // Find the MenuSign in the level
-    for (TActorIterator<AMenuSign> It(GetWorld()); It; ++It)
-    {
-        MenuSignReference = *It;
-        break; // exit the loop once the first MenuSign is found
-    }
-
-    if (!MenuSignReference)
-    {
-        UE_LOG(LogTemp, Warning, TEXT("MenuSign not found in the level!"));
-    }
-}
-
 
 void AMergeHousesGameModeBase::SetupReferences()
 {
     if (AMergeTownPawn* PlayerPawn = Cast<AMergeTownPawn>(GetWorld()->GetFirstPlayerController()->GetPawn()))
     {
         PlayerPawn->SetGameBoardReference(GameBoardReference);
-        PlayerPawn->SetMenuSignReference(MenuSignReference);
-    }
-
-    if (MenuSignReference)
-    {
-        MenuSignReference->SetGameBoardReference(GameBoardReference);
     }
 }
 
