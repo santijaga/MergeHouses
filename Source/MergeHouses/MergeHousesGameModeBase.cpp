@@ -37,6 +37,14 @@ void AMergeHousesGameModeBase::StartGameplay()
     }
 }
 
+void AMergeHousesGameModeBase::EndGameplay()
+{
+    if (AMergeTownPlayerController* PlayerController = Cast<AMergeTownPlayerController>(GetWorld()->GetFirstPlayerController()))
+    {
+        PlayerController->EndGameplay();
+    }
+}
+
 void AMergeHousesGameModeBase::BeginPlay()
 {
 	Super::BeginPlay();

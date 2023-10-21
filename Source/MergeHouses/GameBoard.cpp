@@ -4,6 +4,7 @@
 #include "GameBoard.h"
 #include "ABoardElement.h"
 #include "MergeTownPlayerController.h"
+#include "MergeHousesGameModeBase.h"
 
 // Sets default values
 AGameBoard::AGameBoard()
@@ -53,6 +54,27 @@ void AGameBoard::PrintBoardToScreen()
     }
 }
 
+bool AGameBoard::IsGameOver()
+{
+    for (int x = 0; x < BoardSize; x++)
+    {
+        for (int y = 0; y < BoardSize; y++)
+        {
+            if (Board[x][y].Value == 0)  // Assuming 0 represents an empty tile
+                return false;
+
+            // Check tile above
+            if (x > 0 && Board[x][y].Value == Board[x - 1][y].Value)
+                return false;
+
+            // Check tile to the left
+            if (y > 0 && Board[x][y].Value == Board[x][y - 1].Value)
+                return false;
+        }
+    }
+    return true;
+}
+
 // Called every frame
 void AGameBoard::Tick(float DeltaTime)
 {
@@ -86,6 +108,14 @@ bool AGameBoard::MakeMove(float x, float y)
     if (success)
     {
         success = AddRandomCell();
+    }
+
+    if (IsGameOver())
+    {
+        if (AMergeHousesGameModeBase* GameMode = Cast<AMergeHousesGameModeBase>(GetWorld()->GetAuthGameMode()))
+        {
+            GameMode->EndGameplay();
+        }
     }
 
     return success;
