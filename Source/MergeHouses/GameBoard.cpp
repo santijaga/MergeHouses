@@ -170,7 +170,7 @@ bool AGameBoard::AddRandomCell()
     FVector2D Position = GenerateRandomPosition();
     if (Position.X != -1 && Position.Y != -1)
     {
-        int32 Value = 1;
+        int32 Value = FMath::RandRange(1, 2);
         Board[Position.X][Position.Y].Value = Value;
         Board[Position.X][Position.Y].ModelID = ++nextModelID;
 
