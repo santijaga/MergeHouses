@@ -24,3 +24,8 @@ void UGameOverWidgetBase::ReturnToMainMenu()
 		GameMode->EndGameplay();
 	}
 }
+
+void UGameOverWidgetBase::SetIsHighScore(bool ValueToSet)
+{
+	bIsHighScore = ValueToSet;
+}

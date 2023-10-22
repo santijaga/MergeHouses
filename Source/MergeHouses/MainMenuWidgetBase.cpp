@@ -11,3 +11,13 @@ void UMainMenuWidgetBase::StartGame()
 		GameMode->StartGameplay();
 	}
 }
+
+FText UMainMenuWidgetBase::GetHighScoreText() const
+{
+	return FText::FromString(FString::Printf(TEXT("%d"), HighScore));
+}
+
+void UMainMenuWidgetBase::SetHighScore(int32 ScoresToSet)
+{
+	HighScore = ScoresToSet;
+}

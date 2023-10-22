@@ -16,7 +16,10 @@ class MERGEHOUSES_API UGameOverWidgetBase : public UUserWidget
 	
 public:
 	UPROPERTY(BlueprintReadWrite, Category = "Game Over")
-		int32 FinalScore;
+		int32 FinalScore = 0;
+
+	UPROPERTY(BlueprintReadWrite, Category = "Game Over")
+		bool bIsHighScore = false;
 
 	UFUNCTION(Blueprintcallable, Category = "Game Over")
 		void SetFinalScore(int32 ScoresToSet);
@@ -26,4 +29,7 @@ public:
 
 	UFUNCTION(Blueprintcallable, Category = "Game Over")
 		void ReturnToMainMenu();
+
+	UFUNCTION(Blueprintcallable, Category = "Game Over")
+		void SetIsHighScore(bool ValueToSet);
 };

@@ -6,6 +6,8 @@
 #include "MainWidgetBase.h"
 #include "GameOverWidgetBase.h"
 #include "MainMenuWidgetBase.h"
+#include "MergeHousesSaveGame.h"
+#include "Kismet/GameplayStatics.h"
 
 void AMergeTownPlayerController::PrintScoresToScreen()
 {
@@ -14,6 +16,25 @@ void AMergeTownPlayerController::PrintScoresToScreen()
 	if (GEngine)
 	{
 		GEngine->AddOnScreenDebugMessage(-1, 0.0f, FColor::White, ScoresString);
+	}
+}
+
+void AMergeTownPlayerController::SaveHighScore()
+{
+	UMergeHousesSaveGame* SaveGameInstance = Cast<UMergeHousesSaveGame>(UGameplayStatics::CreateSaveGameObject(UMergeHousesSaveGame::StaticClass()));
+
+	SaveGameInstance->SavedHighScore = PlayerScore;
+
+	UGameplayStatics::SaveGameToSlot(SaveGameInstance, "HighScoreSaveSlot", 0);
+}
+
+void AMergeTownPlayerController::LoadHighScore()
+{
+	UMergeHousesSaveGame* LoadGameInstance = Cast<UMergeHousesSaveGame>(UGameplayStatics::LoadGameFromSlot("HighScoreSaveSlot", 0));
+
+	if (LoadGameInstance)
+	{
+		HighScore = LoadGameInstance->SavedHighScore;
 	}
 }
 
@@ -102,7 +123,7 @@ void AMergeTownPlayerController::HideGameplayUI()
 	UE_LOG(LogTemp, Warning, TEXT("AMergeTownPlayerController: Gameplay UI hide successfully."));
 }
 
-void AMergeTownPlayerController::ShowGameOverUI()
+void AMergeTownPlayerController::ShowGameOverUI(bool bIsHighScore)
 {
 	UE_LOG(LogTemp, Warning, TEXT("AMergeTownPlayerController: About to show game over UI."));
 	if (GameOverWidgetClass)
@@ -114,6 +135,10 @@ void AMergeTownPlayerController::ShowGameOverUI()
 	{
 		GameOverWidget->AddToViewport();
 		GameOverWidget->SetFinalScore(PlayerScore);
+		if (bIsHighScore)
+		{
+			GameOverWidget->SetIsHighScore(bIsHighScore);
+		}
 	}
 	UE_LOG(LogTemp, Warning, TEXT("AMergeTownPlayerController: Game over UI show successfully."));
 }
@@ -140,6 +165,8 @@ void AMergeTownPlayerController::ShowMainMenuUI()
 	if (MainMenuWidget)
 	{
 		MainMenuWidget->AddToViewport();
+		LoadHighScore();
+		MainMenuWidget->SetHighScore(HighScore);
 	}
 	UE_LOG(LogTemp, Warning, TEXT("AMergeTownPlayerController: Main menu UI show successfully."));
 }
@@ -170,7 +197,13 @@ void AMergeTownPlayerController::GameOver()
 {
 	UE_LOG(LogTemp, Warning, TEXT("AMergeTownPlayerController: About game over."));
 	HideGameplayUI();
-	ShowGameOverUI();
+	bool bIsHighScore = false;
+	if (PlayerScore > HighScore)
+	{
+		SaveHighScore();
+		bIsHighScore = true;
+	}
+	ShowGameOverUI(bIsHighScore);
 	UE_LOG(LogTemp, Warning, TEXT("AMergeTownPlayerController: Game over successfully."));
 }
 

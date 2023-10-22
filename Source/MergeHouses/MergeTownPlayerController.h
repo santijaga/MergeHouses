@@ -23,9 +23,18 @@ private:
 	UFUNCTION()
 		void PrintScoresToScreen();
 
+	UPROPERTY()
+		int32 HighScore;
+
 	class UMainWidgetBase* ScoreWidget;
 	class UGameOverWidgetBase* GameOverWidget;
 	class UMainMenuWidgetBase* MainMenuWidget;
+
+	UFUNCTION()
+		void SaveHighScore();
+
+	UFUNCTION()
+		void LoadHighScore();
 
 public:
 	UPROPERTY(EditAnywhere, Category = Camera)
@@ -68,7 +77,7 @@ public:
 		void HideGameplayUI();
 
 	UFUNCTION(BlueprintCallable, Category = UI)
-		void ShowGameOverUI();
+		void ShowGameOverUI(bool bIsHighScore);
 
 	UFUNCTION(BlueprintCallable, Category = UI)
 		void HideGameOverUI();
