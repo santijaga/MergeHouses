@@ -25,6 +25,7 @@ private:
 
 	class UMainWidgetBase* ScoreWidget;
 	class UGameOverWidgetBase* GameOverWidget;
+	class UMainMenuWidgetBase* MainMenuWidget;
 
 public:
 	UPROPERTY(EditAnywhere, Category = Camera)
@@ -35,6 +36,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = UI)
 		TSubclassOf<UUserWidget> GameOverWidgetClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = UI)
+		TSubclassOf<UUserWidget> MainMenuWidgetClass;
 
 	AMergeTownPlayerController();
 
@@ -68,6 +72,12 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = UI)
 		void HideGameOverUI();
+
+	UFUNCTION(BlueprintCallable, Category = UI)
+		void ShowMainMenuUI();
+
+	UFUNCTION(BlueprintCallable, Category = UI)
+		void HideMainMenuUI();
 
 	UFUNCTION(BlueprintCallable, Category = Gameplay)
 		void StartGameplay();
