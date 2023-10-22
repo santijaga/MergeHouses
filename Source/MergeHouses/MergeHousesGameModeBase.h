@@ -22,6 +22,7 @@ class MERGEHOUSES_API AMergeHousesGameModeBase : public AGameModeBase
 
 public:
 	class AGameBoard* GameBoardReference;
+	class ATableTopBoard* TableTopBoardReference;
 
 	UFUNCTION()
 		ACameraActor* GetMenuCameraReference();

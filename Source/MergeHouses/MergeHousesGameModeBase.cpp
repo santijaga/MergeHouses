@@ -8,6 +8,7 @@
 #include "EngineUtils.h"
 #include "Camera/CameraActor.h"
 #include "MergeTownPlayerController.h"
+#include "TableTopBoard.h"
 
 AMergeHousesGameModeBase::AMergeHousesGameModeBase()
 {
@@ -40,6 +41,11 @@ void AMergeHousesGameModeBase::StartGameplay()
     {
         PlayerPawn->AddGameplayMappingContext();
     }
+
+    if (TableTopBoardReference)
+    {
+        TableTopBoardReference->OpenBoard();
+    }
 }
 
 void AMergeHousesGameModeBase::GameOver()
@@ -60,6 +66,11 @@ void AMergeHousesGameModeBase::EndGameplay()
     if (AMergeTownPlayerController* PlayerController = Cast<AMergeTownPlayerController>(GetWorld()->GetFirstPlayerController()))
     {
         PlayerController->EndGameplay();
+    }
+
+    if (TableTopBoardReference)
+    {
+        TableTopBoardReference->CloseBoard();
     }
 }
 
@@ -84,6 +95,17 @@ void AMergeHousesGameModeBase::SetGameBoard()
     if (!GameBoardReference)
     {
         UE_LOG(LogTemp, Warning, TEXT("GameBoard not found in the level!"));
+    }
+
+    for (TActorIterator<ATableTopBoard> It(GetWorld()); It; ++It)
+    {
+        TableTopBoardReference = *It;
+        break;
+    }
+
+    if (!TableTopBoardReference)
+    {
+        UE_LOG(LogTemp, Warning, TEXT("Table Top Board not found in the level!"));
     }
 }
 
