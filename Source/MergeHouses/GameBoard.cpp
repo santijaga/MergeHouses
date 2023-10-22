@@ -85,6 +85,11 @@ bool AGameBoard::MakeMove(float x, float y)
 {
     bool success = false;
 
+    if (bIsGameOver)
+    {
+        return false;
+    }
+
     if (x > 0)
     {
         success = MoveRight();
@@ -110,11 +115,13 @@ bool AGameBoard::MakeMove(float x, float y)
         success = AddRandomCell();
     }
 
-    if (IsGameOver())
+    bIsGameOver = IsGameOver();
+
+    if (bIsGameOver)
     {
         if (AMergeHousesGameModeBase* GameMode = Cast<AMergeHousesGameModeBase>(GetWorld()->GetAuthGameMode()))
         {
-            GameMode->EndGameplay();
+            GameMode->GameOver();
         }
     }
 
@@ -136,6 +143,8 @@ void AGameBoard::InitializeBoard()
     {
         PlayerController->ResetScores();
     }
+
+    bIsGameOver = false;
 }
 
 // Function to generate a random position (row, col) for a new cell

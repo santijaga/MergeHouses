@@ -43,4 +43,10 @@ public:
 
 	UFUNCTION()
 		void SetGameBoardReference(AGameBoard* GameBoard);
+
+	UFUNCTION()
+		void AddGameplayMappingContext();
+
+	UFUNCTION()
+		void RemoveGameplayMappingContext();
 };

@@ -4,6 +4,7 @@
 #include "MergeHousesGameModeBase.h"
 #include "Camera/CameraActor.h"
 #include "MainWidgetBase.h"
+#include "GameOverWidgetBase.h"
 
 void AMergeTownPlayerController::PrintScoresToScreen()
 {
@@ -27,11 +28,6 @@ void AMergeTownPlayerController::BeginPlay()
 
 	SetInputMode(FInputModeGameAndUI());
 	SetViewTarget(Cast<AMergeHousesGameModeBase>(GetWorld()->GetAuthGameMode())->GetMenuCameraReference());
-
-	if (ScoreWidgetClass)
-	{
-		ScoreWidget = CreateWidget<UMainWidgetBase>(this, ScoreWidgetClass);
-	}
 }
 
 void AMergeTownPlayerController::Tick(float DeltaSeconds)
@@ -76,6 +72,11 @@ void AMergeTownPlayerController::ResetScores()
 
 void AMergeTownPlayerController::ShowGameplayUI()
 {
+	if (ScoreWidgetClass)
+	{
+		ScoreWidget = CreateWidget<UMainWidgetBase>(this, ScoreWidgetClass);
+	}
+
 	if (ScoreWidget)
 	{
 		ScoreWidget->AddToViewport();
@@ -90,16 +91,45 @@ void AMergeTownPlayerController::HideGameplayUI()
 	}
 }
 
+void AMergeTownPlayerController::ShowGameOverUI()
+{
+	if (GameOverWidgetClass)
+	{
+		GameOverWidget = CreateWidget<UGameOverWidgetBase>(this, GameOverWidgetClass);
+	}
+
+	if (GameOverWidget)
+	{
+		GameOverWidget->AddToViewport();
+		GameOverWidget->SetFinalScore(PlayerScore);
+	}
+}
+
+void AMergeTownPlayerController::HideGameOverUI()
+{
+	if (GameOverWidget)
+	{
+		GameOverWidget->RemoveFromParent();
+	}
+}
+
 void AMergeTownPlayerController::StartGameplay()
 {
 	SetBoardCameraActive();
 	ShowGameplayUI();
+	HideGameOverUI();
 	ResetScores();
+}
+
+void AMergeTownPlayerController::GameOver()
+{
+	HideGameplayUI();
+	ShowGameOverUI();
 }
 
 void AMergeTownPlayerController::EndGameplay()
 {
-	HideGameplayUI();
+	HideGameOverUI();
 	SetMenuCameraActive();
 }
 

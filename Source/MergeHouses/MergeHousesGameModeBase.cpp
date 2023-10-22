@@ -35,6 +35,24 @@ void AMergeHousesGameModeBase::StartGameplay()
     {
         PlayerController->StartGameplay();
     }
+
+    if (AMergeTownPawn* PlayerPawn = Cast<AMergeTownPawn>(GetWorld()->GetFirstPlayerController()->GetPawn()))
+    {
+        PlayerPawn->AddGameplayMappingContext();
+    }
+}
+
+void AMergeHousesGameModeBase::GameOver()
+{
+    if (AMergeTownPlayerController* PlayerController = Cast<AMergeTownPlayerController>(GetWorld()->GetFirstPlayerController()))
+    {
+        PlayerController->GameOver();
+    }
+
+    if (AMergeTownPawn* PlayerPawn = Cast<AMergeTownPawn>(GetWorld()->GetFirstPlayerController()->GetPawn()))
+    {
+        PlayerPawn->RemoveGameplayMappingContext();
+    }
 }
 
 void AMergeHousesGameModeBase::EndGameplay()

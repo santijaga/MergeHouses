@@ -82,8 +82,8 @@ protected:
 
 private:
     int32 nextElementIndex = 0; // Index of element on the board
-
     int32 nextModelID = 0; // ID to assign for newly created 3D grid element
+    bool bIsGameOver = true;
 
     UFUNCTION()
         bool IsGameOver();

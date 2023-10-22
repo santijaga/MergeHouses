@@ -33,6 +33,9 @@ public:
 		void StartGameplay();
 
 	UFUNCTION()
+		void GameOver();
+
+	UFUNCTION()
 		void EndGameplay();
 
 private:

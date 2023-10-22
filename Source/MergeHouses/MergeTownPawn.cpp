@@ -37,14 +37,6 @@ void AMergeTownPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 void AMergeTownPawn::BeginPlay()
 {
 	Super::BeginPlay();
-
-	if (APlayerController* PlayerController = Cast<APlayerController>(GetController()))
-	{
-		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
-		{
-			Subsystem->AddMappingContext(GamePlayMappingContext, 0);
-		}
-	}
 }
 
 // Called every frame
@@ -66,4 +58,26 @@ void AMergeTownPawn::MakeMove(const FInputActionValue& Value)
 void AMergeTownPawn::SetGameBoardReference(AGameBoard* GameBoard)
 {
 	GameBoardReference = GameBoard;
+}
+
+void AMergeTownPawn::AddGameplayMappingContext()
+{
+	if (APlayerController* PlayerController = Cast<APlayerController>(GetController()))
+	{
+		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
+		{
+			Subsystem->AddMappingContext(GamePlayMappingContext, 0);
+		}
+	}
+}
+
+void AMergeTownPawn::RemoveGameplayMappingContext()
+{
+	if (APlayerController* PlayerController = Cast<APlayerController>(GetController()))
+	{
+		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
+		{
+			Subsystem->RemoveMappingContext(GamePlayMappingContext);
+		}
+	}
 }
