@@ -39,6 +39,9 @@ public:
 	UFUNCTION()
 		void EndGameplay();
 
+	UFUNCTION()
+		void Restart();
+
 private:
 	void SetGameBoard();
 	void SetupReferences();

@@ -83,6 +83,12 @@ void AMergeHousesGameModeBase::BeginPlay()
     SetCameras();
 }
 
+void AMergeHousesGameModeBase::Restart()
+{
+    GameOver();
+    StartGameplay();
+}
+
 void AMergeHousesGameModeBase::SetGameBoard()
 {
     // Find the MenuSign in the level

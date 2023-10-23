@@ -210,6 +210,7 @@ void AMergeTownPlayerController::GameOver()
 void AMergeTownPlayerController::EndGameplay()
 {
 	UE_LOG(LogTemp, Warning, TEXT("AMergeTownPlayerController: About to end gameplay."));
+	HideGameplayUI();
 	HideGameOverUI();
 	SetMenuCameraActive();
 	ShowMainMenuUI();

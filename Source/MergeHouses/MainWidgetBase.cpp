@@ -2,8 +2,37 @@
 
 
 #include "MainWidgetBase.h"
+#include "MergeHousesGameModeBase.h"
 
 void UMainWidgetBase::UpdateScores(int32 NewScores)
 {
 	CurrentScore = NewScores;
+}
+
+void UMainWidgetBase::OpenMenu()
+{
+	bIsMenuOpened = true;
+}
+
+void UMainWidgetBase::CloseMenu()
+{
+	bIsMenuOpened = false;
+}
+
+void UMainWidgetBase::RestartGame()
+{
+	if (AMergeHousesGameModeBase* GameMode = Cast<AMergeHousesGameModeBase>(GetWorld()->GetAuthGameMode()))
+	{
+		GameMode->Restart();
+	}
+}
+
+void UMainWidgetBase::ReturnToMainMenu()
+{
+	if (AMergeHousesGameModeBase* GameMode = Cast<AMergeHousesGameModeBase>(GetWorld()->GetAuthGameMode()))
+	{
+		GameMode->GameOver();
+		GameMode->EndGameplay();
+		CloseMenu();
+	}
 }

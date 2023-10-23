@@ -18,7 +18,22 @@ public:
 	UFUNCTION(BlueprintCallable, Category = UI)
 		void UpdateScores(int32 NewScores);
 
+	UFUNCTION(BlueprintCallable, Category = UI)
+		void OpenMenu();
+
+	UFUNCTION(BlueprintCallable, Category = UI)
+		void CloseMenu();
+
+	UFUNCTION(Blueprintcallable, Category = "Game Over")
+		void RestartGame();
+
+	UFUNCTION(Blueprintcallable, Category = "Game Over")
+		void ReturnToMainMenu();
+
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 		int32 CurrentScore;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+		bool bIsMenuOpened = false;
 };
