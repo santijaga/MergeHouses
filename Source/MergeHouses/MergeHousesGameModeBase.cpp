@@ -72,6 +72,11 @@ void AMergeHousesGameModeBase::EndGameplay()
     {
         TableTopBoardReference->CloseBoard();
     }
+
+    if (GameBoardReference)
+    {
+        GameBoardReference->CleanBoard();
+    }
 }
 
 void AMergeHousesGameModeBase::BeginPlay()

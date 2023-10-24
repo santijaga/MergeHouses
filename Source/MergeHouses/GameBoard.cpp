@@ -22,7 +22,7 @@ void AGameBoard::BeginPlay()
 // Function to start gameplay or reset board
 void AGameBoard::ResetBoard()
 {
-    InitializeBoard();
+    CleanBoard();
 
     for (int32 times = 0; times < 2; ++times)
     {
@@ -126,6 +126,11 @@ bool AGameBoard::MakeMove(float x, float y)
     }
 
     return success;
+}
+
+void AGameBoard::CleanBoard()
+{
+    InitializeBoard();
 }
 
 // Function to initialize the game board with zeros

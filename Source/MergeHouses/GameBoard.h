@@ -49,6 +49,9 @@ public:
     UFUNCTION(BlueprintCallable, Category = "Moving")
         bool MakeMove(float x, float y);
 
+    UFUNCTION(BlueprintCallable, Category = "Board")
+        void CleanBoard();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
