@@ -97,6 +97,17 @@ void AMergeTownPlayerController::ResetScores()
 	PlayerScore = 0;
 }
 
+void AMergeTownPlayerController::StoreScores()
+{
+	StoredScores = PlayerScore;
+	UE_LOG(LogTemp, Warning, TEXT("AMergeTownPlayerController: Stored scores: %d."), StoredScores);
+}
+
+void AMergeTownPlayerController::RestoreScores()
+{
+	SetScores(StoredScores);
+}
+
 void AMergeTownPlayerController::ShowGameplayUI()
 {
 	UE_LOG(LogTemp, Warning, TEXT("AMergeTownPlayerController: About to show gameplay UI."));

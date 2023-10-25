@@ -20,6 +20,9 @@ private:
 	UPROPERTY()
 		int32 PlayerScore = 0;
 
+	UPROPERTY()
+		int32 StoredScores = 0;
+
 	UFUNCTION()
 		void PrintScoresToScreen();
 
@@ -69,6 +72,10 @@ public:
 
 	// Reset player's current scores
 	void ResetScores();
+
+	void StoreScores();
+
+	void RestoreScores();
 
 	UFUNCTION(BlueprintCallable, Category = UI)
 		void ShowGameplayUI();

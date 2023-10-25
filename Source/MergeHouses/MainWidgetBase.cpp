@@ -36,3 +36,11 @@ void UMainWidgetBase::ReturnToMainMenu()
 		CloseMenu();
 	}
 }
+
+void UMainWidgetBase::UndoMove()
+{
+	if (AMergeHousesGameModeBase* GameMode = Cast<AMergeHousesGameModeBase>(GetWorld()->GetAuthGameMode()))
+	{
+		GameMode->UndoMove();
+	}
+}

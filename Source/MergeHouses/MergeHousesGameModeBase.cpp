@@ -94,6 +94,24 @@ void AMergeHousesGameModeBase::Restart()
     StartGameplay();
 }
 
+void AMergeHousesGameModeBase::UndoMove()
+{
+    if (GameBoardReference)
+    {
+        GameBoardReference->UndoMove();
+    }
+}
+
+bool AMergeHousesGameModeBase::CanUndo()
+{
+    if (GameBoardReference)
+    {
+        return GameBoardReference->GetCanUndoMove();
+    }
+    
+    return false;
+}
+
 void AMergeHousesGameModeBase::SetGameBoard()
 {
     // Find the MenuSign in the level

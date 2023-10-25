@@ -26,6 +26,6 @@ public:
 	UFUNCTION(Blueprintcallable, Category = "Data")
 		FText GetHighScoreText() const;
 
-	UFUNCTION(Blueprintcallable, Category = "Dat")
+	UFUNCTION(Blueprintcallable, Category = "Data")
 		void SetHighScore(int32 ScoresToSet);
 };

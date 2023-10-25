@@ -42,6 +42,12 @@ public:
 	UFUNCTION()
 		void Restart();
 
+	UFUNCTION()
+		void UndoMove();
+
+	UFUNCTION(Blueprintcallable, Category = "Gameplay")
+		bool CanUndo();
+
 private:
 	void SetGameBoard();
 	void SetupReferences();

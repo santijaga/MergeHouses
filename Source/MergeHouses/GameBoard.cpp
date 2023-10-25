@@ -5,6 +5,7 @@
 #include "ABoardElement.h"
 #include "MergeTownPlayerController.h"
 #include "MergeHousesGameModeBase.h"
+#include "EngineUtils.h"
 
 // Sets default values
 AGameBoard::AGameBoard()
@@ -90,6 +91,13 @@ bool AGameBoard::MakeMove(float x, float y)
         return false;
     }
 
+    PreviousBoard = Board;
+    if (AMergeTownPlayerController* PlayerController = Cast<AMergeTownPlayerController>(GetWorld()->GetFirstPlayerController()))
+    {
+        PlayerController->StoreScores();
+    }
+    bCanUndo = true;
+
     if (x > 0)
     {
         success = MoveRight();
@@ -131,6 +139,54 @@ bool AGameBoard::MakeMove(float x, float y)
 void AGameBoard::CleanBoard()
 {
     InitializeBoard();
+}
+
+bool AGameBoard::UndoMove()
+{
+    if (bCanUndo)
+    {
+        Board = PreviousBoard;
+
+        UWorld* World = GetWorld();  // Assuming this is being called from within an actor or actor component.
+        if (World)
+        {
+            for (TActorIterator<AABoardElement> It(World); It; ++It)
+            {
+                AABoardElement* BoardElement = *It;
+                if (BoardElement)
+                {
+                    BoardElement->Destroy();
+                }
+            }
+        }
+
+        for (int x = 0; x < BoardSize; x++)
+        {
+            for (int y = 0; y < BoardSize; y++)
+            {
+                Board[x][y].ModelID = ++nextModelID;
+
+                if (Board[x][y].Value > 0)
+                {
+                    SpawnBoardElement(x, y, Board[x][y].Value, Board[x][y].ModelID);
+                }
+            }
+        }
+
+        if (AMergeTownPlayerController* PlayerController = Cast<AMergeTownPlayerController>(GetWorld()->GetFirstPlayerController()))
+        {
+            PlayerController->RestoreScores();
+        }
+        bCanUndo = false;
+        return true;
+    }
+
+    return false;
+}
+
+bool AGameBoard::GetCanUndoMove()
+{
+    return bCanUndo;
 }
 
 // Function to initialize the game board with zeros

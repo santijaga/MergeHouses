@@ -52,6 +52,12 @@ public:
     UFUNCTION(BlueprintCallable, Category = "Board")
         void CleanBoard();
 
+    UFUNCTION(BlueprintCallable, Category = "Gameplay")
+        bool UndoMove();
+
+    UFUNCTION(BlueprintCallable, Category = "Gameplay")
+        bool GetCanUndoMove();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -87,6 +93,9 @@ private:
     int32 nextElementIndex = 0; // Index of element on the board
     int32 nextModelID = 0; // ID to assign for newly created 3D grid element
     bool bIsGameOver = true;
+
+    TArray<TArray<FBoardCell>> PreviousBoard;
+    bool bCanUndo = false;
 
     UFUNCTION()
         bool IsGameOver();
