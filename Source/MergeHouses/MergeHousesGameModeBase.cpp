@@ -112,6 +112,23 @@ bool AMergeHousesGameModeBase::CanUndo()
     return false;
 }
 
+void AMergeHousesGameModeBase::ToggleEditMode()
+{
+    UE_LOG(LogTemp, Warning, TEXT("[AMergeHousesGameModeBase] About to toggle edit mode."));
+    if (GameBoardReference)
+    {
+        if (GameBoardReference->IsInEditMode())
+        {
+            GameBoardReference->TurnOffEditMode();
+        }
+        else
+        {
+            GameBoardReference->TurnOnEditMode();
+        }
+    }
+    UE_LOG(LogTemp, Warning, TEXT("[AMergeHousesGameModeBase] Edit mode toggled."));
+}
+
 void AMergeHousesGameModeBase::SetGameBoard()
 {
     // Find the MenuSign in the level
@@ -123,7 +140,7 @@ void AMergeHousesGameModeBase::SetGameBoard()
 
     if (!GameBoardReference)
     {
-        UE_LOG(LogTemp, Warning, TEXT("GameBoard not found in the level!"));
+        UE_LOG(LogTemp, Warning, TEXT("[AMergeHousesGameModeBase] GameBoard not found in the level!"));
     }
 
     for (TActorIterator<ATableTopBoard> It(GetWorld()); It; ++It)

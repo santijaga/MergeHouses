@@ -97,9 +97,15 @@ void AMergeTownPlayerController::ResetScores()
 	PlayerScore = 0;
 }
 
-void AMergeTownPlayerController::StoreScores()
+void AMergeTownPlayerController::StoreScores(int32 ScoresToStore)
 {
-	StoredScores = PlayerScore;
+	if (ScoresToStore) {
+		StoredScores = ScoresToStore;
+	}
+	else
+	{
+		StoredScores = PlayerScore;
+	}
 	UE_LOG(LogTemp, Warning, TEXT("AMergeTownPlayerController: Stored scores: %d."), StoredScores);
 }
 

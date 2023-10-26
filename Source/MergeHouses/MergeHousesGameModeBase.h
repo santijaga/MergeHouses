@@ -48,6 +48,9 @@ public:
 	UFUNCTION(Blueprintcallable, Category = "Gameplay")
 		bool CanUndo();
 
+	UFUNCTION(Blueprintcallable, Category = "Gameplay")
+		void ToggleEditMode();
+
 private:
 	void SetGameBoard();
 	void SetupReferences();

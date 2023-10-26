@@ -73,7 +73,7 @@ public:
 	// Reset player's current scores
 	void ResetScores();
 
-	void StoreScores();
+	void StoreScores(int32 ScoresToStore);
 
 	void RestoreScores();
 

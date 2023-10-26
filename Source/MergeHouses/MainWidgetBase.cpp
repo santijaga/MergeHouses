@@ -47,5 +47,10 @@ void UMainWidgetBase::UndoMove()
 
 void UMainWidgetBase::ToggleEditMode()
 {
-	UE_LOG(LogTemp, Warning, TEXT("About to toggle edit mode"));
+	UE_LOG(LogTemp, Warning, TEXT("[UMainWidgetBase] About to toggle edit mode."));
+	if (AMergeHousesGameModeBase* GameMode = Cast<AMergeHousesGameModeBase>(GetWorld()->GetAuthGameMode()))
+	{
+		GameMode->ToggleEditMode();
+	}
+	UE_LOG(LogTemp, Warning, TEXT("[UMainWidgetBase] Edit mode toggled."));
 }

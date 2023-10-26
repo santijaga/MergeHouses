@@ -55,6 +55,20 @@ void AGameBoard::PrintBoardToScreen()
     }
 }
 
+void AGameBoard::TurnOnEditMode()
+{
+    UE_LOG(LogTemp, Warning, TEXT("[AGameBoard] About to turn on edit mode."));
+    bIsInEditMode = true;
+    UE_LOG(LogTemp, Warning, TEXT("[AGameBoard] Edit mode ON."));
+}
+
+void AGameBoard::TurnOffEditMode()
+{
+    UE_LOG(LogTemp, Warning, TEXT("[AGameBoard] About to turn off edit mode."));
+    bIsInEditMode = false;
+    UE_LOG(LogTemp, Warning, TEXT("[AGameBoard] Edit mode OFF."));
+}
+
 bool AGameBoard::IsGameOver()
 {
     for (int x = 0; x < BoardSize; x++)
@@ -91,12 +105,16 @@ bool AGameBoard::MakeMove(float x, float y)
         return false;
     }
 
-    PreviousBoard = Board;
+    if (IsInEditMode())
+    {
+        return false;
+    }
+
+    TempBoard = Board;
     if (AMergeTownPlayerController* PlayerController = Cast<AMergeTownPlayerController>(GetWorld()->GetFirstPlayerController()))
     {
-        PlayerController->StoreScores();
+        TempScores = PlayerController->GetScore();
     }
-    bCanUndo = true;
 
     if (x > 0)
     {
@@ -121,6 +139,13 @@ bool AGameBoard::MakeMove(float x, float y)
     if (success)
     {
         success = AddRandomCell();
+
+        PreviousBoard = TempBoard;
+        if (AMergeTownPlayerController* PlayerController = Cast<AMergeTownPlayerController>(GetWorld()->GetFirstPlayerController()))
+        {
+            PlayerController->StoreScores(TempScores);
+        }
+        bCanUndo = true;
     }
 
     bIsGameOver = IsGameOver();
@@ -143,7 +168,7 @@ void AGameBoard::CleanBoard()
 
 bool AGameBoard::UndoMove()
 {
-    if (bCanUndo)
+    if (bCanUndo && !IsInEditMode())
     {
         Board = PreviousBoard;
 
@@ -187,6 +212,11 @@ bool AGameBoard::UndoMove()
 bool AGameBoard::GetCanUndoMove()
 {
     return bCanUndo;
+}
+
+bool AGameBoard::IsInEditMode()
+{
+    return bIsInEditMode;
 }
 
 // Function to initialize the game board with zeros

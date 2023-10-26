@@ -58,6 +58,15 @@ public:
     UFUNCTION(BlueprintCallable, Category = "Gameplay")
         bool GetCanUndoMove();
 
+    UFUNCTION(Blueprintcallable, Category = "Gameplay")
+        bool IsInEditMode();
+
+    UFUNCTION(Blueprintcallable, Category = "Gameplay")
+        void TurnOnEditMode();
+
+    UFUNCTION(Blueprintcallable, Category = "Gameplay")
+        void TurnOffEditMode();
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
@@ -94,9 +103,13 @@ private:
     int32 nextModelID = 0; // ID to assign for newly created 3D grid element
     bool bIsGameOver = true;
 
+    int32 TempScores;
+    TArray<TArray<FBoardCell>> TempBoard;
     TArray<TArray<FBoardCell>> PreviousBoard;
     bool bCanUndo = false;
 
     UFUNCTION()
         bool IsGameOver();
+
+    bool bIsInEditMode = false;
 };
