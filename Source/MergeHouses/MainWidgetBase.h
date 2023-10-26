@@ -33,6 +33,9 @@ public:
 	UFUNCTION(Blueprintcallable, Category = "Gameplay")
 		void UndoMove();
 
+	UFUNCTION(Blueprintcallable, Category = "Gameplay")
+		void ToggleEditMode();
+
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 		int32 CurrentScore;

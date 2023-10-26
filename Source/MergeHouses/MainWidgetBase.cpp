@@ -44,3 +44,8 @@ void UMainWidgetBase::UndoMove()
 		GameMode->UndoMove();
 	}
 }
+
+void UMainWidgetBase::ToggleEditMode()
+{
+	UE_LOG(LogTemp, Warning, TEXT("About to toggle edit mode"));
+}
