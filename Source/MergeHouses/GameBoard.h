@@ -67,6 +67,9 @@ public:
     UFUNCTION(Blueprintcallable, Category = "Gameplay")
         void TurnOffEditMode();
 
+    UFUNCTION(Blueprintcallable, Category = "Gameplay")
+        void RemoveElement(int ID);
+
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;

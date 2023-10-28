@@ -69,6 +69,21 @@ void AGameBoard::TurnOffEditMode()
     UE_LOG(LogTemp, Warning, TEXT("[AGameBoard] Edit mode OFF."));
 }
 
+void AGameBoard::RemoveElement(int ID)
+{
+    for (int x = 0; x < BoardSize; x++)
+    {
+        for (int y = 0; y < BoardSize; y++)
+        {
+            if (Board[x][y].ModelID == ID)
+            {
+                Board[x][y].Value = 0;
+                Board[x][y].ModelID = 0;
+            }
+        }
+    }
+}
+
 bool AGameBoard::IsGameOver()
 {
     for (int x = 0; x < BoardSize; x++)

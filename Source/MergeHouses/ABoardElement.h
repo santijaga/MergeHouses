@@ -38,6 +38,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Board")
 		int Value; // The value of this board element
 
+	UFUNCTION(BlueprintCallable, Category = "Gameplay")
+		void TryToRemoveElement();
+
 private:
 	UPROPERTY()
 		FVector TargetPosition;

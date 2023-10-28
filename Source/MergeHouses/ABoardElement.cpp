@@ -3,6 +3,7 @@
 
 #include "ABoardElement.h"
 #include "GameBoard.h"
+#include "MergeHousesGameModeBase.h"
 
 // Sets default values
 AABoardElement::AABoardElement()
@@ -16,7 +17,6 @@ AABoardElement::AABoardElement()
 void AABoardElement::BeginPlay()
 {
 	Super::BeginPlay();
-	
 }
 
 // Called every frame
@@ -67,3 +67,11 @@ void AABoardElement::Tick(float DeltaTime)
     }
 }
 
+void AABoardElement::TryToRemoveElement()
+{
+    UE_LOG(LogTemp, Warning, TEXT("[AABoardElement] About to remove element from board"));
+    if (AMergeHousesGameModeBase* GameMode = Cast<AMergeHousesGameModeBase>(GetWorld()->GetAuthGameMode()))
+    {
+        GameMode->RemoveElement(ID);
+    }
+}

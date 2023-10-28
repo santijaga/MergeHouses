@@ -51,6 +51,9 @@ public:
 	UFUNCTION(Blueprintcallable, Category = "Gameplay")
 		void ToggleEditMode();
 
+	UFUNCTION(Blueprintcallable, Category = "Gameplay")
+		void RemoveElement(int ID);
+
 private:
 	void SetGameBoard();
 	void SetupReferences();

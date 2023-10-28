@@ -129,6 +129,19 @@ void AMergeHousesGameModeBase::ToggleEditMode()
     UE_LOG(LogTemp, Warning, TEXT("[AMergeHousesGameModeBase] Edit mode toggled."));
 }
 
+void AMergeHousesGameModeBase::RemoveElement(int ID)
+{
+    UE_LOG(LogTemp, Warning, TEXT("[AMergeHousesGameModeBase] About to remove element"));
+    if (GameBoardReference)
+    {
+        if (GameBoardReference->IsInEditMode())
+        {
+            GameBoardReference->RemoveElement(ID);
+            GameBoardReference->TurnOffEditMode();
+        }
+    }
+}
+
 void AMergeHousesGameModeBase::SetGameBoard()
 {
     // Find the MenuSign in the level
