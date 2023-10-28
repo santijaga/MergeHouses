@@ -116,5 +116,8 @@ private:
     UFUNCTION()
         bool IsGameOver();
 
+    UFUNCTION()
+        int32 GetElementsCount();
+
     bool bIsInEditMode = false;
 };

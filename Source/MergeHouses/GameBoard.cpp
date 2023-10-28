@@ -77,14 +77,17 @@ void AGameBoard::TurnOffEditMode()
 
 void AGameBoard::RemoveElement(int ID)
 {
-    for (int x = 0; x < BoardSize; x++)
+    if (GetElementsCount() > 1)
     {
-        for (int y = 0; y < BoardSize; y++)
+        for (int x = 0; x < BoardSize; x++)
         {
-            if (Board[x][y].ModelID == ID)
+            for (int y = 0; y < BoardSize; y++)
             {
-                Board[x][y].Value = 0;
-                Board[x][y].ModelID = 0;
+                if (Board[x][y].ModelID == ID)
+                {
+                    Board[x][y].Value = 0;
+                    Board[x][y].ModelID = 0;
+                }
             }
         }
     }
@@ -129,6 +132,22 @@ bool AGameBoard::IsGameOver()
         }
     }
     return true;
+}
+
+int32 AGameBoard::GetElementsCount()
+{
+    int32 Count = 0;
+    for (int x = 0; x < BoardSize; x++)
+    {
+        for (int y = 0; y < BoardSize; y++)
+        {
+            if (Board[x][y].Value != 0)
+            {
+                Count++;
+            }
+        }
+    }
+    return Count;
 }
 
 // Called every frame
