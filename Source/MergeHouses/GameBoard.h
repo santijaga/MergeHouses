@@ -111,6 +111,8 @@ private:
     TArray<TArray<FBoardCell>> PreviousBoard;
     bool bCanUndo = false;
 
+    void PopulateDebugBoard(int32 Elements);
+
     UFUNCTION()
         bool IsGameOver();
 

@@ -25,6 +25,12 @@ void AGameBoard::ResetBoard()
 {
     CleanBoard();
 
+    // Comment this after debug
+    // Debug Board
+    // PopulateDebugBoard(16);
+    //
+
+    // Actual Gameplay board
     for (int32 times = 0; times < 2; ++times)
     {
         AddRandomCell();
@@ -79,6 +85,26 @@ void AGameBoard::RemoveElement(int ID)
             {
                 Board[x][y].Value = 0;
                 Board[x][y].ModelID = 0;
+            }
+        }
+    }
+}
+
+void AGameBoard::PopulateDebugBoard(int32 Elements)
+{
+    CleanBoard();
+    int32 Value = 1;
+
+    for (int x = 0; x < BoardSize; x++)
+    {
+        for (int y = 0; y < BoardSize; y++)
+        {
+            if (Value < Elements)
+            {
+                Board[x][y].Value = Value++;
+                Board[x][y].ModelID = ++nextModelID;
+
+                SpawnBoardElement(x, y, Board[x][y].Value, Board[x][y].ModelID);
             }
         }
     }
@@ -251,6 +277,7 @@ void AGameBoard::InitializeBoard()
     }
 
     bIsGameOver = false;
+    TurnOffEditMode();
 }
 
 // Function to generate a random position (row, col) for a new cell
