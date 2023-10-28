@@ -87,6 +87,7 @@ void AGameBoard::RemoveElement(int ID)
                 {
                     Board[x][y].Value = 0;
                     Board[x][y].ModelID = 0;
+                    bCanUndo = false;
                 }
             }
         }
