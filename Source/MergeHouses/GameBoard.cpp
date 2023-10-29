@@ -162,6 +162,7 @@ void AGameBoard::Tick(float DeltaTime)
 bool AGameBoard::MakeMove(float x, float y)
 {
     bool success = false;
+    bWasMerge = false;
 
     if (bIsGameOver)
     {
@@ -201,7 +202,14 @@ bool AGameBoard::MakeMove(float x, float y)
 
     if (success)
     {
-        PlayMoveSound();
+        if (bWasMerge)
+        {
+            PlayMergeSound();
+        }
+        else
+        {
+            PlayMoveSound();
+        }
 
         success = AddRandomCell();
 
@@ -372,6 +380,7 @@ bool AGameBoard::MoveLeft()
                                 PlayerController->AddScores(Board[row][col].Value);
                             }
 
+                            bWasMerge = true;
                             Moved = true;
                         }
                         break;
@@ -417,6 +426,7 @@ bool AGameBoard::MoveRight()
                                 PlayerController->AddScores(Board[row][col].Value);
                             }
 
+                            bWasMerge = true;
                             Moved = true;
                         }
                         break;
@@ -462,6 +472,7 @@ bool AGameBoard::MoveUp()
                                 PlayerController->AddScores(Board[row][col].Value);
                             }
 
+                            bWasMerge = true;
                             Moved = true;
                         }
                         break;
@@ -507,6 +518,7 @@ bool AGameBoard::MoveDown()
                                 PlayerController->AddScores(Board[row][col].Value);
                             }
 
+                            bWasMerge = true;
                             Moved = true;
                         }
                         break;
@@ -565,5 +577,13 @@ void AGameBoard::PlayMoveSound()
     if (MoveSound != nullptr)
     {
         UGameplayStatics::PlaySoundAtLocation(this, MoveSound, GetActorLocation());
+    }
+}
+
+void AGameBoard::PlayMergeSound()
+{
+    if (MergeSound != nullptr)
+    {
+        UGameplayStatics::PlaySoundAtLocation(this, MergeSound, GetActorLocation());
     }
 }
