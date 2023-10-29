@@ -120,4 +120,11 @@ private:
         int32 GetElementsCount();
 
     bool bIsInEditMode = false;
+
+protected:
+    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sound")
+        class USoundCue* MoveSound;
+
+private:
+    void PlayMoveSound();
 };

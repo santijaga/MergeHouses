@@ -6,6 +6,8 @@
 #include "MergeTownPlayerController.h"
 #include "MergeHousesGameModeBase.h"
 #include "EngineUtils.h"
+#include "Sound/SoundCue.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AGameBoard::AGameBoard()
@@ -199,6 +201,8 @@ bool AGameBoard::MakeMove(float x, float y)
 
     if (success)
     {
+        PlayMoveSound();
+
         success = AddRandomCell();
 
         PreviousBoard = TempBoard;
@@ -554,4 +558,12 @@ AABoardElement* AGameBoard::SpawnBoardElement(int row, int col, int value, int I
     }
 
     return nullptr;
+}
+
+void AGameBoard::PlayMoveSound()
+{
+    if (MoveSound != nullptr)
+    {
+        UGameplayStatics::PlaySoundAtLocation(this, MoveSound, GetActorLocation());
+    }
 }
