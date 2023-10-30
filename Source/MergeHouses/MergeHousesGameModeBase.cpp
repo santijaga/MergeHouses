@@ -9,6 +9,8 @@
 #include "Camera/CameraActor.h"
 #include "MergeTownPlayerController.h"
 #include "TableTopBoard.h"
+#include "Sound/SoundCue.h"
+#include "Kismet/GameplayStatics.h"
 
 AMergeHousesGameModeBase::AMergeHousesGameModeBase()
 {
@@ -86,6 +88,11 @@ void AMergeHousesGameModeBase::BeginPlay()
     SetGameBoard();
     SetupReferences();
     SetCameras();
+
+    if (BGM != nullptr)
+    {
+        UGameplayStatics::PlaySoundAtLocation(this, BGM, FVector(0, 0, 0));
+    }
 }
 
 void AMergeHousesGameModeBase::Restart()

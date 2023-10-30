@@ -54,6 +54,9 @@ public:
 	UFUNCTION(Blueprintcallable, Category = "Gameplay")
 		void RemoveElement(int ID);
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Music")
+		class USoundCue* BGM;
+
 private:
 	void SetGameBoard();
 	void SetupReferences();
