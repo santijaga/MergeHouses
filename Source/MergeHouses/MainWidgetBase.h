@@ -36,6 +36,9 @@ public:
 	UFUNCTION(Blueprintcallable, Category = "Gameplay")
 		void ToggleEditMode();
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sound")
+		class USoundCue* ClickSound;
+
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 		int32 CurrentScore;

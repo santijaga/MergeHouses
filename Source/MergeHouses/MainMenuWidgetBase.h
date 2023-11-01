@@ -28,4 +28,7 @@ public:
 
 	UFUNCTION(Blueprintcallable, Category = "Data")
 		void SetHighScore(int32 ScoresToSet);
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sound")
+		class USoundCue* ClickSound;
 };
