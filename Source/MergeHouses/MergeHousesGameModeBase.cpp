@@ -52,15 +52,25 @@ void AMergeHousesGameModeBase::StartGameplay()
 
 void AMergeHousesGameModeBase::GameOver()
 {
-    if (AMergeTownPlayerController* PlayerController = Cast<AMergeTownPlayerController>(GetWorld()->GetFirstPlayerController()))
-    {
-        PlayerController->GameOver();
-    }
-
     if (AMergeTownPawn* PlayerPawn = Cast<AMergeTownPawn>(GetWorld()->GetFirstPlayerController()->GetPawn()))
     {
         PlayerPawn->RemoveGameplayMappingContext();
     }
+
+    // Set a delay for calling GameOver on PlayerController
+    float DelayInSeconds = 1.0f;
+    FTimerHandle TimerHandle;
+    FTimerDelegate TimerDelegate;
+
+    TimerDelegate.BindLambda([this]()
+        {
+            if (AMergeTownPlayerController* PlayerController = Cast<AMergeTownPlayerController>(GetWorld()->GetFirstPlayerController()))
+            {
+                PlayerController->GameOver();
+            }
+        });
+
+    GetWorld()->GetTimerManager().SetTimer(TimerHandle, TimerDelegate, DelayInSeconds, false);
 }
 
 void AMergeHousesGameModeBase::EndGameplay()
