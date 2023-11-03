@@ -57,6 +57,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Music")
 		class USoundCue* BGM;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Music")
+		class USoundCue* GameOverCue;
+
 private:
 	void SetGameBoard();
 	void SetupReferences();
@@ -64,4 +67,17 @@ private:
 
 	ACameraActor* Camera_Menu;
 	ACameraActor* Camera_Board;
+
+	// BGM Private Methods
+	class UAudioComponent* BGMAudioComponent;
+	void SetupBGM();
+	void PlayBGM();
+	void StopBGM();
+	void LowerBGMVolume();
+	void RestoreBGMVolume();
+
+	class UAudioComponent* GameOverAudioComponent;
+	void SetupGameOverMusic();
+	void PlayGameOverMusic();
+	void StopGameOverMusic();
 };

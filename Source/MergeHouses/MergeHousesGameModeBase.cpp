@@ -1,4 +1,4 @@
-// Copyright Epic Games, Inc. All Rights Reserved.
+﻿// Copyright Epic Games, Inc. All Rights Reserved.
 
 
 #include "MergeHousesGameModeBase.h"
@@ -11,10 +11,14 @@
 #include "TableTopBoard.h"
 #include "Sound/SoundCue.h"
 #include "Kismet/GameplayStatics.h"
+#include "Components/AudioComponent.h"
 
 AMergeHousesGameModeBase::AMergeHousesGameModeBase()
 {
     DefaultPawnClass = AMergeTownPawn::StaticClass();
+
+    BGMAudioComponent = CreateDefaultSubobject<UAudioComponent>(TEXT("BGMComponent"));
+    GameOverAudioComponent = CreateDefaultSubobject<UAudioComponent>(TEXT("GameOverAudioComponent"));
 }
 
 ACameraActor* AMergeHousesGameModeBase::GetMenuCameraReference()
@@ -57,8 +61,11 @@ void AMergeHousesGameModeBase::GameOver()
         PlayerPawn->RemoveGameplayMappingContext();
     }
 
+    LowerBGMVolume();
+    PlayGameOverMusic();
+
     // Set a delay for calling GameOver on PlayerController
-    float DelayInSeconds = 1.0f;
+    float DelayInSeconds = 5.f;
     FTimerHandle TimerHandle;
     FTimerDelegate TimerDelegate;
 
@@ -67,6 +74,8 @@ void AMergeHousesGameModeBase::GameOver()
             if (AMergeTownPlayerController* PlayerController = Cast<AMergeTownPlayerController>(GetWorld()->GetFirstPlayerController()))
             {
                 PlayerController->GameOver();
+                RestoreBGMVolume();
+                StopGameOverMusic();
             }
         });
 
@@ -99,10 +108,10 @@ void AMergeHousesGameModeBase::BeginPlay()
     SetupReferences();
     SetCameras();
 
-    if (BGM != nullptr)
-    {
-        UGameplayStatics::PlaySoundAtLocation(this, BGM, FVector(0, 0, 0));
-    }
+    SetupBGM();
+    PlayBGM();
+
+    SetupGameOverMusic();
 }
 
 void AMergeHousesGameModeBase::Restart()
@@ -215,5 +224,75 @@ void AMergeHousesGameModeBase::SetCameras()
     if (!Camera_Menu || !Camera_Board)
     {
         UE_LOG(LogTemp, Warning, TEXT("One or more cameras not found!"));
+    }
+}
+
+void AMergeHousesGameModeBase::SetupBGM()
+{
+    BGMAudioComponent->bAutoActivate = false; // Не воспроизводить звук сразу же
+    if (BGMAudioComponent && BGM != nullptr)
+    {
+        BGMAudioComponent->SetSound(BGM);
+    }
+}
+
+void AMergeHousesGameModeBase::PlayBGM()
+{
+    UE_LOG(LogTemp, Warning, TEXT("[AMergeHousesGameModeBase] About to Play BGM."));
+    if (BGMAudioComponent && !BGMAudioComponent->IsPlaying())
+    {
+        BGMAudioComponent->Play();
+        UE_LOG(LogTemp, Warning, TEXT("[AMergeHousesGameModeBase] BGM Played."));
+    }
+}
+
+void AMergeHousesGameModeBase::StopBGM()
+{
+    if (BGMAudioComponent && BGMAudioComponent->IsPlaying())
+    {
+        BGMAudioComponent->Stop();
+    }
+}
+
+void AMergeHousesGameModeBase::LowerBGMVolume()
+{
+    if (BGMAudioComponent)
+    {
+        float Volume = BGMAudioComponent->VolumeMultiplier;
+        BGMAudioComponent->SetVolumeMultiplier(Volume * 0.25);
+    }
+}
+
+void AMergeHousesGameModeBase::RestoreBGMVolume()
+{
+    if (BGMAudioComponent)
+    {
+        float Volume = BGMAudioComponent->VolumeMultiplier;
+        BGMAudioComponent->SetVolumeMultiplier(Volume * 4);
+    }
+}
+
+void AMergeHousesGameModeBase::SetupGameOverMusic()
+{
+    GameOverAudioComponent->bAutoActivate = false; // Не воспроизводить звук сразу же
+    if (GameOverAudioComponent && GameOverCue != nullptr)
+    {
+        GameOverAudioComponent->SetSound(GameOverCue);
+    }
+}
+
+void AMergeHousesGameModeBase::PlayGameOverMusic()
+{
+    if (GameOverAudioComponent && !GameOverAudioComponent->IsPlaying())
+    {
+        GameOverAudioComponent->Play();
+    }
+}
+
+void AMergeHousesGameModeBase::StopGameOverMusic()
+{
+    if (GameOverAudioComponent && GameOverAudioComponent->IsPlaying())
+    {
+        GameOverAudioComponent->Stop();
     }
 }
