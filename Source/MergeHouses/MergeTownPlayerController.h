@@ -32,6 +32,7 @@ private:
 	class UMainWidgetBase* ScoreWidget;
 	class UGameOverWidgetBase* GameOverWidget;
 	class UMainMenuWidgetBase* MainMenuWidget;
+	class UHowToPlayWidget* HowToPlayWidget;
 
 	UFUNCTION()
 		void SaveHighScore();
@@ -51,6 +52,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = UI)
 		TSubclassOf<UUserWidget> MainMenuWidgetClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = UI)
+		TSubclassOf<UUserWidget> HowToPlayWidgetClass;
 
 	AMergeTownPlayerController();
 
@@ -103,4 +107,10 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = Gameplay)
 		void EndGameplay();
+
+	UFUNCTION(BlueprintCallable, Category = UI)
+		void ShowHowToPlayUI();
+
+	UFUNCTION(BlueprintCallable, Category = UI)
+		void HideHowToPlayUI();
 };

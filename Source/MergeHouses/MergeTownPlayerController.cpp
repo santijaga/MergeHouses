@@ -8,6 +8,7 @@
 #include "MainMenuWidgetBase.h"
 #include "MergeHousesSaveGame.h"
 #include "Kismet/GameplayStatics.h"
+#include "HowToPlayWidget.h"
 
 void AMergeTownPlayerController::PrintScoresToScreen()
 {
@@ -232,6 +233,33 @@ void AMergeTownPlayerController::EndGameplay()
 	SetMenuCameraActive();
 	ShowMainMenuUI();
 	UE_LOG(LogTemp, Warning, TEXT("AMergeTownPlayerController: Gameplay end successfully."));
+}
+
+void AMergeTownPlayerController::ShowHowToPlayUI()
+{
+	UE_LOG(LogTemp, Warning, TEXT("AMergeTownPlayerController: About to show how to play UI."));
+	if (HowToPlayWidgetClass)
+	{
+		HowToPlayWidget = CreateWidget<UHowToPlayWidget>(this, HowToPlayWidgetClass);
+	}
+
+	if (HowToPlayWidget)
+	{
+		HowToPlayWidget->AddToViewport();
+		HideMainMenuUI();
+	}
+	UE_LOG(LogTemp, Warning, TEXT("AMergeTownPlayerController: How to play UI show successfully."));
+}
+
+void AMergeTownPlayerController::HideHowToPlayUI()
+{
+	UE_LOG(LogTemp, Warning, TEXT("AMergeTownPlayerController: About to hide how to play UI."));
+	if (HowToPlayWidget)
+	{
+		HowToPlayWidget->RemoveFromParent();
+		ShowMainMenuUI();
+	}
+	UE_LOG(LogTemp, Warning, TEXT("AMergeTownPlayerController: How to play UI hide successfully."));
 }
 
 

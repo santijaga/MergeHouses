@@ -31,4 +31,7 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sound")
 		class USoundCue* ClickSound;
+
+	UFUNCTION(BlueprintCallable, Category = "UI")
+		void ShowHowToPlay();
 };

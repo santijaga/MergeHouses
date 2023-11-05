@@ -3,6 +3,7 @@
 
 #include "MainMenuWidgetBase.h"
 #include "MergeHousesGameModeBase.h"
+#include "MergeTownPlayerController.h"
 
 void UMainMenuWidgetBase::StartGame()
 {
@@ -20,4 +21,12 @@ FText UMainMenuWidgetBase::GetHighScoreText() const
 void UMainMenuWidgetBase::SetHighScore(int32 ScoresToSet)
 {
 	HighScore = ScoresToSet;
+}
+
+void UMainMenuWidgetBase::ShowHowToPlay()
+{
+	if (AMergeTownPlayerController* Controller = Cast<AMergeTownPlayerController>(GetWorld()->GetFirstPlayerController()))
+	{
+		Controller->ShowHowToPlayUI();
+	}
 }

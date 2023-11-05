@@ -64,6 +64,11 @@ void AMergeHousesGameModeBase::GameOver()
     LowerBGMVolume();
     PlayGameOverMusic();
 
+    if (AMergeTownPlayerController* PlayerController = Cast<AMergeTownPlayerController>(GetWorld()->GetFirstPlayerController()))
+    {
+        PlayerController->GameOver();
+    }
+
     // Set a delay for calling GameOver on PlayerController
     float DelayInSeconds = 5.f;
     FTimerHandle TimerHandle;
@@ -71,12 +76,8 @@ void AMergeHousesGameModeBase::GameOver()
 
     TimerDelegate.BindLambda([this]()
         {
-            if (AMergeTownPlayerController* PlayerController = Cast<AMergeTownPlayerController>(GetWorld()->GetFirstPlayerController()))
-            {
-                PlayerController->GameOver();
-                RestoreBGMVolume();
-                StopGameOverMusic();
-            }
+            RestoreBGMVolume();
+            StopGameOverMusic();
         });
 
     GetWorld()->GetTimerManager().SetTimer(TimerHandle, TimerDelegate, DelayInSeconds, false);
