@@ -9,6 +9,7 @@
 #include "MergeHousesSaveGame.h"
 #include "Kismet/GameplayStatics.h"
 #include "HowToPlayWidget.h"
+#include "InformationUserWidgetBase.h"
 
 void AMergeTownPlayerController::PrintScoresToScreen()
 {
@@ -262,4 +263,26 @@ void AMergeTownPlayerController::HideHowToPlayUI()
 	UE_LOG(LogTemp, Warning, TEXT("AMergeTownPlayerController: How to play UI hide successfully."));
 }
 
+void AMergeTownPlayerController::ShowAuthorsUI()
+{
+	UE_LOG(LogTemp, Warning, TEXT("AMergeTownPlayerController: About to show Authors UI"));
+	if (AuthorsWidgetClass)
+	{
+		AuthorsWidget = CreateWidget<UInformationUserWidgetBase>(this, AuthorsWidgetClass);
+	}
 
+	if (AuthorsWidget)
+	{
+		AuthorsWidget->AddToViewport();
+		HideMainMenuUI();
+	}
+}
+
+void AMergeTownPlayerController::HideAuthorsUI()
+{
+	if (AuthorsWidget)
+	{
+		AuthorsWidget->RemoveFromParent();
+		ShowMainMenuUI();
+	}
+}

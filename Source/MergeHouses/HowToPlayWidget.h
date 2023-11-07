@@ -19,7 +19,7 @@ protected:
 		int32 CurrentPageIndex = 0;
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI")
-		int32 TotalPages = 5;
+		int32 TotalPages = 6;
 
 public:
 	UFUNCTION(BlueprintCallable, Category = "UI")
@@ -27,4 +27,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "UI")
 		void PreviousPage();
+
+	UFUNCTION(BlueprintCallable, Category = "UI")
+		void CloseScreen();
 };

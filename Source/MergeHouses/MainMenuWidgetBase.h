@@ -34,4 +34,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "UI")
 		void ShowHowToPlay();
+
+	UFUNCTION(BlueprintCallable, Category = "UI")
+		void ShowAuthors();
 };

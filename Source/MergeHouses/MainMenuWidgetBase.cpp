@@ -30,3 +30,11 @@ void UMainMenuWidgetBase::ShowHowToPlay()
 		Controller->ShowHowToPlayUI();
 	}
 }
+
+void UMainMenuWidgetBase::ShowAuthors()
+{
+	if (AMergeTownPlayerController* Controller = Cast<AMergeTownPlayerController>(GetWorld()->GetFirstPlayerController()))
+	{
+		Controller->ShowAuthorsUI();
+	}
+}
