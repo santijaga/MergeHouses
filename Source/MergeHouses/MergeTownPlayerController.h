@@ -69,6 +69,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sound")
 		class USoundCue* MergeSound;
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sound")
+		class USoundCue* ClickSound;
+
 	AMergeTownPlayerController();
 
 	virtual void BeginPlay() override;
@@ -156,4 +159,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Sound")
 		void PlayMergeSound();
+
+	UFUNCTION(BlueprintCallable, Category = "Sound")
+		void PlayClickSound();
 };

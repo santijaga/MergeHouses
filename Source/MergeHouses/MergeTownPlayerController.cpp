@@ -385,3 +385,11 @@ void AMergeTownPlayerController::PlayMergeSound()
 		UGameplayStatics::PlaySound2D(this, MergeSound);
 	}
 }
+
+void AMergeTownPlayerController::PlayClickSound()
+{
+	if (ClickSound != nullptr)
+	{
+		UGameplayStatics::PlaySound2D(this, ClickSound);
+	}
+}
