@@ -41,6 +41,9 @@ private:
 	UFUNCTION()
 		void LoadHighScore();
 
+	bool bIsSoundOn = true;
+	bool bIsMusicOn= true;
+
 public:
 	UPROPERTY(EditAnywhere, Category = Camera)
 		float CameraBlendSpeed = 1.f;
@@ -59,6 +62,12 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = UI)
 		TSubclassOf<UInformationUserWidgetBase> AuthorsWidgetClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sound")
+		class USoundCue* MoveSound;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sound")
+		class USoundCue* MergeSound;
 
 	AMergeTownPlayerController();
 
@@ -123,4 +132,28 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = UI)
 		void HideAuthorsUI();
+
+	UFUNCTION(BlueprintCallable, Category = UI)
+		bool IsSoundOn();
+
+	UFUNCTION(BlueprintCallable, Category = UI)
+		bool IsMusicOn();
+
+	UFUNCTION(BlueprintCallable, Category = UI)
+		void SetSoundEnabled(bool bNewValue);
+
+	UFUNCTION(BlueprintCallable, Category = UI)
+		void SetMusicEnabled(bool bNewValue);
+
+	UFUNCTION(BlueprintCallable, Category = UI)
+		void LoadSoundSetting();
+
+	UFUNCTION(BlueprintCallable, Category = UI)
+		void LoadMusicSetting();
+
+	UFUNCTION(BlueprintCallable, Category = "Sound")
+		void PlayMoveSound();
+
+	UFUNCTION(BlueprintCallable, Category = "Sound")
+		void PlayMergeSound();
 };

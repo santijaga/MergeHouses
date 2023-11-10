@@ -122,15 +122,12 @@ private:
     bool bIsInEditMode = false;
 
 protected:
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sound")
-        class USoundCue* MoveSound;
-
-    UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sound")
-        class USoundCue* MergeSound;
 
     bool bWasMerge = false;
 
+    UFUNCTION(BlueprintCallable, Category = "Gameplay")
+        bool IsEditModeActive();
+
 private:
-    void PlayMoveSound();
-    void PlayMergeSound();
+
 };

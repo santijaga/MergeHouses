@@ -6,8 +6,6 @@
 #include "MergeTownPlayerController.h"
 #include "MergeHousesGameModeBase.h"
 #include "EngineUtils.h"
-#include "Sound/SoundCue.h"
-#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 AGameBoard::AGameBoard()
@@ -174,8 +172,10 @@ bool AGameBoard::MakeMove(float x, float y)
         return false;
     }
 
+    AMergeTownPlayerController* PlayerController = Cast<AMergeTownPlayerController>(GetWorld()->GetFirstPlayerController());
+
     TempBoard = Board;
-    if (AMergeTownPlayerController* PlayerController = Cast<AMergeTownPlayerController>(GetWorld()->GetFirstPlayerController()))
+    if (PlayerController)
     {
         TempScores = PlayerController->GetScore();
     }
@@ -204,17 +204,17 @@ bool AGameBoard::MakeMove(float x, float y)
     {
         if (bWasMerge)
         {
-            PlayMergeSound();
+            PlayerController->PlayMergeSound();
         }
         else
         {
-            PlayMoveSound();
+            PlayerController->PlayMoveSound();
         }
 
         success = AddRandomCell();
 
         PreviousBoard = TempBoard;
-        if (AMergeTownPlayerController* PlayerController = Cast<AMergeTownPlayerController>(GetWorld()->GetFirstPlayerController()))
+        if (PlayerController)
         {
             PlayerController->StoreScores(TempScores);
         }
@@ -572,18 +572,7 @@ AABoardElement* AGameBoard::SpawnBoardElement(int row, int col, int value, int I
     return nullptr;
 }
 
-void AGameBoard::PlayMoveSound()
+bool AGameBoard::IsEditModeActive()
 {
-    if (MoveSound != nullptr)
-    {
-        UGameplayStatics::PlaySoundAtLocation(this, MoveSound, GetActorLocation());
-    }
-}
-
-void AGameBoard::PlayMergeSound()
-{
-    if (MergeSound != nullptr)
-    {
-        UGameplayStatics::PlaySoundAtLocation(this, MergeSound, GetActorLocation());
-    }
+    return bIsInEditMode;
 }

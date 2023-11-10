@@ -39,10 +39,28 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sound")
 		class USoundCue* ClickSound;
 
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI")
+		bool bIsEditModeOn;
+
+	UFUNCTION(BlueprintCallable, Category = "UI")
+		bool IsInEditMode();
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 		int32 CurrentScore;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 		bool bIsMenuOpened = false;
+
+public:
+	UFUNCTION(BlueprintCallable, Category = "UI")
+		bool GetIsSoundOn();
+
+	UFUNCTION(BlueprintCallable, Category = "UI")
+		bool GetIsMusicOn();
+
+	UFUNCTION(BlueprintCallable, Category = "UI")
+		void ToggleSound();
+
+	UFUNCTION(BlueprintCallable, Category = "UI")
+		void ToggleMusic();
 };

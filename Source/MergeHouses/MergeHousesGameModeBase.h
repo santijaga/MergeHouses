@@ -51,6 +51,9 @@ public:
 	UFUNCTION(Blueprintcallable, Category = "Gameplay")
 		void ToggleEditMode();
 
+	UFUNCTION(BlueprintCallable, Category = "Gameplay")
+		bool IsEditModeActive();
+
 	UFUNCTION(Blueprintcallable, Category = "Gameplay")
 		void RemoveElement(int ID);
 

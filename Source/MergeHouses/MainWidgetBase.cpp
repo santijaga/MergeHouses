@@ -3,6 +3,7 @@
 
 #include "MainWidgetBase.h"
 #include "MergeHousesGameModeBase.h"
+#include "MergeTownPlayerController.h"
 
 void UMainWidgetBase::UpdateScores(int32 NewScores)
 {
@@ -51,6 +52,66 @@ void UMainWidgetBase::ToggleEditMode()
 	if (AMergeHousesGameModeBase* GameMode = Cast<AMergeHousesGameModeBase>(GetWorld()->GetAuthGameMode()))
 	{
 		GameMode->ToggleEditMode();
+		bIsEditModeOn = GameMode->IsEditModeActive();
 	}
 	UE_LOG(LogTemp, Warning, TEXT("[UMainWidgetBase] Edit mode toggled."));
 }
+
+bool UMainWidgetBase::IsInEditMode()
+{
+	if (AMergeHousesGameModeBase* GameMode = Cast<AMergeHousesGameModeBase>(GetWorld()->GetAuthGameMode()))
+	{
+		return GameMode->IsEditModeActive();
+	}
+
+	return false;
+}
+
+bool UMainWidgetBase::GetIsSoundOn()
+{
+	if (AMergeTownPlayerController* Controller = Cast<AMergeTownPlayerController>(GetWorld()->GetFirstPlayerController()))
+	{
+		return Controller->IsSoundOn();
+	}
+	return false;
+}
+
+bool UMainWidgetBase::GetIsMusicOn()
+{
+	if (AMergeTownPlayerController* Controller = Cast<AMergeTownPlayerController>(GetWorld()->GetFirstPlayerController()))
+	{
+		return Controller->IsMusicOn();
+	}
+	return false;
+}
+
+void UMainWidgetBase::ToggleSound()
+{
+	if (AMergeTownPlayerController* Controller = Cast<AMergeTownPlayerController>(GetWorld()->GetFirstPlayerController()))
+	{
+		if (Controller->IsSoundOn())
+		{
+			Controller->SetSoundEnabled(false);
+		}
+		else
+		{
+			Controller->SetSoundEnabled(true);
+		}
+	}
+}
+
+void UMainWidgetBase::ToggleMusic()
+{
+	if (AMergeTownPlayerController* Controller = Cast<AMergeTownPlayerController>(GetWorld()->GetFirstPlayerController()))
+	{
+		if (Controller->IsMusicOn())
+		{
+			Controller->SetMusicEnabled(false);
+		}
+		else
+		{
+			Controller->SetMusicEnabled(true);
+		}
+	}
+}
+

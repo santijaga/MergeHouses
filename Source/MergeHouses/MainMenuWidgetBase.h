@@ -37,4 +37,16 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "UI")
 		void ShowAuthors();
+
+	UFUNCTION(BlueprintCallable, Category = "UI")
+		bool GetIsSoundOn();
+
+	UFUNCTION(BlueprintCallable, Category = "UI")
+		bool GetIsMusicOn();
+
+	UFUNCTION(BlueprintCallable, Category = "UI")
+		void ToggleSound();
+
+	UFUNCTION(BlueprintCallable, Category = "UI")
+		void ToggleMusic();
 };

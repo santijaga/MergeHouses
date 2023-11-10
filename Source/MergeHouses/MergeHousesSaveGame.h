@@ -17,4 +17,10 @@ class MERGEHOUSES_API UMergeHousesSaveGame : public USaveGame
 public:
 	UPROPERTY(VisibleAnywhere, Category = "SaveData")
 		int32 SavedHighScore;
+
+	UPROPERTY(VisibleAnywhere, Category = "SaveSettings")
+		bool bIsSoundEnabled;
+
+	UPROPERTY(VisibleAnywhere, Category = "SaveSettings")
+		bool bIsMusicEnabled;
 };

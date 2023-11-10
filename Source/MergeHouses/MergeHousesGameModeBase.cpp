@@ -60,11 +60,15 @@ void AMergeHousesGameModeBase::GameOver()
     {
         PlayerPawn->RemoveGameplayMappingContext();
     }
+    AMergeTownPlayerController* PlayerController = Cast<AMergeTownPlayerController>(GetWorld()->GetFirstPlayerController());
 
-    LowerBGMVolume();
-    PlayGameOverMusic();
+    if (PlayerController && PlayerController->IsMusicOn())
+    {
+        LowerBGMVolume();
+        PlayGameOverMusic();
+    }
 
-    if (AMergeTownPlayerController* PlayerController = Cast<AMergeTownPlayerController>(GetWorld()->GetFirstPlayerController()))
+    if (PlayerController)
     {
         PlayerController->GameOver();
     }
@@ -76,8 +80,14 @@ void AMergeHousesGameModeBase::GameOver()
 
     TimerDelegate.BindLambda([this]()
         {
-            RestoreBGMVolume();
-            StopGameOverMusic();
+            if (AMergeTownPlayerController* PlayerController = Cast<AMergeTownPlayerController>(GetWorld()->GetFirstPlayerController()))
+            {
+                if (PlayerController->IsMusicOn())
+                {
+                    RestoreBGMVolume();
+                    StopGameOverMusic();
+                }
+            }
         });
 
     GetWorld()->GetTimerManager().SetTimer(TimerHandle, TimerDelegate, DelayInSeconds, false);
@@ -110,7 +120,16 @@ void AMergeHousesGameModeBase::BeginPlay()
     SetCameras();
 
     SetupBGM();
-    PlayBGM();
+
+    bool bIsMusicOn = false;
+    if (AMergeTownPlayerController* PlayerController = Cast<AMergeTownPlayerController>(GetWorld()->GetFirstPlayerController()))
+    {
+        bIsMusicOn = PlayerController->IsMusicOn();
+    }
+    if (bIsMusicOn)
+    {
+        PlayBGM();
+    }
 
     SetupGameOverMusic();
 }
@@ -154,6 +173,16 @@ void AMergeHousesGameModeBase::ToggleEditMode()
         }
     }
     UE_LOG(LogTemp, Warning, TEXT("[AMergeHousesGameModeBase] Edit mode toggled."));
+}
+
+bool AMergeHousesGameModeBase::IsEditModeActive()
+{
+    if (GameBoardReference)
+    {
+        return GameBoardReference->IsInEditMode();
+    }
+
+    return false;
 }
 
 void AMergeHousesGameModeBase::RemoveElement(int ID)
