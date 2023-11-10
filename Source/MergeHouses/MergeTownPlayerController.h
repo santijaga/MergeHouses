@@ -162,4 +162,38 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Sound")
 		void PlayClickSound();
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Music")
+		class USoundCue* BGM;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Music")
+		class USoundCue* GameOverCue;
+
+
+	// BGM Private Methods
+	class UAudioComponent* BGMAudioComponent;
+	UFUNCTION(BlueprintCallable, Category = "Sound")
+		void SetupBGM();
+	
+	UFUNCTION(BlueprintCallable, Category = "Sound")
+		void PlayBGM();
+	
+	UFUNCTION(BlueprintCallable, Category = "Sound")
+		void StopBGM();
+	
+	UFUNCTION(BlueprintCallable, Category = "Sound")
+		void LowerBGMVolume();
+	
+	UFUNCTION(BlueprintCallable, Category = "Sound")
+		void RestoreBGMVolume();
+
+	class UAudioComponent* GameOverAudioComponent;
+	UFUNCTION(BlueprintCallable, Category = "Sound")
+		void SetupGameOverMusic();
+	
+	UFUNCTION(BlueprintCallable, Category = "Sound")
+		void PlayGameOverMusic();
+	
+	UFUNCTION(BlueprintCallable, Category = "Sound")
+		void StopGameOverMusic();
 };

@@ -11,6 +11,7 @@
 #include "HowToPlayWidget.h"
 #include "InformationUserWidgetBase.h"
 #include "Sound/SoundCue.h"
+#include "Components/AudioComponent.h"
 
 void AMergeTownPlayerController::PrintScoresToScreen()
 {
@@ -45,6 +46,9 @@ AMergeTownPlayerController::AMergeTownPlayerController()
 {
 	bShowMouseCursor = true;
 	bEnableClickEvents = true;
+
+	BGMAudioComponent = CreateDefaultSubobject<UAudioComponent>(TEXT("BGMComponent"));
+	GameOverAudioComponent = CreateDefaultSubobject<UAudioComponent>(TEXT("GameOverAudioComponent"));
 }
 
 void AMergeTownPlayerController::BeginPlay()
@@ -53,6 +57,9 @@ void AMergeTownPlayerController::BeginPlay()
 
 	SetInputMode(FInputModeGameAndUI());
 	SetViewTarget(Cast<AMergeHousesGameModeBase>(GetWorld()->GetAuthGameMode())->GetMenuCameraReference());
+	SetupBGM();
+	SetupGameOverMusic();
+
 	ShowMainMenuUI();
 	LoadSoundSetting();
 	LoadMusicSetting();
@@ -391,5 +398,77 @@ void AMergeTownPlayerController::PlayClickSound()
 	if (ClickSound != nullptr)
 	{
 		UGameplayStatics::PlaySound2D(this, ClickSound);
+	}
+}
+
+void AMergeTownPlayerController::SetupBGM()
+{
+	UE_LOG(LogTemp, Warning, TEXT("[AMergeTownPlayerController] About to setup BGM!"));
+	BGMAudioComponent->bAutoActivate = false; // Не воспроизводить звук сразу же
+	if (BGMAudioComponent != nullptr && BGM != nullptr)
+	{
+		BGMAudioComponent->SetSound(BGM);
+		UE_LOG(LogTemp, Warning, TEXT("[AMergeTownPlayerController] BGM set!"));
+	}
+}
+
+void AMergeTownPlayerController::PlayBGM()
+{
+	UE_LOG(LogTemp, Warning, TEXT("[AMergeTownPlayerController] About to Play BGM."));
+	if (BGMAudioComponent != nullptr && !BGMAudioComponent->IsPlaying())
+	{
+		BGMAudioComponent->Play();
+		UE_LOG(LogTemp, Warning, TEXT("[AMergeTownPlayerController] BGM Played."));
+	}
+}
+
+void AMergeTownPlayerController::StopBGM()
+{
+	if (BGMAudioComponent && BGMAudioComponent->IsPlaying())
+	{
+		BGMAudioComponent->Stop();
+	}
+}
+
+void AMergeTownPlayerController::LowerBGMVolume()
+{
+	if (BGMAudioComponent)
+	{
+		float Volume = BGMAudioComponent->VolumeMultiplier;
+		BGMAudioComponent->SetVolumeMultiplier(Volume * 0.25);
+	}
+}
+
+void AMergeTownPlayerController::RestoreBGMVolume()
+{
+	if (BGMAudioComponent)
+	{
+		float Volume = BGMAudioComponent->VolumeMultiplier;
+		BGMAudioComponent->SetVolumeMultiplier(Volume * 4);
+	}
+}
+
+void AMergeTownPlayerController::SetupGameOverMusic()
+{
+	GameOverAudioComponent->bAutoActivate = false; // Не воспроизводить звук сразу же
+	if (GameOverAudioComponent && GameOverCue != nullptr)
+	{
+		GameOverAudioComponent->SetSound(GameOverCue);
+	}
+}
+
+void AMergeTownPlayerController::PlayGameOverMusic()
+{
+	if (GameOverAudioComponent && !GameOverAudioComponent->IsPlaying())
+	{
+		GameOverAudioComponent->Play();
+	}
+}
+
+void AMergeTownPlayerController::StopGameOverMusic()
+{
+	if (GameOverAudioComponent && GameOverAudioComponent->IsPlaying())
+	{
+		GameOverAudioComponent->Stop();
 	}
 }

@@ -9,16 +9,11 @@
 #include "Camera/CameraActor.h"
 #include "MergeTownPlayerController.h"
 #include "TableTopBoard.h"
-#include "Sound/SoundCue.h"
 #include "Kismet/GameplayStatics.h"
-#include "Components/AudioComponent.h"
 
 AMergeHousesGameModeBase::AMergeHousesGameModeBase()
 {
     DefaultPawnClass = AMergeTownPawn::StaticClass();
-
-    BGMAudioComponent = CreateDefaultSubobject<UAudioComponent>(TEXT("BGMComponent"));
-    GameOverAudioComponent = CreateDefaultSubobject<UAudioComponent>(TEXT("GameOverAudioComponent"));
 }
 
 ACameraActor* AMergeHousesGameModeBase::GetMenuCameraReference()
@@ -64,8 +59,8 @@ void AMergeHousesGameModeBase::GameOver()
 
     if (PlayerController && PlayerController->IsMusicOn())
     {
-        LowerBGMVolume();
-        PlayGameOverMusic();
+        PlayerController->LowerBGMVolume();
+        PlayerController->PlayGameOverMusic();
     }
 
     if (PlayerController)
@@ -84,8 +79,8 @@ void AMergeHousesGameModeBase::GameOver()
             {
                 if (PlayerController->IsMusicOn())
                 {
-                    RestoreBGMVolume();
-                    StopGameOverMusic();
+                    PlayerController->RestoreBGMVolume();
+                    PlayerController->StopGameOverMusic();
                 }
             }
         });
@@ -119,19 +114,16 @@ void AMergeHousesGameModeBase::BeginPlay()
     SetupReferences();
     SetCameras();
 
-    SetupBGM();
+    AMergeTownPlayerController* PlayerController = Cast<AMergeTownPlayerController>(GetWorld()->GetFirstPlayerController());
 
-    bool bIsMusicOn = false;
-    if (AMergeTownPlayerController* PlayerController = Cast<AMergeTownPlayerController>(GetWorld()->GetFirstPlayerController()))
+    if (PlayerController)
     {
-        bIsMusicOn = PlayerController->IsMusicOn();
+        PlayerController->SetupBGM(); // Установка BGM перед воспроизведением
+        if (PlayerController->IsMusicOn())
+        {
+            PlayerController->PlayBGM();
+        }
     }
-    if (bIsMusicOn)
-    {
-        PlayBGM();
-    }
-
-    SetupGameOverMusic();
 }
 
 void AMergeHousesGameModeBase::Restart()
@@ -254,75 +246,5 @@ void AMergeHousesGameModeBase::SetCameras()
     if (!Camera_Menu || !Camera_Board)
     {
         UE_LOG(LogTemp, Warning, TEXT("One or more cameras not found!"));
-    }
-}
-
-void AMergeHousesGameModeBase::SetupBGM()
-{
-    BGMAudioComponent->bAutoActivate = false; // Не воспроизводить звук сразу же
-    if (BGMAudioComponent && BGM != nullptr)
-    {
-        BGMAudioComponent->SetSound(BGM);
-    }
-}
-
-void AMergeHousesGameModeBase::PlayBGM()
-{
-    UE_LOG(LogTemp, Warning, TEXT("[AMergeHousesGameModeBase] About to Play BGM."));
-    if (BGMAudioComponent && !BGMAudioComponent->IsPlaying())
-    {
-        BGMAudioComponent->Play();
-        UE_LOG(LogTemp, Warning, TEXT("[AMergeHousesGameModeBase] BGM Played."));
-    }
-}
-
-void AMergeHousesGameModeBase::StopBGM()
-{
-    if (BGMAudioComponent && BGMAudioComponent->IsPlaying())
-    {
-        BGMAudioComponent->Stop();
-    }
-}
-
-void AMergeHousesGameModeBase::LowerBGMVolume()
-{
-    if (BGMAudioComponent)
-    {
-        float Volume = BGMAudioComponent->VolumeMultiplier;
-        BGMAudioComponent->SetVolumeMultiplier(Volume * 0.25);
-    }
-}
-
-void AMergeHousesGameModeBase::RestoreBGMVolume()
-{
-    if (BGMAudioComponent)
-    {
-        float Volume = BGMAudioComponent->VolumeMultiplier;
-        BGMAudioComponent->SetVolumeMultiplier(Volume * 4);
-    }
-}
-
-void AMergeHousesGameModeBase::SetupGameOverMusic()
-{
-    GameOverAudioComponent->bAutoActivate = false; // Не воспроизводить звук сразу же
-    if (GameOverAudioComponent && GameOverCue != nullptr)
-    {
-        GameOverAudioComponent->SetSound(GameOverCue);
-    }
-}
-
-void AMergeHousesGameModeBase::PlayGameOverMusic()
-{
-    if (GameOverAudioComponent && !GameOverAudioComponent->IsPlaying())
-    {
-        GameOverAudioComponent->Play();
-    }
-}
-
-void AMergeHousesGameModeBase::StopGameOverMusic()
-{
-    if (GameOverAudioComponent && GameOverAudioComponent->IsPlaying())
-    {
-        GameOverAudioComponent->Stop();
     }
 }
