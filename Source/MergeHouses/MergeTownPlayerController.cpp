@@ -55,14 +55,14 @@ void AMergeTownPlayerController::BeginPlay()
 {
 	Super::BeginPlay();
 
+	LoadSoundSetting();
+	LoadMusicSetting();
 	SetInputMode(FInputModeGameAndUI());
 	SetViewTarget(Cast<AMergeHousesGameModeBase>(GetWorld()->GetAuthGameMode())->GetMenuCameraReference());
 	SetupBGM();
 	SetupGameOverMusic();
-
 	ShowMainMenuUI();
-	LoadSoundSetting();
-	LoadMusicSetting();
+	PlayBGM();
 }
 
 void AMergeTownPlayerController::Tick(float DeltaSeconds)
@@ -345,6 +345,15 @@ void AMergeTownPlayerController::SetMusicEnabled(bool bNewValue)
 
 	// Сохранить данные настройки
 	UGameplayStatics::SaveGameToSlot(SaveGameInstance, "MusicSettingsSlot", 0);
+
+	if (bIsMusicOn)
+	{
+		PlayBGM();
+	}
+	else
+	{
+		StopBGM();
+	}
 }
 
 void AMergeTownPlayerController::LoadSoundSetting()
@@ -373,13 +382,14 @@ void AMergeTownPlayerController::LoadMusicSetting()
 		{
 			// Применить настройку звука
 			bIsMusicOn = LoadGameInstance->bIsMusicEnabled;
+			UE_LOG(LogTemp, Warning, TEXT("[AMergeTownPlayerController] Music was set to %d"), bIsMusicOn);
 		}
 	}
 }
 
 void AMergeTownPlayerController::PlayMoveSound()
 {
-	if (MoveSound != nullptr)
+	if (MoveSound != nullptr && bIsSoundOn)
 	{
 		UGameplayStatics::PlaySound2D(this, MoveSound);
 	}
@@ -387,7 +397,7 @@ void AMergeTownPlayerController::PlayMoveSound()
 
 void AMergeTownPlayerController::PlayMergeSound()
 {
-	if (MergeSound != nullptr)
+	if (MergeSound != nullptr && bIsSoundOn)
 	{
 		UGameplayStatics::PlaySound2D(this, MergeSound);
 	}
@@ -395,7 +405,7 @@ void AMergeTownPlayerController::PlayMergeSound()
 
 void AMergeTownPlayerController::PlayClickSound()
 {
-	if (ClickSound != nullptr)
+	if (ClickSound != nullptr && bIsSoundOn)
 	{
 		UGameplayStatics::PlaySound2D(this, ClickSound);
 	}
@@ -415,7 +425,7 @@ void AMergeTownPlayerController::SetupBGM()
 void AMergeTownPlayerController::PlayBGM()
 {
 	UE_LOG(LogTemp, Warning, TEXT("[AMergeTownPlayerController] About to Play BGM."));
-	if (BGMAudioComponent != nullptr && !BGMAudioComponent->IsPlaying())
+	if (BGMAudioComponent != nullptr && !BGMAudioComponent->IsPlaying() && bIsMusicOn)
 	{
 		BGMAudioComponent->Play();
 		UE_LOG(LogTemp, Warning, TEXT("[AMergeTownPlayerController] BGM Played."));
@@ -459,7 +469,7 @@ void AMergeTownPlayerController::SetupGameOverMusic()
 
 void AMergeTownPlayerController::PlayGameOverMusic()
 {
-	if (GameOverAudioComponent && !GameOverAudioComponent->IsPlaying())
+	if (GameOverAudioComponent && !GameOverAudioComponent->IsPlaying() && bIsMusicOn)
 	{
 		GameOverAudioComponent->Play();
 	}

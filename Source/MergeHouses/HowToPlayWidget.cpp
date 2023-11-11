@@ -13,6 +13,11 @@ void UHowToPlayWidget::NextPage()
 		CurrentPageIndex++;
 		UE_LOG(LogTemp, Warning, TEXT("[How To Play] New page index is %d"), CurrentPageIndex);
 		UE_LOG(LogTemp, Warning, TEXT("[How To Play] Next page selected successfully."));
+		
+		if (AMergeTownPlayerController* Controller = Cast<AMergeTownPlayerController>(GetWorld()->GetFirstPlayerController()))
+		{
+			Controller->PlayClickSound();
+		}
 	}
 	
 }
@@ -26,6 +31,11 @@ void UHowToPlayWidget::PreviousPage()
 		CurrentPageIndex--;
 		UE_LOG(LogTemp, Warning, TEXT("[How To Play] New page index is %d"), CurrentPageIndex);
 		UE_LOG(LogTemp, Warning, TEXT("[How To Play] Previous page selected successfully."));
+
+		if (AMergeTownPlayerController* Controller = Cast<AMergeTownPlayerController>(GetWorld()->GetFirstPlayerController()))
+		{
+			Controller->PlayClickSound();
+		}
 	}
 }
 
@@ -34,5 +44,6 @@ void UHowToPlayWidget::CloseScreen()
 	if (AMergeTownPlayerController* Controller = Cast<AMergeTownPlayerController>(GetWorld()->GetFirstPlayerController()))
 	{
 		Controller->HideHowToPlayUI();
+		Controller->PlayClickSound();
 	}
 }

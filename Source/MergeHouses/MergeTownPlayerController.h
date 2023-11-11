@@ -42,7 +42,7 @@ private:
 		void LoadHighScore();
 
 	bool bIsSoundOn = true;
-	bool bIsMusicOn= true;
+	bool bIsMusicOn = true;
 
 public:
 	UPROPERTY(EditAnywhere, Category = Camera)

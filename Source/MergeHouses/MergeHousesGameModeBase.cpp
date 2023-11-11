@@ -113,17 +113,6 @@ void AMergeHousesGameModeBase::BeginPlay()
     SetGameBoard();
     SetupReferences();
     SetCameras();
-
-    AMergeTownPlayerController* PlayerController = Cast<AMergeTownPlayerController>(GetWorld()->GetFirstPlayerController());
-
-    if (PlayerController)
-    {
-        PlayerController->SetupBGM(); // Установка BGM перед воспроизведением
-        if (PlayerController->IsMusicOn())
-        {
-            PlayerController->PlayBGM();
-        }
-    }
 }
 
 void AMergeHousesGameModeBase::Restart()
