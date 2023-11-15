@@ -10,8 +10,7 @@
 // Sets default values
 AGameBoard::AGameBoard()
 {
- 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
+ 	PrimaryActorTick.bCanEverTick = true;
 }
 
 // Called when the game starts or when spawned
@@ -24,94 +23,7 @@ void AGameBoard::BeginPlay()
 void AGameBoard::ResetBoard()
 {
     CleanBoard();
-
-    // Comment this after debug
-    // Debug Board
-    // PopulateDebugBoard(16);
-    //
-
-    // Actual Gameplay board
-    for (int32 times = 0; times < 2; ++times)
-    {
-        AddRandomCell();
-    }
-}
-
-// Function to print the board to the screen
-void AGameBoard::PrintBoardToScreen()
-{
-    // Create a string to store the board representation
-    FString BoardString = "2048 Board:\n";
-
-    for (int32 Row = 0; Row < BoardSize; ++Row)
-    {
-        for (int32 Col = 0; Col < BoardSize; ++Col)
-        {
-            // Append each cell's value to the string
-            BoardString += FString::Printf(TEXT("%d|%d "), Board[Row][Col].Value, Board[Row][Col].ModelID);
-        }
-        // Add a newline character for the next row
-        BoardString += "\n";
-    }
-
-    // Display the board on the screen using OnScreenDebugMessages
-    if (GEngine)
-    {
-        GEngine->AddOnScreenDebugMessage(-1, 0.0f, FColor::White, BoardString);
-    }
-}
-
-void AGameBoard::TurnOnEditMode()
-{
-    UE_LOG(LogTemp, Warning, TEXT("[AGameBoard] About to turn on edit mode."));
-    bIsInEditMode = true;
-    UE_LOG(LogTemp, Warning, TEXT("[AGameBoard] Edit mode ON."));
-}
-
-void AGameBoard::TurnOffEditMode()
-{
-    UE_LOG(LogTemp, Warning, TEXT("[AGameBoard] About to turn off edit mode."));
-    bIsInEditMode = false;
-    UE_LOG(LogTemp, Warning, TEXT("[AGameBoard] Edit mode OFF."));
-}
-
-void AGameBoard::RemoveElement(int ID)
-{
-    if (GetElementsCount() > 1)
-    {
-        for (int x = 0; x < BoardSize; x++)
-        {
-            for (int y = 0; y < BoardSize; y++)
-            {
-                if (Board[x][y].ModelID == ID)
-                {
-                    Board[x][y].Value = 0;
-                    Board[x][y].ModelID = 0;
-                    bCanUndo = false;
-                }
-            }
-        }
-    }
-}
-
-void AGameBoard::PopulateDebugBoard(int32 Elements)
-{
-    CleanBoard();
-    int32 Value = 1;
-
-    for (int x = 0; x < BoardSize; x++)
-    {
-        for (int y = 0; y < BoardSize; y++)
-        {
-            if (Value < Elements)
-            {
-                Board[x][y].Value = Value++;
-                Board[x][y].ModelID = ++nextModelID;
-
-                SpawnBoardElement(x, y, Board[x][y].Value, Board[x][y].ModelID);
-            }
-        }
-    }
+    AddCells(2);
 }
 
 bool AGameBoard::IsGameOver()
@@ -167,18 +79,7 @@ bool AGameBoard::MakeMove(float x, float y)
         return false;
     }
 
-    if (IsInEditMode())
-    {
-        return false;
-    }
-
     AMergeTownPlayerController* PlayerController = Cast<AMergeTownPlayerController>(GetWorld()->GetFirstPlayerController());
-
-    TempBoard = Board;
-    if (PlayerController)
-    {
-        TempScores = PlayerController->GetScore();
-    }
 
     if (x > 0)
     {
@@ -212,13 +113,6 @@ bool AGameBoard::MakeMove(float x, float y)
         }
 
         success = AddRandomCell();
-
-        PreviousBoard = TempBoard;
-        if (PlayerController)
-        {
-            PlayerController->StoreScores(TempScores);
-        }
-        bCanUndo = true;
     }
 
     bIsGameOver = IsGameOver();
@@ -239,60 +133,6 @@ void AGameBoard::CleanBoard()
     InitializeBoard();
 }
 
-bool AGameBoard::UndoMove()
-{
-    if (bCanUndo && !IsInEditMode())
-    {
-        Board = PreviousBoard;
-
-        UWorld* World = GetWorld();  // Assuming this is being called from within an actor or actor component.
-        if (World)
-        {
-            for (TActorIterator<AABoardElement> It(World); It; ++It)
-            {
-                AABoardElement* BoardElement = *It;
-                if (BoardElement)
-                {
-                    BoardElement->Destroy();
-                }
-            }
-        }
-
-        for (int x = 0; x < BoardSize; x++)
-        {
-            for (int y = 0; y < BoardSize; y++)
-            {
-                Board[x][y].ModelID = ++nextModelID;
-
-                if (Board[x][y].Value > 0)
-                {
-                    SpawnBoardElement(x, y, Board[x][y].Value, Board[x][y].ModelID);
-                }
-            }
-        }
-
-        if (AMergeTownPlayerController* PlayerController = Cast<AMergeTownPlayerController>(GetWorld()->GetFirstPlayerController()))
-        {
-            PlayerController->RestoreScores();
-        }
-        bCanUndo = false;
-        return true;
-    }
-
-    return false;
-}
-
-bool AGameBoard::GetCanUndoMove()
-{
-    return bCanUndo;
-}
-
-bool AGameBoard::IsInEditMode()
-{
-    return bIsInEditMode;
-}
-
-// Function to initialize the game board with zeros
 void AGameBoard::InitializeBoard()
 {
     Board.Empty();
@@ -309,7 +149,6 @@ void AGameBoard::InitializeBoard()
     }
 
     bIsGameOver = false;
-    TurnOffEditMode();
 }
 
 // Function to generate a random position (row, col) for a new cell
@@ -572,7 +411,10 @@ AABoardElement* AGameBoard::SpawnBoardElement(int row, int col, int value, int I
     return nullptr;
 }
 
-bool AGameBoard::IsEditModeActive()
+void AGameBoard::AddCells(int32 cellsCountToAdd)
 {
-    return bIsInEditMode;
+    for (int32 times = 0; times < cellsCountToAdd; ++times)
+    {
+        AddRandomCell();
+    }
 }

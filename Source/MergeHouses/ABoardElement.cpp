@@ -66,12 +66,3 @@ void AABoardElement::Tick(float DeltaTime)
         }
     }
 }
-
-void AABoardElement::TryToRemoveElement()
-{
-    UE_LOG(LogTemp, Warning, TEXT("[AABoardElement] About to remove element from board"));
-    if (AMergeHousesGameModeBase* GameMode = Cast<AMergeHousesGameModeBase>(GetWorld()->GetAuthGameMode()))
-    {
-        GameMode->RemoveElement(ID);
-    }
-}

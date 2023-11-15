@@ -482,3 +482,65 @@ void AMergeTownPlayerController::StopGameOverMusic()
 		GameOverAudioComponent->Stop();
 	}
 }
+
+void AMergeTownPlayerController::SaveUndoState(bool bNewState)
+{
+	// Создать экземпляр класса сохранения игры или загрузить существующий
+	UMergeHousesSaveGame* SaveGameInstance = Cast<UMergeHousesSaveGame>(UGameplayStatics::CreateSaveGameObject(UMergeHousesSaveGame::StaticClass()));
+
+	// Загрузить сохранённый файл, если он существует
+	if (UGameplayStatics::DoesSaveGameExist("UndoStateSlot", 0))
+	{
+		SaveGameInstance = Cast<UMergeHousesSaveGame>(UGameplayStatics::LoadGameFromSlot("UndoStateSlot", 0));
+	}
+
+	// Установить значение настройки звука в экземпляре сохранения
+	SaveGameInstance->bIsUndoAvailable = bNewState;
+
+	// Сохранить данные настройки
+	UGameplayStatics::SaveGameToSlot(SaveGameInstance, "UndoStateSlot", 0);
+}
+
+void AMergeTownPlayerController::SaveRemoveState(bool bNewState)
+{
+	// Создать экземпляр класса сохранения игры или загрузить существующий
+	UMergeHousesSaveGame* SaveGameInstance = Cast<UMergeHousesSaveGame>(UGameplayStatics::CreateSaveGameObject(UMergeHousesSaveGame::StaticClass()));
+
+	// Загрузить сохранённый файл, если он существует
+	if (UGameplayStatics::DoesSaveGameExist("RemoveStateSlot", 0))
+	{
+		SaveGameInstance = Cast<UMergeHousesSaveGame>(UGameplayStatics::LoadGameFromSlot("RemoveStateSlot", 0));
+	}
+
+	// Установить значение настройки звука в экземпляре сохранения
+	SaveGameInstance->bIsRemoveAvailable = bNewState;
+
+	// Сохранить данные настройки
+	UGameplayStatics::SaveGameToSlot(SaveGameInstance, "RemoveStateSlot", 0);
+}
+
+bool AMergeTownPlayerController::LoadUndoState()
+{
+	if (UGameplayStatics::DoesSaveGameExist("UndoStateSlot", 0))
+	{
+		UMergeHousesSaveGame* LoadGameInstance = Cast<UMergeHousesSaveGame>(UGameplayStatics::LoadGameFromSlot("UndoStateSlot", 0));
+		if (LoadGameInstance)
+		{
+			return LoadGameInstance->bIsUndoAvailable;
+		}
+	}
+	return true;
+}
+
+bool AMergeTownPlayerController::LoadRemoveState()
+{
+	if (UGameplayStatics::DoesSaveGameExist("RemoveStateSlot", 0))
+	{
+		UMergeHousesSaveGame* LoadGameInstance = Cast<UMergeHousesSaveGame>(UGameplayStatics::LoadGameFromSlot("RemoveStateSlot", 0));
+		if (LoadGameInstance)
+		{
+			return LoadGameInstance->bIsRemoveAvailable;
+		}
+	}
+	return true;
+}

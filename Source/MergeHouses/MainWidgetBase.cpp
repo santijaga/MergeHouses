@@ -38,35 +38,6 @@ void UMainWidgetBase::ReturnToMainMenu()
 	}
 }
 
-void UMainWidgetBase::UndoMove()
-{
-	if (AMergeHousesGameModeBase* GameMode = Cast<AMergeHousesGameModeBase>(GetWorld()->GetAuthGameMode()))
-	{
-		GameMode->UndoMove();
-	}
-}
-
-void UMainWidgetBase::ToggleEditMode()
-{
-	UE_LOG(LogTemp, Warning, TEXT("[UMainWidgetBase] About to toggle edit mode."));
-	if (AMergeHousesGameModeBase* GameMode = Cast<AMergeHousesGameModeBase>(GetWorld()->GetAuthGameMode()))
-	{
-		GameMode->ToggleEditMode();
-		bIsEditModeOn = GameMode->IsEditModeActive();
-	}
-	UE_LOG(LogTemp, Warning, TEXT("[UMainWidgetBase] Edit mode toggled."));
-}
-
-bool UMainWidgetBase::IsInEditMode()
-{
-	if (AMergeHousesGameModeBase* GameMode = Cast<AMergeHousesGameModeBase>(GetWorld()->GetAuthGameMode()))
-	{
-		return GameMode->IsEditModeActive();
-	}
-
-	return false;
-}
-
 bool UMainWidgetBase::GetIsSoundOn()
 {
 	if (AMergeTownPlayerController* Controller = Cast<AMergeTownPlayerController>(GetWorld()->GetFirstPlayerController()))

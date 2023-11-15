@@ -23,4 +23,10 @@ public:
 
 	UPROPERTY(VisibleAnywhere, Category = "SaveSettings")
 		bool bIsMusicEnabled;
+
+	UPROPERTY(VisibleAnywhere, Category = "Feature")
+		bool bIsUndoAvailable;
+
+	UPROPERTY(VisibleAnywhere, Category = "Feature")
+		bool bIsRemoveAvailable;
 };

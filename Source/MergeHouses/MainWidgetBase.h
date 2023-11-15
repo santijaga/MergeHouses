@@ -30,20 +30,6 @@ public:
 	UFUNCTION(Blueprintcallable, Category = "Game Over")
 		void ReturnToMainMenu();
 
-	UFUNCTION(Blueprintcallable, Category = "Gameplay")
-		void UndoMove();
-
-	UFUNCTION(Blueprintcallable, Category = "Gameplay")
-		void ToggleEditMode();
-
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sound")
-		class USoundCue* ClickSound;
-
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "UI")
-		bool bIsEditModeOn;
-
-	UFUNCTION(BlueprintCallable, Category = "UI")
-		bool IsInEditMode();
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 		int32 CurrentScore;

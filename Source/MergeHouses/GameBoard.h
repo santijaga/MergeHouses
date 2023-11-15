@@ -23,18 +23,46 @@ UCLASS()
 class MERGEHOUSES_API AGameBoard : public AActor
 {
 	GENERATED_BODY()
-	
+
+protected:
+    // Engine methods
+    virtual void BeginPlay() override;
+    virtual void Tick(float DeltaTime) override;
+
+    // Gameplay
+    int32 nextElementIndex = 0; // Index of element on the board
+    int32 nextModelID = 0; // ID to assign for newly created 3D grid element
+    bool bIsGameOver = true;
+
+    void InitializeBoard();
+    FVector2D GenerateRandomPosition();
+    bool AddRandomCell();
+    bool MoveLeft();
+    bool MoveRight();
+    bool MoveUp();
+    bool MoveDown();
+
+    // Properties for control sound
+    bool bWasMerge = false;
+
+    UFUNCTION()
+        bool IsGameOver();
+
+    UFUNCTION()
+        int32 GetElementsCount();
+
+    void AddCells(int32 cellsCountToAdd);
+
 public:	
-	// Sets default values for this actor's properties
+    TArray<TArray<FBoardCell>> Board;
+
 	AGameBoard();
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Board")
-        int32 BoardSize = 4; // Size of the game board
-
-    TArray<TArray<FBoardCell>> Board; // 2D array to represent the game board
+        int32 BoardSize = 4;
 
     UPROPERTY(EditDefaultsOnly, Category = "Board Elements")
-        TSubclassOf<AABoardElement> BoardElementClass; // A reference to the BoardElement class
+        TSubclassOf<AABoardElement> BoardElementClass;
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadWrite, Category = "Board")
         float CellSize = 100.0f;
@@ -45,89 +73,9 @@ public:
     UFUNCTION(BlueprintCallable, Category = "Gameplay")
         void ResetBoard();
 
-    // Function to make game move
     UFUNCTION(BlueprintCallable, Category = "Moving")
         bool MakeMove(float x, float y);
 
     UFUNCTION(BlueprintCallable, Category = "Board")
         void CleanBoard();
-
-    UFUNCTION(BlueprintCallable, Category = "Gameplay")
-        bool UndoMove();
-
-    UFUNCTION(BlueprintCallable, Category = "Gameplay")
-        bool GetCanUndoMove();
-
-    UFUNCTION(Blueprintcallable, Category = "Gameplay")
-        bool IsInEditMode();
-
-    UFUNCTION(Blueprintcallable, Category = "Gameplay")
-        void TurnOnEditMode();
-
-    UFUNCTION(Blueprintcallable, Category = "Gameplay")
-        void TurnOffEditMode();
-
-    UFUNCTION(Blueprintcallable, Category = "Gameplay")
-        void RemoveElement(int ID);
-
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
-
-    // Called every frame
-    virtual void Tick(float DeltaTime) override;
-
-    // Function to initialize the game board with zeros
-    void InitializeBoard();
-
-    // Function to generate a random position (row, col) for a new cell
-    FVector2D GenerateRandomPosition();
-
-    // Function to add a new random cell (either 2 or 4) to the board
-    bool AddRandomCell();
-
-    // Function to move cells to the left
-    bool MoveLeft();
-
-    // Function to move cells to the right
-    bool MoveRight();
-
-    // Function to move cells up
-    bool MoveUp();
-
-    // Function to move cells down
-    bool MoveDown();
-
-    UFUNCTION(BlueprintCallable, Category = "Debug")
-        void PrintBoardToScreen();
-
-private:
-    int32 nextElementIndex = 0; // Index of element on the board
-    int32 nextModelID = 0; // ID to assign for newly created 3D grid element
-    bool bIsGameOver = true;
-
-    int32 TempScores;
-    TArray<TArray<FBoardCell>> TempBoard;
-    TArray<TArray<FBoardCell>> PreviousBoard;
-    bool bCanUndo = false;
-
-    void PopulateDebugBoard(int32 Elements);
-
-    UFUNCTION()
-        bool IsGameOver();
-
-    UFUNCTION()
-        int32 GetElementsCount();
-
-    bool bIsInEditMode = false;
-
-protected:
-
-    bool bWasMerge = false;
-
-    UFUNCTION(BlueprintCallable, Category = "Gameplay")
-        bool IsEditModeActive();
-
-private:
-
 };

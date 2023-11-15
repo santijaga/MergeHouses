@@ -121,64 +121,6 @@ void AMergeHousesGameModeBase::Restart()
     StartGameplay();
 }
 
-void AMergeHousesGameModeBase::UndoMove()
-{
-    if (GameBoardReference)
-    {
-        GameBoardReference->UndoMove();
-    }
-}
-
-bool AMergeHousesGameModeBase::CanUndo()
-{
-    if (GameBoardReference)
-    {
-        return GameBoardReference->GetCanUndoMove();
-    }
-    
-    return false;
-}
-
-void AMergeHousesGameModeBase::ToggleEditMode()
-{
-    UE_LOG(LogTemp, Warning, TEXT("[AMergeHousesGameModeBase] About to toggle edit mode."));
-    if (GameBoardReference)
-    {
-        if (GameBoardReference->IsInEditMode())
-        {
-            GameBoardReference->TurnOffEditMode();
-        }
-        else
-        {
-            GameBoardReference->TurnOnEditMode();
-        }
-    }
-    UE_LOG(LogTemp, Warning, TEXT("[AMergeHousesGameModeBase] Edit mode toggled."));
-}
-
-bool AMergeHousesGameModeBase::IsEditModeActive()
-{
-    if (GameBoardReference)
-    {
-        return GameBoardReference->IsInEditMode();
-    }
-
-    return false;
-}
-
-void AMergeHousesGameModeBase::RemoveElement(int ID)
-{
-    UE_LOG(LogTemp, Warning, TEXT("[AMergeHousesGameModeBase] About to remove element"));
-    if (GameBoardReference)
-    {
-        if (GameBoardReference->IsInEditMode())
-        {
-            GameBoardReference->RemoveElement(ID);
-            GameBoardReference->TurnOffEditMode();
-        }
-    }
-}
-
 void AMergeHousesGameModeBase::SetGameBoard()
 {
     // Find the MenuSign in the level

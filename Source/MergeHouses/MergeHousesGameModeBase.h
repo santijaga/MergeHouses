@@ -42,21 +42,6 @@ public:
 	UFUNCTION()
 		void Restart();
 
-	UFUNCTION()
-		void UndoMove();
-
-	UFUNCTION(Blueprintcallable, Category = "Gameplay")
-		bool CanUndo();
-
-	UFUNCTION(Blueprintcallable, Category = "Gameplay")
-		void ToggleEditMode();
-
-	UFUNCTION(BlueprintCallable, Category = "Gameplay")
-		bool IsEditModeActive();
-
-	UFUNCTION(Blueprintcallable, Category = "Gameplay")
-		void RemoveElement(int ID);
-
 private:
 	void SetGameBoard();
 	void SetupReferences();

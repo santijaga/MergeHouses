@@ -196,4 +196,16 @@ public:
 	
 	UFUNCTION(BlueprintCallable, Category = "Sound")
 		void StopGameOverMusic();
+
+	UFUNCTION(BlueprintCallable, Category = "Saving")
+		void SaveUndoState(bool bNewState);
+
+	UFUNCTION(BlueprintCallable, Category = "Saving")
+		void SaveRemoveState(bool bNewState);
+
+	UFUNCTION(BlueprintCallable, Category = "Saving")
+		bool LoadUndoState();
+
+	UFUNCTION(BlueprintCallable, Category = "Saving")
+		bool LoadRemoveState();
 };
