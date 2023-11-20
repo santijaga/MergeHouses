@@ -6,6 +6,7 @@
 #include "MergeTownPlayerController.h"
 #include "MergeHousesGameModeBase.h"
 #include "EngineUtils.h"
+#include "MergeHousesSaveGame.h"
 
 // Sets default values
 AGameBoard::AGameBoard()
@@ -23,7 +24,7 @@ void AGameBoard::BeginPlay()
 void AGameBoard::ResetBoard()
 {
     CleanBoard();
-    AddCells(2);
+    LoadBoard();
 }
 
 bool AGameBoard::IsGameOver()
@@ -123,6 +124,11 @@ bool AGameBoard::MakeMove(float x, float y)
         {
             GameMode->GameOver();
         }
+    }
+
+    if (success && !bIsGameOver)
+    {
+        SaveBoard();
     }
 
     return success;
@@ -416,5 +422,58 @@ void AGameBoard::AddCells(int32 cellsCountToAdd)
     for (int32 times = 0; times < cellsCountToAdd; ++times)
     {
         AddRandomCell();
+    }
+}
+
+void AGameBoard::SaveBoard()
+{
+    TArray<int32> Values;
+    TArray<int32> ModelIDs;
+
+    for (int col = 0; col < BoardSize; col++)
+    {
+        for (int row = 0; row < BoardSize; row++)
+        {
+            Values.Add(Board[col][row].Value);
+            ModelIDs.Add(Board[col][row].ModelID);
+        }
+    }
+
+    if (AMergeTownPlayerController* PlayerController = Cast<AMergeTownPlayerController>(GetWorld()->GetFirstPlayerController()))
+    {
+        PlayerController->SaveGameState(Values, ModelIDs, nextModelID + 1);
+    }
+}
+
+void AGameBoard::LoadBoard()
+{
+    if (AMergeTownPlayerController* PlayerController = Cast<AMergeTownPlayerController>(GetWorld()->GetFirstPlayerController()))
+    {
+        if (PlayerController->CheckForSaveState())
+        {
+            UMergeHousesSaveGame* LoadGameInstance = PlayerController->LoadGameState();
+            
+            int32 Index = 0;
+            for (int col = 0; col < BoardSize; col++)
+            {
+                for (int row = 0; row < BoardSize; row++)
+                {
+                    Board[col][row].Value = LoadGameInstance->CellsValues[Index];
+                    Board[col][row].ModelID = LoadGameInstance->CellsModels[Index];
+                    if (Board[col][row].Value)
+                    {
+                        SpawnBoardElement(col, row, Board[col][row].Value, Board[col][row].ModelID);
+                    }
+                    Index++;
+                }
+            }
+
+            nextModelID = LoadGameInstance->NextModelID;
+            PlayerController->SetScores(LoadGameInstance->CurrentScores);
+        }
+        else
+        {
+            AddCells(2);
+        }
     }
 }

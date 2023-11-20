@@ -53,6 +53,9 @@ protected:
 
     void AddCells(int32 cellsCountToAdd);
 
+    void SaveBoard();
+    void LoadBoard();
+
 public:	
     TArray<TArray<FBoardCell>> Board;
 

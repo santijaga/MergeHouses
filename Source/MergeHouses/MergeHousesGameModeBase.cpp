@@ -130,20 +130,10 @@ void AMergeHousesGameModeBase::SetGameBoard()
         break; // exit the loop once the first MenuSign is found
     }
 
-    if (!GameBoardReference)
-    {
-        UE_LOG(LogTemp, Warning, TEXT("[AMergeHousesGameModeBase] GameBoard not found in the level!"));
-    }
-
     for (TActorIterator<ATableTopBoard> It(GetWorld()); It; ++It)
     {
         TableTopBoardReference = *It;
         break;
-    }
-
-    if (!TableTopBoardReference)
-    {
-        UE_LOG(LogTemp, Warning, TEXT("Table Top Board not found in the level!"));
     }
 }
 
@@ -171,11 +161,5 @@ void AMergeHousesGameModeBase::SetCameras()
         {
             Camera_Board = Camera;
         }
-    }
-
-    // Ensure we found our cameras
-    if (!Camera_Menu || !Camera_Board)
-    {
-        UE_LOG(LogTemp, Warning, TEXT("One or more cameras not found!"));
     }
 }

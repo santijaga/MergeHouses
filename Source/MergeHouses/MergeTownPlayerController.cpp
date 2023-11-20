@@ -77,16 +77,12 @@ void AMergeTownPlayerController::Tick(float DeltaSeconds)
 
 void AMergeTownPlayerController::SetMenuCameraActive()
 {
-	UE_LOG(LogTemp, Warning, TEXT("AMergeTownPlayerController: About to set menu camera active."));
 	SetViewTargetWithBlend(Cast<AMergeHousesGameModeBase>(GetWorld()->GetAuthGameMode())->GetMenuCameraReference(), CameraBlendSpeed);
-	UE_LOG(LogTemp, Warning, TEXT("AMergeTownPlayerController: Menu camera set successfully."));
 }
 
 void AMergeTownPlayerController::SetBoardCameraActive()
 {
-	UE_LOG(LogTemp, Warning, TEXT("AMergeTownPlayerController: About to set board camera active."));
 	SetViewTargetWithBlend(Cast<AMergeHousesGameModeBase>(GetWorld()->GetAuthGameMode())->GetBoardCameraReference(), CameraBlendSpeed);
-	UE_LOG(LogTemp, Warning, TEXT("AMergeTownPlayerController: Board camera set successfully."));
 }
 
 int32 AMergeTownPlayerController::GetScore()
@@ -118,7 +114,6 @@ void AMergeTownPlayerController::StoreScores(int32 ScoresToStore)
 	{
 		StoredScores = PlayerScore;
 	}
-	UE_LOG(LogTemp, Warning, TEXT("AMergeTownPlayerController: Stored scores: %d."), StoredScores);
 }
 
 void AMergeTownPlayerController::RestoreScores()
@@ -128,7 +123,6 @@ void AMergeTownPlayerController::RestoreScores()
 
 void AMergeTownPlayerController::ShowGameplayUI()
 {
-	UE_LOG(LogTemp, Warning, TEXT("AMergeTownPlayerController: About to show gameplay UI."));
 	if (ScoreWidgetClass)
 	{
 		ScoreWidget = CreateWidget<UMainWidgetBase>(this, ScoreWidgetClass);
@@ -138,23 +132,19 @@ void AMergeTownPlayerController::ShowGameplayUI()
 	{
 		ScoreWidget->AddToViewport();
 	}
-	UE_LOG(LogTemp, Warning, TEXT("AMergeTownPlayerController: Gameplay UI show successfully."));
 }
 
 void AMergeTownPlayerController::HideGameplayUI()
 {
-	UE_LOG(LogTemp, Warning, TEXT("AMergeTownPlayerController: About to hide gameplay UI."));
 	if (ScoreWidget)
 	{
 		ScoreWidget->RemoveFromParent();
 		ScoreWidget = nullptr;
 	}
-	UE_LOG(LogTemp, Warning, TEXT("AMergeTownPlayerController: Gameplay UI hide successfully."));
 }
 
 void AMergeTownPlayerController::ShowGameOverUI(bool bIsHighScore)
 {
-	UE_LOG(LogTemp, Warning, TEXT("AMergeTownPlayerController: About to show game over UI."));
 	if (GameOverWidgetClass)
 	{
 		GameOverWidget = CreateWidget<UGameOverWidgetBase>(this, GameOverWidgetClass);
@@ -169,23 +159,19 @@ void AMergeTownPlayerController::ShowGameOverUI(bool bIsHighScore)
 			GameOverWidget->SetIsHighScore(bIsHighScore);
 		}
 	}
-	UE_LOG(LogTemp, Warning, TEXT("AMergeTownPlayerController: Game over UI show successfully."));
 }
 
 void AMergeTownPlayerController::HideGameOverUI()
 {
-	UE_LOG(LogTemp, Warning, TEXT("AMergeTownPlayerController: About to hide game over UI."));
 	if (GameOverWidget)
 	{
 		GameOverWidget->RemoveFromParent();
 		GameOverWidget = nullptr;
 	}
-	UE_LOG(LogTemp, Warning, TEXT("AMergeTownPlayerController: Game over UI hide successfully."));
 }
 
 void AMergeTownPlayerController::ShowMainMenuUI()
 {
-	UE_LOG(LogTemp, Warning, TEXT("AMergeTownPlayerController: About to show main menu UI."));
 	if (MainMenuWidgetClass)
 	{
 		MainMenuWidget = CreateWidget<UMainMenuWidgetBase>(this, MainMenuWidgetClass);
@@ -197,35 +183,29 @@ void AMergeTownPlayerController::ShowMainMenuUI()
 		LoadHighScore();
 		MainMenuWidget->SetHighScore(HighScore);
 	}
-	UE_LOG(LogTemp, Warning, TEXT("AMergeTownPlayerController: Main menu UI show successfully."));
 }
 
 void AMergeTownPlayerController::HideMainMenuUI()
 {
-	UE_LOG(LogTemp, Warning, TEXT("AMergeTownPlayerController: About to hide main menu UI."));
-	if (MainMenuWidget)
+		if (MainMenuWidget)
 	{
 		MainMenuWidget->RemoveFromParent();
 		MainMenuWidget = nullptr;
 	}
-	UE_LOG(LogTemp, Warning, TEXT("AMergeTownPlayerController: Main menu UI hide successfully."));
 }
 
 void AMergeTownPlayerController::StartGameplay()
 {
-	UE_LOG(LogTemp, Warning, TEXT("AMergeTownPlayerController: About to start gameplay."));
 	SetBoardCameraActive();
 	HideMainMenuUI();
 	ShowGameplayUI();
 	HideGameOverUI();
-	ResetScores();
-	UE_LOG(LogTemp, Warning, TEXT("AMergeTownPlayerController: Gameplay start successfully."));
 }
 
 void AMergeTownPlayerController::GameOver()
 {
-	UE_LOG(LogTemp, Warning, TEXT("AMergeTownPlayerController: About game over."));
 	HideGameplayUI();
+	CleanUpGridSaveData();
 	bool bIsHighScore = false;
 	if (PlayerScore > HighScore)
 	{
@@ -233,22 +213,18 @@ void AMergeTownPlayerController::GameOver()
 		bIsHighScore = true;
 	}
 	ShowGameOverUI(bIsHighScore);
-	UE_LOG(LogTemp, Warning, TEXT("AMergeTownPlayerController: Game over successfully."));
 }
 
 void AMergeTownPlayerController::EndGameplay()
 {
-	UE_LOG(LogTemp, Warning, TEXT("AMergeTownPlayerController: About to end gameplay."));
 	HideGameplayUI();
 	HideGameOverUI();
 	SetMenuCameraActive();
 	ShowMainMenuUI();
-	UE_LOG(LogTemp, Warning, TEXT("AMergeTownPlayerController: Gameplay end successfully."));
 }
 
 void AMergeTownPlayerController::ShowHowToPlayUI()
 {
-	UE_LOG(LogTemp, Warning, TEXT("AMergeTownPlayerController: About to show how to play UI."));
 	if (HowToPlayWidgetClass)
 	{
 		HowToPlayWidget = CreateWidget<UHowToPlayWidget>(this, HowToPlayWidgetClass);
@@ -259,23 +235,19 @@ void AMergeTownPlayerController::ShowHowToPlayUI()
 		HowToPlayWidget->AddToViewport();
 		HideMainMenuUI();
 	}
-	UE_LOG(LogTemp, Warning, TEXT("AMergeTownPlayerController: How to play UI show successfully."));
 }
 
 void AMergeTownPlayerController::HideHowToPlayUI()
 {
-	UE_LOG(LogTemp, Warning, TEXT("AMergeTownPlayerController: About to hide how to play UI."));
 	if (HowToPlayWidget)
 	{
 		HowToPlayWidget->RemoveFromParent();
 		ShowMainMenuUI();
 	}
-	UE_LOG(LogTemp, Warning, TEXT("AMergeTownPlayerController: How to play UI hide successfully."));
 }
 
 void AMergeTownPlayerController::ShowAuthorsUI()
 {
-	UE_LOG(LogTemp, Warning, TEXT("AMergeTownPlayerController: About to show Authors UI"));
 	if (AuthorsWidgetClass)
 	{
 		AuthorsWidget = CreateWidget<UInformationUserWidgetBase>(this, AuthorsWidgetClass);
@@ -382,7 +354,6 @@ void AMergeTownPlayerController::LoadMusicSetting()
 		{
 			// Применить настройку звука
 			bIsMusicOn = LoadGameInstance->bIsMusicEnabled;
-			UE_LOG(LogTemp, Warning, TEXT("[AMergeTownPlayerController] Music was set to %d"), bIsMusicOn);
 		}
 	}
 }
@@ -413,22 +384,18 @@ void AMergeTownPlayerController::PlayClickSound()
 
 void AMergeTownPlayerController::SetupBGM()
 {
-	UE_LOG(LogTemp, Warning, TEXT("[AMergeTownPlayerController] About to setup BGM!"));
 	BGMAudioComponent->bAutoActivate = false; // Не воспроизводить звук сразу же
 	if (BGMAudioComponent != nullptr && BGM != nullptr)
 	{
 		BGMAudioComponent->SetSound(BGM);
-		UE_LOG(LogTemp, Warning, TEXT("[AMergeTownPlayerController] BGM set!"));
 	}
 }
 
 void AMergeTownPlayerController::PlayBGM()
 {
-	UE_LOG(LogTemp, Warning, TEXT("[AMergeTownPlayerController] About to Play BGM."));
 	if (BGMAudioComponent != nullptr && !BGMAudioComponent->IsPlaying() && bIsMusicOn)
 	{
 		BGMAudioComponent->Play();
-		UE_LOG(LogTemp, Warning, TEXT("[AMergeTownPlayerController] BGM Played."));
 	}
 }
 
@@ -483,64 +450,37 @@ void AMergeTownPlayerController::StopGameOverMusic()
 	}
 }
 
-void AMergeTownPlayerController::SaveUndoState(bool bNewState)
+void AMergeTownPlayerController::SaveGameState(TArray<int32> Values, TArray<int32> ModelIDs, int32 Value)
 {
-	// Создать экземпляр класса сохранения игры или загрузить существующий
 	UMergeHousesSaveGame* SaveGameInstance = Cast<UMergeHousesSaveGame>(UGameplayStatics::CreateSaveGameObject(UMergeHousesSaveGame::StaticClass()));
 
-	// Загрузить сохранённый файл, если он существует
-	if (UGameplayStatics::DoesSaveGameExist("UndoStateSlot", 0))
+	if (UGameplayStatics::DoesSaveGameExist("GameDataSlot", 0))
 	{
-		SaveGameInstance = Cast<UMergeHousesSaveGame>(UGameplayStatics::LoadGameFromSlot("UndoStateSlot", 0));
+		SaveGameInstance = Cast<UMergeHousesSaveGame>(UGameplayStatics::LoadGameFromSlot("GameDataSlot", 0));
 	}
 
-	// Установить значение настройки звука в экземпляре сохранения
-	SaveGameInstance->bIsUndoAvailable = bNewState;
+	SaveGameInstance->CellsValues = Values;
+	SaveGameInstance->CellsModels = ModelIDs;
+	SaveGameInstance->NextModelID = Value;
+	SaveGameInstance->CurrentScores = GetScore();
 
-	// Сохранить данные настройки
-	UGameplayStatics::SaveGameToSlot(SaveGameInstance, "UndoStateSlot", 0);
+	UGameplayStatics::SaveGameToSlot(SaveGameInstance, "GameDataSlot", 0);
 }
 
-void AMergeTownPlayerController::SaveRemoveState(bool bNewState)
+bool AMergeTownPlayerController::CheckForSaveState()
 {
-	// Создать экземпляр класса сохранения игры или загрузить существующий
-	UMergeHousesSaveGame* SaveGameInstance = Cast<UMergeHousesSaveGame>(UGameplayStatics::CreateSaveGameObject(UMergeHousesSaveGame::StaticClass()));
-
-	// Загрузить сохранённый файл, если он существует
-	if (UGameplayStatics::DoesSaveGameExist("RemoveStateSlot", 0))
-	{
-		SaveGameInstance = Cast<UMergeHousesSaveGame>(UGameplayStatics::LoadGameFromSlot("RemoveStateSlot", 0));
-	}
-
-	// Установить значение настройки звука в экземпляре сохранения
-	SaveGameInstance->bIsRemoveAvailable = bNewState;
-
-	// Сохранить данные настройки
-	UGameplayStatics::SaveGameToSlot(SaveGameInstance, "RemoveStateSlot", 0);
+	return UGameplayStatics::DoesSaveGameExist("GameDataSlot", 0);
 }
 
-bool AMergeTownPlayerController::LoadUndoState()
+UMergeHousesSaveGame* AMergeTownPlayerController::LoadGameState()
 {
-	if (UGameplayStatics::DoesSaveGameExist("UndoStateSlot", 0))
-	{
-		UMergeHousesSaveGame* LoadGameInstance = Cast<UMergeHousesSaveGame>(UGameplayStatics::LoadGameFromSlot("UndoStateSlot", 0));
-		if (LoadGameInstance)
-		{
-			return LoadGameInstance->bIsUndoAvailable;
-		}
-	}
-	return true;
+	return Cast<UMergeHousesSaveGame>(UGameplayStatics::LoadGameFromSlot("GameDataSlot", 0));
 }
 
-bool AMergeTownPlayerController::LoadRemoveState()
+void AMergeTownPlayerController::CleanUpGridSaveData()
 {
-	if (UGameplayStatics::DoesSaveGameExist("RemoveStateSlot", 0))
+	if (UGameplayStatics::DoesSaveGameExist("GameDataSlot", 0))
 	{
-		UMergeHousesSaveGame* LoadGameInstance = Cast<UMergeHousesSaveGame>(UGameplayStatics::LoadGameFromSlot("RemoveStateSlot", 0));
-		if (LoadGameInstance)
-		{
-			return LoadGameInstance->bIsRemoveAvailable;
-		}
+		UGameplayStatics::DeleteGameInSlot("GameDataSlot", 0);
 	}
-	return true;
 }

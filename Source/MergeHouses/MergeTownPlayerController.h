@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+﻿// Fill out your copyright notice in the Description page of Project Settings.
 
 #pragma once
 
@@ -170,7 +170,7 @@ public:
 		class USoundCue* GameOverCue;
 
 
-	// BGM Private Methods
+	// BGM Methods
 	class UAudioComponent* BGMAudioComponent;
 	UFUNCTION(BlueprintCallable, Category = "Sound")
 		void SetupBGM();
@@ -197,15 +197,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Sound")
 		void StopGameOverMusic();
 
-	UFUNCTION(BlueprintCallable, Category = "Saving")
-		void SaveUndoState(bool bNewState);
+	void SaveGameState(TArray<int32> Values, TArray<int32> ModelIDs, int32 Value);
+	bool CheckForSaveState();
+	class UMergeHousesSaveGame* LoadGameState();
 
-	UFUNCTION(BlueprintCallable, Category = "Saving")
-		void SaveRemoveState(bool bNewState);
-
-	UFUNCTION(BlueprintCallable, Category = "Saving")
-		bool LoadUndoState();
-
-	UFUNCTION(BlueprintCallable, Category = "Saving")
-		bool LoadRemoveState();
+	void CleanUpGridSaveData();
 };

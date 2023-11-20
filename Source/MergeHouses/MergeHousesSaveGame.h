@@ -29,4 +29,16 @@ public:
 
 	UPROPERTY(VisibleAnywhere, Category = "Feature")
 		bool bIsRemoveAvailable;
+
+	UPROPERTY(VisibleAnywhere, Category = "GameData")
+		TArray<int32> CellsValues;
+
+	UPROPERTY(VisibleAnywhere, Category = "GameData")
+		TArray<int32> CellsModels;
+
+	UPROPERTY(VisibleAnywhere, Category = "GameData")
+		int32 NextModelID;
+
+	UPROPERTY(VisibleAnywhere, Category = "GameData")
+		int32 CurrentScores;
 };
