@@ -54,6 +54,7 @@ public:
 public:
 
 	FVector2D TouchPressedLocation;
+	bool bIsControllEnabled = false;
 	bool isSwipe = false;
 
 	UPROPERTY(EditAnywhere, Category = EndlessRunCoreSettings, meta = (DisplayName = "Minimum Swipe Distance"))

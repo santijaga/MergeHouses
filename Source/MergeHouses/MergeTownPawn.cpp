@@ -71,6 +71,7 @@ void AMergeTownPawn::AddGameplayMappingContext()
 		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
 		{
 			Subsystem->AddMappingContext(GamePlayMappingContext, 0);
+			bIsControllEnabled = true;
 		}
 	}
 }
@@ -82,6 +83,7 @@ void AMergeTownPawn::RemoveGameplayMappingContext()
 		if (UEnhancedInputLocalPlayerSubsystem* Subsystem = ULocalPlayer::GetSubsystem<UEnhancedInputLocalPlayerSubsystem>(PlayerController->GetLocalPlayer()))
 		{
 			Subsystem->RemoveMappingContext(GamePlayMappingContext);
+			bIsControllEnabled = false;
 		}
 	}
 }
@@ -90,42 +92,51 @@ void AMergeTownPawn::RemoveGameplayMappingContext()
 
 void AMergeTownPawn::TouchPressed(ETouchIndex::Type FingerIndex, FVector Location)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Cyan, TEXT("TouchPressed"));
-	UE_LOG(LogTemp, Log, TEXT("TouchPressed"));
-	TouchPressedLocation = FVector2D(Location);
+	if (bIsControllEnabled)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Cyan, TEXT("TouchPressed"));
+		UE_LOG(LogTemp, Log, TEXT("TouchPressed"));
+		TouchPressedLocation = FVector2D(Location);
+	}
 }
 
 void AMergeTownPawn::TouchReleased(ETouchIndex::Type FingerIndex, FVector Location)
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Cyan, TEXT("TouchReleased"));
-	UE_LOG(LogTemp, Log, TEXT("TouchReleased"));
-	isSwipe = false;
+	if (bIsControllEnabled)
+	{
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Cyan, TEXT("TouchReleased"));
+		UE_LOG(LogTemp, Log, TEXT("TouchReleased"));
+		isSwipe = false;
+	}
 }
 
 void AMergeTownPawn::TouchMoved(ETouchIndex::Type FingerIndex, FVector Location)
 {
-	FVector2D TouchDelta = FVector2D(Location) - TouchPressedLocation;
+	if (bIsControllEnabled)
+	{
+		FVector2D TouchDelta = FVector2D(Location) - TouchPressedLocation;
 
-	float AbsX = FMath::Abs(TouchDelta.X);
-	float AbsY = FMath::Abs(TouchDelta.Y);
+		float AbsX = FMath::Abs(TouchDelta.X);
+		float AbsY = FMath::Abs(TouchDelta.Y);
 
-	float ThresholdDistance = TouchDelta.Size();
+		float ThresholdDistance = TouchDelta.Size();
 
-	if (ThresholdDistance > MinSwipeDistance && !isSwipe) {
-		if (AbsX >= AbsY) {
-			if (TouchDelta.X > 0) {
-				SwipeRight();
+		if (ThresholdDistance > MinSwipeDistance && !isSwipe) {
+			if (AbsX >= AbsY) {
+				if (TouchDelta.X > 0) {
+					SwipeRight();
+				}
+				else {
+					SwipeLeft();
+				}
 			}
 			else {
-				SwipeLeft();
-			}
-		}
-		else {
-			if (TouchDelta.Y < 0) {
-				SwipeUp();
-			}
-			else {
-				SwipeDown();
+				if (TouchDelta.Y < 0) {
+					SwipeUp();
+				}
+				else {
+					SwipeDown();
+				}
 			}
 		}
 	}
@@ -138,6 +149,10 @@ void AMergeTownPawn::SwipeUp()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Cyan, TEXT("SwipeUp"));
 	UE_LOG(LogTemp, Log, TEXT("SwipeUp"));
+	if (GameBoardReference)
+	{
+		GameBoardReference->MakeMove(0, 1);
+	}
 	isSwipe = true;
 }
 
@@ -145,6 +160,10 @@ void AMergeTownPawn::SwipeDown()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Cyan, TEXT("SwipeDown"));
 	UE_LOG(LogTemp, Log, TEXT("SwipeDown"));
+	if (GameBoardReference)
+	{
+		GameBoardReference->MakeMove(0, -1);
+	}
 	isSwipe = true;
 }
 
@@ -152,6 +171,10 @@ void AMergeTownPawn::SwipeLeft()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Cyan, TEXT("SwipeLeft"));
 	UE_LOG(LogTemp, Log, TEXT("SwipeLeft"));
+	if (GameBoardReference)
+	{
+		GameBoardReference->MakeMove(-1, 0);
+	}
 	isSwipe = true;
 }
 
@@ -159,5 +182,9 @@ void AMergeTownPawn::SwipeRight()
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Cyan, TEXT("SwipeRight"));
 	UE_LOG(LogTemp, Log, TEXT("SwipeRight"));
+	if (GameBoardReference)
+	{
+		GameBoardReference->MakeMove(1, 0);
+	}
 	isSwipe = true;
 }
