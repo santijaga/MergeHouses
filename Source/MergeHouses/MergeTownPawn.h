@@ -49,4 +49,22 @@ public:
 
 	UFUNCTION()
 		void RemoveGameplayMappingContext();
+
+	// SWIPE CONTROLLS
+public:
+
+	FVector2D TouchPressedLocation;
+	bool isSwipe = false;
+
+	UPROPERTY(EditAnywhere, Category = EndlessRunCoreSettings, meta = (DisplayName = "Minimum Swipe Distance"))
+		float MinSwipeDistance = 15;
+
+	void TouchPressed(ETouchIndex::Type FingerIndex, FVector Location);
+	void TouchMoved(ETouchIndex::Type FingerIndex, FVector Location);
+	void TouchReleased(ETouchIndex::Type FingerIndex, FVector Location);
+
+	void SwipeUp();
+	void SwipeDown();
+	void SwipeLeft();
+	void SwipeRight();
 };

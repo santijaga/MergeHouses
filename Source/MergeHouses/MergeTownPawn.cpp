@@ -31,6 +31,10 @@ void AMergeTownPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	{
 		EnhancedInputComponent->BindAction(MoveAction, ETriggerEvent::Started, this, &AMergeTownPawn::MakeMove);
 	}
+
+	PlayerInputComponent->BindTouch(IE_Pressed, this, &AMergeTownPawn::TouchPressed);
+	PlayerInputComponent->BindTouch(IE_Repeat, this, &AMergeTownPawn::TouchMoved);
+	PlayerInputComponent->BindTouch(IE_Released, this, &AMergeTownPawn::TouchReleased);
 }
 
 // Called when the game starts or when spawned
@@ -80,4 +84,80 @@ void AMergeTownPawn::RemoveGameplayMappingContext()
 			Subsystem->RemoveMappingContext(GamePlayMappingContext);
 		}
 	}
+}
+
+// SWIPE CONTROLLS
+
+void AMergeTownPawn::TouchPressed(ETouchIndex::Type FingerIndex, FVector Location)
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Cyan, TEXT("TouchPressed"));
+	UE_LOG(LogTemp, Log, TEXT("TouchPressed"));
+	TouchPressedLocation = FVector2D(Location);
+}
+
+void AMergeTownPawn::TouchReleased(ETouchIndex::Type FingerIndex, FVector Location)
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Cyan, TEXT("TouchReleased"));
+	UE_LOG(LogTemp, Log, TEXT("TouchReleased"));
+	isSwipe = false;
+}
+
+void AMergeTownPawn::TouchMoved(ETouchIndex::Type FingerIndex, FVector Location)
+{
+	FVector2D TouchDelta = FVector2D(Location) - TouchPressedLocation;
+
+	float AbsX = FMath::Abs(TouchDelta.X);
+	float AbsY = FMath::Abs(TouchDelta.Y);
+
+	float ThresholdDistance = TouchDelta.Size();
+
+	if (ThresholdDistance > MinSwipeDistance && !isSwipe) {
+		if (AbsX >= AbsY) {
+			if (TouchDelta.X > 0) {
+				SwipeRight();
+			}
+			else {
+				SwipeLeft();
+			}
+		}
+		else {
+			if (TouchDelta.Y < 0) {
+				SwipeUp();
+			}
+			else {
+				SwipeDown();
+			}
+		}
+	}
+}
+
+/*
+ * Mobile Swipe
+*/
+void AMergeTownPawn::SwipeUp()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Cyan, TEXT("SwipeUp"));
+	UE_LOG(LogTemp, Log, TEXT("SwipeUp"));
+	isSwipe = true;
+}
+
+void AMergeTownPawn::SwipeDown()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Cyan, TEXT("SwipeDown"));
+	UE_LOG(LogTemp, Log, TEXT("SwipeDown"));
+	isSwipe = true;
+}
+
+void AMergeTownPawn::SwipeLeft()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Cyan, TEXT("SwipeLeft"));
+	UE_LOG(LogTemp, Log, TEXT("SwipeLeft"));
+	isSwipe = true;
+}
+
+void AMergeTownPawn::SwipeRight()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Cyan, TEXT("SwipeRight"));
+	UE_LOG(LogTemp, Log, TEXT("SwipeRight"));
+	isSwipe = true;
 }
