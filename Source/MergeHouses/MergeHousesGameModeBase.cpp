@@ -152,14 +152,18 @@ void AMergeHousesGameModeBase::SetCameras()
     {
         ACameraActor* Camera = *ActorItr;
 
-        // Check the tags or names of the camera and assign
-        if (Camera->GetActorLabel() == "Camera_MenuCamera")
+        // Check if the camera has the 'Camera' tag
+        if (Camera->ActorHasTag(FName("Camera")))
         {
-            Camera_Menu = Camera;
-        }
-        else if (Camera->GetActorLabel() == "Camera_BoardCamera")
-        {
-            Camera_Board = Camera;
+            // Further check for 'Menu' or 'Board' tags
+            if (Camera->ActorHasTag(FName("Menu")))
+            {
+                Camera_Menu = Camera;
+            }
+            else if (Camera->ActorHasTag(FName("Board")))
+            {
+                Camera_Board = Camera;
+            }
         }
     }
 }
