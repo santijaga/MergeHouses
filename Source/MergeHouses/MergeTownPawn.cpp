@@ -94,8 +94,6 @@ void AMergeTownPawn::TouchPressed(ETouchIndex::Type FingerIndex, FVector Locatio
 {
 	if (bIsControllEnabled)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Cyan, TEXT("TouchPressed"));
-		UE_LOG(LogTemp, Log, TEXT("TouchPressed"));
 		TouchPressedLocation = FVector2D(Location);
 	}
 }
@@ -104,8 +102,6 @@ void AMergeTownPawn::TouchReleased(ETouchIndex::Type FingerIndex, FVector Locati
 {
 	if (bIsControllEnabled)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Cyan, TEXT("TouchReleased"));
-		UE_LOG(LogTemp, Log, TEXT("TouchReleased"));
 		isSwipe = false;
 	}
 }
@@ -147,8 +143,6 @@ void AMergeTownPawn::TouchMoved(ETouchIndex::Type FingerIndex, FVector Location)
 */
 void AMergeTownPawn::SwipeUp()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Cyan, TEXT("SwipeUp"));
-	UE_LOG(LogTemp, Log, TEXT("SwipeUp"));
 	if (GameBoardReference)
 	{
 		GameBoardReference->MakeMove(0, 1);
@@ -158,8 +152,6 @@ void AMergeTownPawn::SwipeUp()
 
 void AMergeTownPawn::SwipeDown()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Cyan, TEXT("SwipeDown"));
-	UE_LOG(LogTemp, Log, TEXT("SwipeDown"));
 	if (GameBoardReference)
 	{
 		GameBoardReference->MakeMove(0, -1);
@@ -169,8 +161,6 @@ void AMergeTownPawn::SwipeDown()
 
 void AMergeTownPawn::SwipeLeft()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Cyan, TEXT("SwipeLeft"));
-	UE_LOG(LogTemp, Log, TEXT("SwipeLeft"));
 	if (GameBoardReference)
 	{
 		GameBoardReference->MakeMove(-1, 0);
@@ -180,8 +170,6 @@ void AMergeTownPawn::SwipeLeft()
 
 void AMergeTownPawn::SwipeRight()
 {
-	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Cyan, TEXT("SwipeRight"));
-	UE_LOG(LogTemp, Log, TEXT("SwipeRight"));
 	if (GameBoardReference)
 	{
 		GameBoardReference->MakeMove(1, 0);
