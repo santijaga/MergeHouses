@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.YourCompany.MergeHouses;
+package com.silverstarlingstudio.MergeHouses;
 
 import com.google.android.vending.expansion.downloader.impl.DownloaderService;
 
@@ -61,6 +61,6 @@ public class OBBDownloaderService extends DownloaderService {
      */
     @Override
     public String getAlarmReceiverClassName() {
-        return com.YourCompany.MergeHouses.AlarmReceiver.class.getName();
+        return com.silverstarlingstudio.MergeHouses.AlarmReceiver.class.getName();
     }
 }

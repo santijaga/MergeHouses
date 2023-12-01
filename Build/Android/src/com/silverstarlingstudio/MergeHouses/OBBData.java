@@ -1,4 +1,4 @@
-package com.YourCompany.MergeHouses;
+package com.silverstarlingstudio.MergeHouses;
 
 public class OBBData
 {
@@ -19,7 +19,7 @@ public static final XAPKFile[] xAPKS = {
 new XAPKFile(
 true, // true signifies a main file
 "1", // the version of the APK that the file was uploaded against
-94320710L // the length of the file in bytes
+95619198L // the length of the file in bytes
 )
 };
 };

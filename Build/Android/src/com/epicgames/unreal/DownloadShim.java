@@ -1,10 +1,10 @@
 package com.epicgames.unreal;
 
-import com.YourCompany.MergeHouses.OBBDownloaderService;
-import com.YourCompany.MergeHouses.DownloaderActivity;
+import com.silverstarlingstudio.MergeHouses.OBBDownloaderService;
+import com.silverstarlingstudio.MergeHouses.DownloaderActivity;
 import android.app.Activity;
 import com.google.android.vending.expansion.downloader.Helpers;
-import com.YourCompany.MergeHouses.OBBData;
+import com.silverstarlingstudio.MergeHouses.OBBData;
 
 
 public class DownloadShim

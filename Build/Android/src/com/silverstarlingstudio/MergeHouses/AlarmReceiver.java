@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.YourCompany.MergeHouses;
+package com.silverstarlingstudio.MergeHouses;
 
 import com.google.android.vending.expansion.downloader.DownloaderClientMarshaller;
 
