@@ -12,6 +12,7 @@
 #include "InformationUserWidgetBase.h"
 #include "Sound/SoundCue.h"
 #include "Components/AudioComponent.h"
+#include "NotificationWidget.h"
 
 void AMergeTownPlayerController::PrintScoresToScreen()
 {
@@ -49,6 +50,12 @@ AMergeTownPlayerController::AMergeTownPlayerController()
 
 	BGMAudioComponent = CreateDefaultSubobject<UAudioComponent>(TEXT("BGMComponent"));
 	GameOverAudioComponent = CreateDefaultSubobject<UAudioComponent>(TEXT("GameOverAudioComponent"));
+
+	TutorialText.Add("Swipe any direction to move all houses same direction");
+	TutorialText.Add("Moving two same houses at same place will merge them into new house");
+	TutorialText.Add("Try to reach the most advance house");
+
+	TutorialSteps = TutorialText.Num() - 1;
 }
 
 void AMergeTownPlayerController::BeginPlay()
@@ -57,6 +64,7 @@ void AMergeTownPlayerController::BeginPlay()
 
 	LoadSoundSetting();
 	LoadMusicSetting();
+	LoadTutorialState();
 	SetInputMode(FInputModeGameAndUI());
 	SetViewTarget(Cast<AMergeHousesGameModeBase>(GetWorld()->GetAuthGameMode())->GetMenuCameraReference());
 	SetupBGM();
@@ -200,6 +208,11 @@ void AMergeTownPlayerController::StartGameplay()
 	HideMainMenuUI();
 	ShowGameplayUI();
 	HideGameOverUI();
+
+	if (isFirstGame)
+	{
+		CreateAndShowNotification(TutorialText[TutorialStep]);
+	}
 }
 
 void AMergeTownPlayerController::GameOver()
@@ -482,5 +495,46 @@ void AMergeTownPlayerController::CleanUpGridSaveData()
 	if (UGameplayStatics::DoesSaveGameExist("GameDataSlot", 0))
 	{
 		UGameplayStatics::DeleteGameInSlot("GameDataSlot", 0);
+	}
+}
+
+void AMergeTownPlayerController::CreateAndShowNotification(const FString& NotificationMessage)
+{
+	
+	// Assuming UNotificationWidget is your widget class
+	NotificationWidget = CreateWidget<UNotificationWidget>(this, NotificationWidgetClass);
+	if (NotificationWidget)
+	{
+		NotificationWidget->SetNotificationText(NotificationMessage);
+		NotificationWidget->AddToViewport();
+	}
+}
+
+void AMergeTownPlayerController::SaveTutorialState()
+{
+	UMergeHousesSaveGame* SaveGameInstance = Cast<UMergeHousesSaveGame>(UGameplayStatics::CreateSaveGameObject(UMergeHousesSaveGame::StaticClass()));
+
+	if (UGameplayStatics::DoesSaveGameExist("TutorialSlot", 0))
+	{
+		SaveGameInstance = Cast<UMergeHousesSaveGame>(UGameplayStatics::LoadGameFromSlot("TutorialSlot", 0));
+	}
+	
+	SaveGameInstance->ShouldShowTutorial = isFirstGame;
+
+	UGameplayStatics::SaveGameToSlot(SaveGameInstance, "TutorialSlot", 0);
+}
+
+void AMergeTownPlayerController::LoadTutorialState()
+{
+	// Проверить, существует ли сохранённый файл
+	if (UGameplayStatics::DoesSaveGameExist("TutorialSlot", 0))
+	{
+		// Загрузить сохранённые настройки
+		UMergeHousesSaveGame* LoadGameInstance = Cast<UMergeHousesSaveGame>(UGameplayStatics::LoadGameFromSlot("TutorialSlot", 0));
+		if (LoadGameInstance)
+		{
+			// Применить настройку звука
+			isFirstGame = LoadGameInstance->ShouldShowTutorial;
+		}
 	}
 }

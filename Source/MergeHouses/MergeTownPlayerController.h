@@ -14,6 +14,14 @@ class MERGEHOUSES_API AMergeTownPlayerController : public APlayerController
 {
 	GENERATED_BODY()
 
+public:
+	// Array of strings property
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Player Data")
+	TArray<FString> TutorialText;
+
+	int TutorialStep = 0;
+	int TutorialSteps = 0;
+
 private:
 
 	// Store current game scores
@@ -34,6 +42,7 @@ private:
 	class UMainMenuWidgetBase* MainMenuWidget;
 	class UHowToPlayWidget* HowToPlayWidget;
 	class UInformationUserWidgetBase* AuthorsWidget;
+	class UNotificationWidget* NotificationWidget;
 
 	UFUNCTION()
 		void SaveHighScore();
@@ -43,6 +52,9 @@ private:
 
 	bool bIsSoundOn = true;
 	bool bIsMusicOn = true;
+
+public:
+	bool isFirstGame = true;
 
 public:
 	UPROPERTY(EditAnywhere, Category = Camera)
@@ -62,6 +74,9 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = UI)
 		TSubclassOf<UInformationUserWidgetBase> AuthorsWidgetClass;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = UI)
+		TSubclassOf<UNotificationWidget> NotificationWidgetClass;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Sound")
 		class USoundCue* MoveSound;
@@ -202,4 +217,9 @@ public:
 	class UMergeHousesSaveGame* LoadGameState();
 
 	void CleanUpGridSaveData();
+
+	void CreateAndShowNotification(const FString& NotificationMessage);
+
+	void SaveTutorialState();
+	void LoadTutorialState();
 };
