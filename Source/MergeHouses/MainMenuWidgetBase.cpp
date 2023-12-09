@@ -31,6 +31,26 @@ void UMainMenuWidgetBase::ShowHowToPlay()
 	}
 }
 
+void UMainMenuWidgetBase::ResetTutorial()
+{
+	if (AMergeTownPlayerController* Controller = Cast<AMergeTownPlayerController>(GetWorld()->GetFirstPlayerController()))
+	{
+		Controller->isFirstGame = true;
+		Controller->TutorialStep = 0;
+		Controller->SaveTutorialState();
+	}
+}
+
+bool UMainMenuWidgetBase::ShowResetTutorialButton()
+{
+	if (AMergeTownPlayerController* Controller = Cast<AMergeTownPlayerController>(GetWorld()->GetFirstPlayerController()))
+	{
+		return !Controller->isFirstGame;
+	}
+
+	return false;
+}
+
 void UMainMenuWidgetBase::ShowAuthors()
 {
 	if (AMergeTownPlayerController* Controller = Cast<AMergeTownPlayerController>(GetWorld()->GetFirstPlayerController()))

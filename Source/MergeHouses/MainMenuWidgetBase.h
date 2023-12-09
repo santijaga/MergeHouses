@@ -35,6 +35,12 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "UI")
 		void ShowHowToPlay();
 
+	UFUNCTION(BlueprintCallable, Category = "Tutorial")
+		void ResetTutorial();
+
+	UFUNCTION(BlueprintCallable, Category = "Tutorial")
+		bool ShowResetTutorialButton();
+
 	UFUNCTION(BlueprintCallable, Category = "UI")
 		void ShowAuthors();
 
