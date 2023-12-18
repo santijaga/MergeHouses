@@ -16,5 +16,9 @@
 		<addElements tag="application">
 			<meta-data android:name="com.epicgames.ue4.GameActivity.bUseExternalFilesDir" android:value="true" />
 		</addElements>
+		<addPermission android:name="com.google.android.gms.permission.AD_ID" />
+		<addElements>
+			<uses-permission android:name="com.google.android.gms.permission.AD_ID"/>
+		</addElements>
 	</androidManifestUpdates>
 </root>
