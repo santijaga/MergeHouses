@@ -46,6 +46,18 @@ void UMainWidgetBase::ReturnToMainMenu()
 	}
 }
 
+void UMainWidgetBase::ShowTutorial()
+{
+	if (AMergeTownPlayerController* Controller = Cast<AMergeTownPlayerController>(GetWorld()->GetFirstPlayerController()))
+	{
+		Controller->isFirstGame = true;
+		Controller->TutorialStep = 0;
+		Controller->SaveTutorialState();
+		Controller->ShowTutorial();
+		CloseMenu();
+	}
+}
+
 bool UMainWidgetBase::GetIsSoundOn()
 {
 	if (AMergeTownPlayerController* Controller = Cast<AMergeTownPlayerController>(GetWorld()->GetFirstPlayerController()))

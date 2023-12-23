@@ -30,6 +30,9 @@ public:
 	UFUNCTION(Blueprintcallable, Category = "Game Over")
 		void ReturnToMainMenu();
 
+	UFUNCTION(Blueprintcallable, Category = "Tutorial")
+		void ShowTutorial();
+
 private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 		int32 CurrentScore;

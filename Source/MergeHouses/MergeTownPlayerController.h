@@ -132,6 +132,9 @@ public:
 	UFUNCTION(BlueprintCallable, Category = Gameplay)
 		void StartGameplay();
 
+	UFUNCTION(BlueprintCallable, Category = Tutorial)
+		void ShowTutorial();
+
 	UFUNCTION(BlueprintCallable, Category = Gameplay)
 		void GameOver(bool cleanUpData);
 

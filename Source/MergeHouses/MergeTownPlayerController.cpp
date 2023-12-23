@@ -207,7 +207,11 @@ void AMergeTownPlayerController::StartGameplay()
 	HideMainMenuUI();
 	ShowGameplayUI();
 	HideGameOverUI();
+	ShowTutorial();
+}
 
+void AMergeTownPlayerController::ShowTutorial()
+{
 	if (isFirstGame)
 	{
 		CreateAndShowNotification(TutorialText[TutorialStep]);
