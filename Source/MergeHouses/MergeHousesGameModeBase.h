@@ -42,6 +42,12 @@ public:
 	UFUNCTION()
 		void Restart();
 
+	UFUNCTION()
+		void DisableControlls();
+
+	UFUNCTION()
+		void EnableControlls();
+
 private:
 	void SetGameBoard();
 	void SetupReferences();

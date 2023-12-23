@@ -38,10 +38,7 @@ void AMergeHousesGameModeBase::StartGameplay()
         PlayerController->StartGameplay();
     }
 
-    if (AMergeTownPawn* PlayerPawn = Cast<AMergeTownPawn>(GetWorld()->GetFirstPlayerController()->GetPawn()))
-    {
-        PlayerPawn->AddGameplayMappingContext();
-    }
+    EnableControlls();
 
     if (TableTopBoardReference)
     {
@@ -51,13 +48,11 @@ void AMergeHousesGameModeBase::StartGameplay()
 
 void AMergeHousesGameModeBase::GameOver()
 {
-    if (AMergeTownPawn* PlayerPawn = Cast<AMergeTownPawn>(GetWorld()->GetFirstPlayerController()->GetPawn()))
-    {
-        PlayerPawn->RemoveGameplayMappingContext();
-    }
+    DisableControlls();
+
     AMergeTownPlayerController* PlayerController = Cast<AMergeTownPlayerController>(GetWorld()->GetFirstPlayerController());
 
-    if (PlayerController && PlayerController->IsMusicOn())
+    if (PlayerController && PlayerController->IsSoundOn())
     {
         PlayerController->LowerBGMVolume();
         PlayerController->PlayGameOverMusic();
@@ -77,7 +72,7 @@ void AMergeHousesGameModeBase::GameOver()
         {
             if (AMergeTownPlayerController* PlayerController = Cast<AMergeTownPlayerController>(GetWorld()->GetFirstPlayerController()))
             {
-                if (PlayerController->IsMusicOn())
+                if (PlayerController->IsSoundOn())
                 {
                     PlayerController->RestoreBGMVolume();
                     PlayerController->StopGameOverMusic();
@@ -119,6 +114,22 @@ void AMergeHousesGameModeBase::Restart()
 {
     GameOver();
     StartGameplay();
+}
+
+void AMergeHousesGameModeBase::DisableControlls()
+{
+    if (AMergeTownPawn* PlayerPawn = Cast<AMergeTownPawn>(GetWorld()->GetFirstPlayerController()->GetPawn()))
+    {
+        PlayerPawn->RemoveGameplayMappingContext();
+    }
+}
+
+void AMergeHousesGameModeBase::EnableControlls()
+{
+    if (AMergeTownPawn* PlayerPawn = Cast<AMergeTownPawn>(GetWorld()->GetFirstPlayerController()->GetPawn()))
+    {
+        PlayerPawn->AddGameplayMappingContext();
+    }
 }
 
 void AMergeHousesGameModeBase::SetGameBoard()

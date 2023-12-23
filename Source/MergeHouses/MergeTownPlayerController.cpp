@@ -63,7 +63,6 @@ void AMergeTownPlayerController::BeginPlay()
 	Super::BeginPlay();
 
 	LoadSoundSetting();
-	LoadMusicSetting();
 	LoadTutorialState();
 	SetInputMode(FInputModeGameAndUI());
 	SetViewTarget(Cast<AMergeHousesGameModeBase>(GetWorld()->GetAuthGameMode())->GetMenuCameraReference());
@@ -287,11 +286,6 @@ bool AMergeTownPlayerController::IsSoundOn()
 	return bIsSoundOn;
 }
 
-bool AMergeTownPlayerController::IsMusicOn()
-{
-	return bIsMusicOn;
-}
-
 void AMergeTownPlayerController::SetSoundEnabled(bool bNewValue)
 {
 	bIsSoundOn = bNewValue;
@@ -310,28 +304,8 @@ void AMergeTownPlayerController::SetSoundEnabled(bool bNewValue)
 
 	// Сохранить данные настройки
 	UGameplayStatics::SaveGameToSlot(SaveGameInstance, "SoundSettingsSlot", 0);
-}
 
-void AMergeTownPlayerController::SetMusicEnabled(bool bNewValue)
-{
-	bIsMusicOn = bNewValue;
-
-	// Создать экземпляр класса сохранения игры или загрузить существующий
-	UMergeHousesSaveGame* SaveGameInstance = Cast<UMergeHousesSaveGame>(UGameplayStatics::CreateSaveGameObject(UMergeHousesSaveGame::StaticClass()));
-
-	// Загрузить сохранённый файл, если он существует
-	if (UGameplayStatics::DoesSaveGameExist("MusicSettingsSlot", 0))
-	{
-		SaveGameInstance = Cast<UMergeHousesSaveGame>(UGameplayStatics::LoadGameFromSlot("MusicSettingsSlot", 0));
-	}
-
-	// Установить значение настройки звука в экземпляре сохранения
-	SaveGameInstance->bIsMusicEnabled = bNewValue;
-
-	// Сохранить данные настройки
-	UGameplayStatics::SaveGameToSlot(SaveGameInstance, "MusicSettingsSlot", 0);
-
-	if (bIsMusicOn)
+	if (bIsSoundOn)
 	{
 		PlayBGM();
 	}
@@ -352,21 +326,6 @@ void AMergeTownPlayerController::LoadSoundSetting()
 		{
 			// Применить настройку звука
 			bIsSoundOn = LoadGameInstance->bIsSoundEnabled;
-		}
-	}
-}
-
-void AMergeTownPlayerController::LoadMusicSetting()
-{
-	// Проверить, существует ли сохранённый файл
-	if (UGameplayStatics::DoesSaveGameExist("MusicSettingsSlot", 0))
-	{
-		// Загрузить сохранённые настройки
-		UMergeHousesSaveGame* LoadGameInstance = Cast<UMergeHousesSaveGame>(UGameplayStatics::LoadGameFromSlot("MusicSettingsSlot", 0));
-		if (LoadGameInstance)
-		{
-			// Применить настройку звука
-			bIsMusicOn = LoadGameInstance->bIsMusicEnabled;
 		}
 	}
 }
@@ -406,7 +365,7 @@ void AMergeTownPlayerController::SetupBGM()
 
 void AMergeTownPlayerController::PlayBGM()
 {
-	if (BGMAudioComponent != nullptr && !BGMAudioComponent->IsPlaying() && bIsMusicOn)
+	if (BGMAudioComponent != nullptr && !BGMAudioComponent->IsPlaying() && bIsSoundOn)
 	{
 		BGMAudioComponent->Play();
 	}
@@ -449,7 +408,7 @@ void AMergeTownPlayerController::SetupGameOverMusic()
 
 void AMergeTownPlayerController::PlayGameOverMusic()
 {
-	if (GameOverAudioComponent && !GameOverAudioComponent->IsPlaying() && bIsMusicOn)
+	if (GameOverAudioComponent && !GameOverAudioComponent->IsPlaying() && bIsSoundOn)
 	{
 		GameOverAudioComponent->Play();
 	}

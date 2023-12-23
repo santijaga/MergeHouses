@@ -51,7 +51,6 @@ private:
 		void LoadHighScore();
 
 	bool bIsSoundOn = true;
-	bool bIsMusicOn = true;
 
 public:
 	bool isFirstGame = true;
@@ -155,19 +154,10 @@ public:
 		bool IsSoundOn();
 
 	UFUNCTION(BlueprintCallable, Category = UI)
-		bool IsMusicOn();
-
-	UFUNCTION(BlueprintCallable, Category = UI)
 		void SetSoundEnabled(bool bNewValue);
 
 	UFUNCTION(BlueprintCallable, Category = UI)
-		void SetMusicEnabled(bool bNewValue);
-
-	UFUNCTION(BlueprintCallable, Category = UI)
 		void LoadSoundSetting();
-
-	UFUNCTION(BlueprintCallable, Category = UI)
-		void LoadMusicSetting();
 
 	UFUNCTION(BlueprintCallable, Category = "Sound")
 		void PlayMoveSound();

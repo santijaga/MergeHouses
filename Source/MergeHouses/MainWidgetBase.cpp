@@ -13,11 +13,19 @@ void UMainWidgetBase::UpdateScores(int32 NewScores)
 void UMainWidgetBase::OpenMenu()
 {
 	bIsMenuOpened = true;
+	if (AMergeHousesGameModeBase* GameMode = Cast<AMergeHousesGameModeBase>(GetWorld()->GetAuthGameMode()))
+	{
+		GameMode->DisableControlls();
+	}
 }
 
 void UMainWidgetBase::CloseMenu()
 {
 	bIsMenuOpened = false;
+	if (AMergeHousesGameModeBase* GameMode = Cast<AMergeHousesGameModeBase>(GetWorld()->GetAuthGameMode()))
+	{
+		GameMode->EnableControlls();
+	}
 }
 
 void UMainWidgetBase::RestartGame()
@@ -47,15 +55,6 @@ bool UMainWidgetBase::GetIsSoundOn()
 	return false;
 }
 
-bool UMainWidgetBase::GetIsMusicOn()
-{
-	if (AMergeTownPlayerController* Controller = Cast<AMergeTownPlayerController>(GetWorld()->GetFirstPlayerController()))
-	{
-		return Controller->IsMusicOn();
-	}
-	return false;
-}
-
 void UMainWidgetBase::ToggleSound()
 {
 	if (AMergeTownPlayerController* Controller = Cast<AMergeTownPlayerController>(GetWorld()->GetFirstPlayerController()))
@@ -67,21 +66,6 @@ void UMainWidgetBase::ToggleSound()
 		else
 		{
 			Controller->SetSoundEnabled(true);
-		}
-	}
-}
-
-void UMainWidgetBase::ToggleMusic()
-{
-	if (AMergeTownPlayerController* Controller = Cast<AMergeTownPlayerController>(GetWorld()->GetFirstPlayerController()))
-	{
-		if (Controller->IsMusicOn())
-		{
-			Controller->SetMusicEnabled(false);
-		}
-		else
-		{
-			Controller->SetMusicEnabled(true);
 		}
 	}
 }
