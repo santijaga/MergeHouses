@@ -122,7 +122,7 @@ bool AGameBoard::MakeMove(float x, float y)
     {
         if (AMergeHousesGameModeBase* GameMode = Cast<AMergeHousesGameModeBase>(GetWorld()->GetAuthGameMode()))
         {
-            GameMode->GameOver();
+            GameMode->GameOver(true);
         }
     }
 

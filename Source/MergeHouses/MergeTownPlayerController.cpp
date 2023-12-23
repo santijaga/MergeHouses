@@ -214,10 +214,12 @@ void AMergeTownPlayerController::StartGameplay()
 	}
 }
 
-void AMergeTownPlayerController::GameOver()
+void AMergeTownPlayerController::GameOver(bool cleanUpData)
 {
 	HideGameplayUI();
-	CleanUpGridSaveData();
+	if (cleanUpData) {
+		CleanUpGridSaveData();
+	}
 	bool bIsHighScore = false;
 	if (PlayerScore > HighScore)
 	{

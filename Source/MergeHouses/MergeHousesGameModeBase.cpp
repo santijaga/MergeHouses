@@ -46,7 +46,7 @@ void AMergeHousesGameModeBase::StartGameplay()
     }
 }
 
-void AMergeHousesGameModeBase::GameOver()
+void AMergeHousesGameModeBase::GameOver(bool cleanUpData)
 {
     DisableControlls();
 
@@ -60,7 +60,7 @@ void AMergeHousesGameModeBase::GameOver()
 
     if (PlayerController)
     {
-        PlayerController->GameOver();
+        PlayerController->GameOver(cleanUpData);
     }
 
     // Set a delay for calling GameOver on PlayerController
@@ -112,7 +112,7 @@ void AMergeHousesGameModeBase::BeginPlay()
 
 void AMergeHousesGameModeBase::Restart()
 {
-    GameOver();
+    GameOver(true);
     StartGameplay();
 }
 

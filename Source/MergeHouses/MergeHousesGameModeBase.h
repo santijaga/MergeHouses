@@ -34,7 +34,7 @@ public:
 		void StartGameplay();
 
 	UFUNCTION()
-		void GameOver();
+		void GameOver(bool cleanUpData);
 
 	UFUNCTION()
 		void EndGameplay();

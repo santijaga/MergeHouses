@@ -40,7 +40,7 @@ void UMainWidgetBase::ReturnToMainMenu()
 {
 	if (AMergeHousesGameModeBase* GameMode = Cast<AMergeHousesGameModeBase>(GetWorld()->GetAuthGameMode()))
 	{
-		GameMode->GameOver();
+		GameMode->GameOver(false);
 		GameMode->EndGameplay();
 		CloseMenu();
 	}

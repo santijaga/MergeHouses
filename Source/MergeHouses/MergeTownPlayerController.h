@@ -133,7 +133,7 @@ public:
 		void StartGameplay();
 
 	UFUNCTION(BlueprintCallable, Category = Gameplay)
-		void GameOver();
+		void GameOver(bool cleanUpData);
 
 	UFUNCTION(BlueprintCallable, Category = Gameplay)
 		void EndGameplay();
