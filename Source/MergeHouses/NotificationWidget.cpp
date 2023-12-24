@@ -3,6 +3,7 @@
 
 #include "NotificationWidget.h"
 #include "MergeTownPlayerController.h"
+#include "MergeHousesGameModeBase.h"
 
 void UNotificationWidget::CloseNotification()
 {
@@ -16,6 +17,10 @@ void UNotificationWidget::CloseNotification()
 		{
 			PlayerController->isFirstGame = false;
 			PlayerController->SaveTutorialState();
+			if (AMergeHousesGameModeBase* GameMode = Cast<AMergeHousesGameModeBase>(GetWorld()->GetAuthGameMode()))
+			{
+				GameMode->EnableControlls();
+			}
 		}
 	}
 

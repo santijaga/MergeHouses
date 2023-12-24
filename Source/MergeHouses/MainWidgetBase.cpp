@@ -53,8 +53,8 @@ void UMainWidgetBase::ShowTutorial()
 		Controller->isFirstGame = true;
 		Controller->TutorialStep = 0;
 		Controller->SaveTutorialState();
-		Controller->ShowTutorial();
 		CloseMenu();
+		Controller->ShowTutorial();
 	}
 }
 

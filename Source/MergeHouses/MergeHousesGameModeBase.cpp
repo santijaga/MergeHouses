@@ -33,12 +33,12 @@ void AMergeHousesGameModeBase::StartGameplay()
         GameBoardReference->ResetBoard();
     }
 
+    EnableControlls();
+
     if (AMergeTownPlayerController* PlayerController = Cast<AMergeTownPlayerController>(GetWorld()->GetFirstPlayerController()))
     {
         PlayerController->StartGameplay();
     }
-
-    EnableControlls();
 
     if (TableTopBoardReference)
     {

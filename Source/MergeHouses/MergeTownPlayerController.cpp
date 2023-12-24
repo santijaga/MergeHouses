@@ -470,6 +470,11 @@ void AMergeTownPlayerController::CreateAndShowNotification(const FString& Notifi
 	NotificationWidget = CreateWidget<UNotificationWidget>(this, NotificationWidgetClass);
 	if (NotificationWidget)
 	{
+		if (AMergeHousesGameModeBase* GameMode = Cast<AMergeHousesGameModeBase>(GetWorld()->GetAuthGameMode()))
+		{
+			GameMode->DisableControlls();
+		}
+
 		NotificationWidget->SetNotificationText(NotificationMessage);
 		NotificationWidget->AddToViewport();
 	}
